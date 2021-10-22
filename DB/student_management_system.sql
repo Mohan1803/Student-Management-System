@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 22, 2021 at 04:46 AM
+-- Generation Time: Oct 22, 2021 at 06:42 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -119,6 +119,22 @@ CREATE TABLE IF NOT EXISTS `school_addsubjects` (
   `Created_at` datetime NOT NULL,
   `Updated_at` timestamp NOT NULL,
   `Deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_login`
+--
+
+DROP TABLE IF EXISTS `school_login`;
+CREATE TABLE IF NOT EXISTS `school_login` (
+  `User_Name` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Created_at` datetime NOT NULL,
+  `Updated_at` timestamp NOT NULL,
+  `Deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`User_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
