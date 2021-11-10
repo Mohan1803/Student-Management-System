@@ -1,0 +1,110 @@
+h6{
+  color: red;
+  font-family: 'Times New Roman';
+}
+
+h1{
+  font-family: 'Times New Roman';
+}
+
+
+form{
+  
+    padding: 1px; 
+    background-color:rgb(39, 94, 80);
+    border-radius: 15px;
+    text-align: center;
+  }
+
+
+input[type=text], select {
+    width: 30%;
+    height: 20px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman'; 
+  }
+  
+input[type=password], select {
+    width: 30%;
+    height: 20px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman'; 
+  }
+
+  input[type=number], select {
+    width: 30%;
+    height: 20px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman'; 
+  }
+
+
+
+  input[type=date], select {
+    width: 30%;
+    height: 20px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman'; 
+  }
+
+  input[type=email], select {
+    width: 30%;
+    height: 20px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: 'Times New Roman'; 
+  }
+
+  input[type=submit] {
+    width: 20%;
+    height: 5%;
+    background-color: #3548ee;
+    border-radius: 12px;
+
+  }
+
+ 
+
+  label{
+      padding-left: 10px;
+      font-family: 'Times New Roman';
+  }
+  
+
+
+
+  body{
+    background-color: bisque;
+  }
+
+
+  footer {
+    text-align: center;
+    padding: 3px;
+    background-color: DarkSalmon;
+    color: white;
+  }
