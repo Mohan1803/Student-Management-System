@@ -17,18 +17,36 @@ app.use('/css',express.static(__dirname + 'public/css'))
 
 
 app.set('view engine','ejs')
-//app.get('/',(req,res)=>{
-  //  res.render('login');  
-//})
+ app.get('/',(req,res)=>{
+ res.render('login');  
+})
+
+
+app.post('/', async (req,res) =>{
+  try{
+    const User_ID=req.body.userid
+    const PWD=req.body.pwd
+
+    if(User_ID=="mohan" && PWD==333){
+      res.render('addstaff')
+    }
+    else{
+      res.render('addstudent')
+    }
+  }catch(e){
+    console.log(e)
+  }
+
+})
 
 //ADDING STUDENT
 
-app.get('/', (req,res)=>{
+app.get('/addstudent', (req,res)=>{
   res.render('addstudent');
 })
 
 
-app.post('/', async (req,res) => {
+app.post('/addstudent', async (req,res) => {
 
   try{
 
@@ -56,7 +74,7 @@ app.post('/', async (req,res) => {
     if(err) throw err
     
     console.log('record inserted');
-   return res.redirect('/');
+   return res.redirect('/addstudent');
   });
 }catch(e){
   console.log(e);
@@ -73,11 +91,11 @@ app.get('/addstaff', (req,res)=>{
   res.render('addstaff');
 })
 
-app.post('/', async (req,res) => {
+app.post('/addstaff', async (req,res) => {
 
   try{
 
-   const Staff_ID=req.body.staffid
+   const Staff_id=req.body.staffid
    const First_Name=req.body.fname
    const Middle_Name=req.body.mname
    const Last_Name=req.body.lname
@@ -99,12 +117,12 @@ app.post('/', async (req,res) => {
    
   
 
-   var sql = `INSERT INTO school_addstudent(Staff_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Staff_type, Staff_Account_No, Blood_Group, Email_id, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name) VALUES ('${Staff_ID}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}');`;
+   var sql = `INSERT INTO school_addstaff(Staff_id, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Staff_type, Staff_Account_No, Blood_Group, Email_id, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name) VALUES ('${Staff_id}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}');`;
    con.query(sql, function(err) {
     if(err) throw err
     
     console.log('record inserted');
-   return res.redirect('/');
+   return res.redirect('/addstaff');
   });
 }catch(e){
   console.log(e);
