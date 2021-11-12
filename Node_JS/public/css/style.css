@@ -17,7 +17,7 @@ form{
   }
 
 
-input[type=text], select {
+input[type=text] {
     width: 30%;
     height: 20px;
     padding: 12px 20px;
@@ -29,7 +29,7 @@ input[type=text], select {
     font-family: 'Times New Roman'; 
   }
   
-input[type=password], select {
+input[type=password]{
     width: 30%;
     height: 20px;
     padding: 12px 20px;
@@ -41,7 +41,7 @@ input[type=password], select {
     font-family: 'Times New Roman'; 
   }
 
-  input[type=number], select {
+  input[type=number]{
     width: 30%;
     height: 20px;
     padding: 12px 20px;
@@ -55,7 +55,7 @@ input[type=password], select {
 
 
 
-  input[type=date], select {
+  input[type=date] {
     width: 30%;
     height: 20px;
     padding: 12px 20px;
@@ -67,7 +67,7 @@ input[type=password], select {
     font-family: 'Times New Roman'; 
   }
 
-  input[type=email], select {
+  input[type=email] {
     width: 30%;
     height: 20px;
     padding: 12px 20px;

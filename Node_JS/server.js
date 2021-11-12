@@ -21,7 +21,7 @@ app.set('view engine','ejs')
   //  res.render('login');  
 //})
 
-
+//ADDING STUDENT
 
 app.get('/', (req,res)=>{
   res.render('addstudent');
@@ -51,12 +51,59 @@ app.post('/', async (req,res) => {
    const Email_id=req.body.Email
   
 
-   var sql = `INSERT INTO school_addstudent(id, Stud_ID,Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id) VALUES (10, '${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}');`;
+   var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}');`;
    con.query(sql, function(err) {
     if(err) throw err
     
     console.log('record inserted');
-    // res.send('Data added successfully!');
+   return res.redirect('/');
+  });
+}catch(e){
+  console.log(e);
+}
+});
+
+
+
+
+
+//ADDING STAFF
+
+app.get('/addstaff', (req,res)=>{
+  res.render('addstaff');
+})
+
+app.post('/', async (req,res) => {
+
+  try{
+
+   const Staff_ID=req.body.staffid
+   const First_Name=req.body.fname
+   const Middle_Name=req.body.mname
+   const Last_Name=req.body.lname
+   const Father_name=req.body.father_name
+   const Mother_name=req.body.mother_name
+   const DOB=req.body.dob
+   const Sex=req.body.sex
+   const Martial_Status=req.body.Martial_Status
+   const Joining_Date=req.body.jdate
+   const Qualification=req.body.qualification
+   const Staff_type=req.body.staff_type
+   const Staff_Account_No=req.body.saccno
+   const Blood_Group=req.body.bgroup
+   const Email_id=req.body.email
+   const Phone_Number=req.body.phno
+   const Emergency_Contact_No=req.body.ecn
+   const Basic_Pay=req.body.bpay
+   const Pre_Institute_Name=req.body.piname
+   
+  
+
+   var sql = `INSERT INTO school_addstudent(Staff_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Staff_type, Staff_Account_No, Blood_Group, Email_id, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name) VALUES ('${Staff_ID}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}');`;
+   con.query(sql, function(err) {
+    if(err) throw err
+    
+    console.log('record inserted');
    return res.redirect('/');
   });
 }catch(e){
