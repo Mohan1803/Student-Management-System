@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const app = express();
@@ -17,27 +18,54 @@ app.use('/css',express.static(__dirname + 'public/css'))
 
 
 app.set('view engine','ejs')
+
+
  app.get('/',(req,res)=>{
- res.render('login');  
+ res.render('studentlogin');  
 })
 
+app.get('/studinfo',(req,res)=>{
+  res.render('studinfo')
+})
 
 app.post('/', async (req,res) =>{
+  let err_msg = "";
+  let success = "";
   try{
     const User_ID=req.body.userid
     const PWD=req.body.pwd
 
-    if(User_ID=="mohan" && PWD==333){
-      res.render('addstaff')
-    }
-    else{
-      res.render('addstudent')
-    }
+    var sql= `SELECT * FROM school_addstudent WHERE Stud_ID = '${User_ID}' AND Class = '${PWD}'` ;
+    con.query(sql, function(err, result) {
+      if(err) {
+        throw err
+      } else if (result.length == 1) {
+        app.post('/studinfo',async(req,res)=>{
+          const info=req.body.info
+         info=result;
+      console.log('Login Successfull');
+      success = "Login Successfull";
+      return res.render('studinfo', {success});
+    })
+      } else {
+        err_msg ="Login Failed";
+        return res.render('studentlogin', {err_msg});
+      }
+
+     
+    });
+    
+
   }catch(e){
     console.log(e)
   }
 
 })
+
+
+
+
+
 
 //ADDING STUDENT
 

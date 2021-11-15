@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<body>  
+
+    <% if(locals.success) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert"><%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        <% } %> 
+    <div>
+        <form name="myForm" action="/studinfo" method="POST">
+        <ol>
+            <li name="info"></li>
+        </ol>
+    </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
