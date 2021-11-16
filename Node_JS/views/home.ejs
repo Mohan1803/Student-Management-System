@@ -3,7 +3,6 @@
 
 
 
-
 <body>  
 <!--
   <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -28,50 +27,30 @@
   </nav> -->
 
   <div>
-    
-    <div class="container pt-5">
+   
+    <div class="container pt-5"> <center>   <h1>HOMEPAGE</h1>  </center>
       <div class="row align-items-center">
         <div class="col-md-10 offset-md-1">
         <div class="container p-5 my-5 bg-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       
       
-        
+   <center>   
+         <form name="myForm" action="/" method="POST">
+<h4 style="font-family: 'Times New Roman', Times, serif;">Please Choose the login type</h4>
+<br><br>
 
 
+<button class="btn btn-outline-primary btn-sm" ><a href="/stafflogin">Staff Login</a></button>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<button class="btn btn-outline-primary btn-sm" ><a href="/studentlogin">Student Login</a></button>
+<br><br><br></form>
 
 
-
-<% if(locals.err_msg) { %>
-  <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show" role="alert"><%= err_msg %>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
-  <% } %> 
- 
-  
-    
-
-<form name="myForm" action="/studentlogin" method="POST">
-
-  <b><h1>STUDENT LOGIN</h1></b><br>
-  
-
-  <div class="mb-3">
-    <label for="formGroupExampleInput" class="form-label">USER ID</label>
-    <input type="text" class="form-control" id="userid" name="userid" placeholder="User ID">
-  </div>
-  <div class="mb-3">
-    <label for="formGroupExampleInput2" class="form-label">PASSWORD</label>
-    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
-  </div>
+</center>
 
 
-
-<input type="submit"  value="SIGN UP" /> <br><br>
-
-
-
-
-</form>
 </div></div></div></div></div>
+
 <footer>
   <p>Bharat Matric hr.sec school<br>
   <a href="mailto:hege@example.com">bharatmatric@gmail.com</a></p>

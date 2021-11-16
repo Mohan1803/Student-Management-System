@@ -1,31 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+ <head>
 
 
 
 <body>  
-<!--
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="javascript:void(0)">Logo</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">Link</a>
-        </li>
-      </ul>
-    </div>
-  </nav> -->
+
 
   <div>
     
@@ -41,17 +22,18 @@
 
 
 
+
 <% if(locals.err_msg) { %>
-  <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show" role="alert"><%= err_msg %>
+  <div class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show" role="alert"><%= err_msg %>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
   <% } %> 
  
   
-    
 
-<form name="myForm" action="/studentlogin" method="POST">
 
-  <b><h1>STUDENT LOGIN</h1></b><br>
+<form name="myForm" action="/stafflogin" method="POST">
+
+  <b><h1>STAFF LOGIN</h1></b><br>
   
 
   <div class="mb-3">
