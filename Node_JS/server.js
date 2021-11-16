@@ -71,7 +71,7 @@ app.post('/studentlogin', async (req,res) =>{
       if(err) {
         throw err
       } else if (result.length == 1) {
-      Roll_no = result[0].Stud_ID
+      Roll_no = result[0].Stud_ID //array that contain json [{name: value, age: }] [a, b] = 0
       name = result[0].Full_Name
       Father_name = result[0].Father_name
       Mother_name = result[0].Mother_name
