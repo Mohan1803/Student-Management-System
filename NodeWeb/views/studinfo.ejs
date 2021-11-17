@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<body>  
+<center><h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT'S INFO</h1></center>
+    <% if(locals.success) { %>
+        <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show" role="alert"><%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+        <% } %> 
+    <div>
+
+
+    <table class="table table-success table-striped">
+        <tr>
+            <td>ROLL NO</td>
+            <td><%= Roll_no %></td>
+        </tr>
+        <tr>
+            <td>NAME</td>
+            <td><%= name %></td>
+        </tr>
+        <tr>
+            <td>FATHER NAME</td>
+            <td><%= Father_name %></td>
+        </tr>
+        <tr>
+            <td>MOTHER NAME</td>
+            <td><%= Mother_name %></td>
+        </tr>
+        <tr>
+            <td>DOB</td>
+            <td><%= DOB %></td>
+        </tr>
+        <tr>
+            <td>CONTACT NUMBER</td>
+            <td><%= emergency_no %></td>
+        </tr>
+        <tr>
+            <td>AADHAR NUMBER</td>
+            <td><%= aadhar %></td>
+        </tr>
+        <tr>
+            <td>EMAIL ID</td>
+            <td><%= mailid %></td>
+        </tr>
+    </table>
+    
+    </div>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
