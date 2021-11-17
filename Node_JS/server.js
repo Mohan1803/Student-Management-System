@@ -7,7 +7,7 @@ const { hashSync, compareSync } = require('bcryptjs')
 const port = 5000;
 
 const con = require('./db/db');
-const { query } = require('express');
+
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
