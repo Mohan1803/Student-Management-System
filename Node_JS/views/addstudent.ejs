@@ -4,109 +4,194 @@
 
 
 
-<body>  
-
-  <div>
-    
-    <div class="container pt-5">
-
-      <div class="row align-items-center">
-      <div class="col-md-10 offset-md-1">
-      <div class="container p-5 my-5 bg-white text-dark">
-
-
-<form name="myForm" action="/addstudent" method="POST">
-
-  <b><h1>ADD STUDENT</h1></b><br>
-
-<label>STUDENT ID</label><br>
-<input type="text" id="studid" name="studid" placeholder="Student ID" />
-<h6 id='demo'></h6>
-
-<label>CLASS</label><br>
-<input type="text" id="class" name="class" placeholder="Class"  />
-<h6 id='demo1'></h6>
-
-<label>FIRST NAME</label><br>
-<input type="text" id="fname" name="fname" placeholder="First Name"  />
-<h6 id='demo2'></h6>
-
-<label>MIDDLE NAME</label><br>
-<input type="text" id="mname" name="mname" placeholder="Middle Name"  />
-<h6 id='demo3'></h6>
-
-<label>LAST NAME</label><br>
-<input type="text" id="lname" name="lname" placeholder="Last Name"  />
-<h6 id='demo4'></h6>
-
-<label>FATHER NAME</label><br>
-<input type="text" id="father_name" name="father_name" placeholder="Father Name"  />
-<h6 id='demo5'></h6>
-
-<label>MOTHER NAME</label><br>
-<input type="text" id="mother_name" name="mother_name" placeholder="Mother Name"  />
-<h6 id='demo6'></h6>
-
-<label>DATE OF BIRTH</label><br>
-<input type="date" id="dob" name="dob"/>
-<h6 id='demo7'></h6>
-
-<label>WEIGHT</label><br>
-<input type="number" id="weight" name="weight" placeholder="Weight"  />
-<h6 id='demo8'></h6>
-
-<label>HEIGHT</label><br>
-<input type="number" id="height" name="height" placeholder="Height"  />
-<h6 id='demo9'></h6>
-
-<label>EMERGENCY CONTACT NUMBER</label><br>
-<input type="text" id="ecn" name="ecn" placeholder="Emergency Contact"  />
-<h6 id='demo10'></h6>
-
-<label>RELIGION:</label><br>
-<select name="religion" id="religion" name="religion">
-    <option value="Hindu">HINDU</option>
-    <option value="Muslim">MUSLIM</option>
-    <option value="Christian">CHRISTIAN</option>
-    <option value="Others">Others</option>
-</select><br>
-
-
-<label>CASTE:</label><br>
-<select name="caste" id="caste" name="caste">
-    <option value="BC">BC</option>
-    <option value="MBC">MBC</option>
-    <option value="OBC">OBC</option>
-    <option value="SC/ST">SC/ST</option>
-</select><br>
-
-<label>MOTHER TONGUE</label><br>
-<input type="text" id="mtongue" name="mtongue" placeholder="Mother Tongue"/>
-<h6 id='demo11'></h6>
-
-<label>AADHAR NUMBER</label><br>
-<input type="text" id="ano" name="ano" placeholder="Aadhar Number"/>
-<h6 id='demo12'></h6>
-
-<label>SEX:</label><br>
-<select name="sex" id="sex" name="sex">
-    <option value="Male">MALE</option>
-    <option value="Female">FEMALE</option>
-    <option value="Others">OTHERS</option>
-</select><br>
-
-<label>EMAIL</label><br>
-<input type="email" id="email" name="Email" placeholder="hello@example.com"  />
-<h6 id='demo13'></h6>
-
-
-<input type="submit" class="btn btn-primary" value="REGISTER" /> <br><br>
+<body>
 
 
 
+  <div class="container bg-light text-dark">
 
-</form>
-</div></div></div></div></div>
-<footer class="py-1 bottom"></footer>
+
+    <form name="myForm" action="/addstudent" method="POST">
+
+      <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Student</h2>
+
+      <div class="row g-2">
+
+
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
+              <label for="studid">Student ID</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating  w-75 p-2">
+              <input type="text" class="form-control" name="class" id="class" placeholder="Class">
+              <label for="class">Class</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating  w-75 p-2">
+              <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
+              <label for="fname">First Name</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating  w-75 p-2">
+              <input type="text" class="form-control" name="mname" id="mname" placeholder="Middle Name">
+              <label for="mname">Middle Name</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating  w-75 p-2">
+              <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name">
+              <label for="lname">Last Name</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating  w-75 p-2">
+              <input type="text" class="form-control" name="father_name" id="father_name" placeholder="Father Name">
+              <label for="father_name">Father's Name</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="mother_name" id="mother_name" placeholder="Mother Name">
+              <label for="mother_name">Mother's Name</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <select class="form-select" aria-label="Default select example" id="sex" name="sex">
+                <option selected>Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
+              <label for="sex">Sex</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="ano" id="ano" placeholder="Aadhar Number">
+              <label for="ano">Aadhar Number</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="mtongue" id="mtongue" placeholder="Mother Tongue">
+              <label for="mtongue">Mother Tongue</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="date" class="form-control" name="dob" id="dob" placeholder="Date Of Birth">
+              <label for="dob">Date Of Birth</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight">
+              <label for="weight">Weight</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="height" id="height" placeholder="Height">
+              <label for="height">Height</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="text" class="form-control" name="ecn" id="ecn" placeholder="Emergency Contact No">
+              <label for="ecn">Emergency Contact No</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="class form-floating w-75 p-2">
+              <select class="form-select" aria-label="Default select example" id="religion" name="religion">
+                <option selected>Select</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Christian">Christian</option>
+                <option value="Muslim">Muslim</option>
+                <object value="Others">Others</option>
+              </select>
+              <label for="religion">Religion</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="class form-floating w-75 p-2">
+              <select class="form-select" aria-label="Default select example" id="caste" name="caste">
+                <option selected>Select</option>
+                <option value="BC">BC</option>
+                <option value="MBC">MBC</option>
+                <option value="OBC">OBC</option>
+                <option value="SC/ST">SC/ST</option>
+              </select>
+              <label for="caste">Caste</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="email" class="form-control" name="Email" id="Email" placeholder="Email ID">
+              <label for="Email">Email ID</label>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating w-75 p-2">
+              <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Email ID">
+              <label for="pwd">Set Password</label>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="mb-3 align-center">
+        <div class="form-floating">
+          <input type="submit" class="btn btn-primary align-center" value="submit" />
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+
+
+
+
+
+
+  <!-- <div class="container-flex foot">
+    <footer class="position-relative bottom-0 start-0 end-0 bg-danger bg-gradient">
+
+      <h2>footer</h2>
+
+
+    </footer>
+  </div> -->
+
 </body>
+
 </html>
