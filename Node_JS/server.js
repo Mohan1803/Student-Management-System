@@ -82,10 +82,11 @@ app.post('/studentlogin', async (req, res) => {
               success = "Login Successfull";
               return res.render('studinfo', { success, Roll_no, name, Father_name, Mother_name, DOB, emergency_no, aadhar, mailid });
 
-            } else {
-              err_msg = "Login Failed";
-              return res.render('studentlogin', { err_msg });
             }
+            // else {
+            //   err_msg = "Login Failed";
+            //   return res.render('studentlogin', { err_msg });
+            // }
           })
         } else if (!matchPass) {
           err_msg = "Wrong Password";
@@ -126,6 +127,7 @@ app.post('/stafflogin', (req, res) => {
   let martial_status = "";
   let joining_date = "";
   let qualification = "";
+  let aadhar = "";
   let staff_type = "";
   let acc_no = "";
   let bloodgrp = "";
@@ -159,6 +161,7 @@ app.post('/stafflogin', (req, res) => {
               martial_status = result[0].Martial_Status
               joining_date = result[0].Joining_Date
               qualification = result[0].Qualification
+              aadhar = result[0].Aadhar_No
               staff_type = result[0].Staff_type
               acc_no = result[0].Staff_Account_No
               bloodgrp = result[0].Blood_Group
@@ -168,13 +171,13 @@ app.post('/stafflogin', (req, res) => {
               success = "Login Successfull";
               return res.render('staffinfo', {
                 success, name, staff_id, dob, martial_status, joining_date,
-                qualification, staff_type, acc_no, bloodgrp, emailid, phone_no, pre_institute_name,
+                qualification, aadhar, staff_type, acc_no, bloodgrp, emailid, phone_no, pre_institute_name,
               })
             }
-            else {
-              err_msg = "Login Failed";
-              return res.render('stafflogin', { err_msg });
-            }
+            // else {
+            //   err_msg = "Login Failed";
+            //   return res.render('stafflogin', { err_msg });
+            // }
           })
         } else if (!matchPass) {
           err_msg = "Wrong Password";
@@ -232,7 +235,7 @@ app.post('/addstudent', async (req, res) => {
     con.query(sql, function (err) {
       if (err) throw err
 
-      console.log('record inserted');
+      console.log('Student Record Inserted');
       return res.redirect('/addstudent');
     });
   } catch (e) {
@@ -264,26 +267,27 @@ app.post('/addstaff', async (req, res) => {
     const Mother_name = req.body.mother_name
     const DOB = req.body.dob
     const Sex = req.body.sex
-    const Martial_Status = req.body.Martial_Status
+    const Martial_Status = req.body.martial_status
     const Joining_Date = req.body.jdate
     const Qualification = req.body.qualification
+    const Aadhar = req.body.aadhar
     const Staff_type = req.body.staff_type
     const Staff_Account_No = req.body.saccno
     const Blood_Group = req.body.bgroup
     const Email_id = req.body.email
     const Phone_Number = req.body.phno
-    const Emergency_Contact_No = req.body.ecn
+    const Emergency_Contact_No = req.body.emcno
     const Basic_Pay = req.body.bpay
     const Pre_Institute_Name = req.body.piname
     const Password = req.body.pwd
     var hashedpassword = bcrypt.hashSync(Password, 12)
 
 
-    var sql = `INSERT INTO school_addstaff(Staff_id, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Staff_type, Staff_Account_No, Blood_Group, Email_id, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}');`;
+    var sql = `INSERT INTO school_addstaff(Staff_id, First_Name, Middle_Name, Last_Name, Father_Name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Aadhar_No, Staff_type, Staff_Account_No, Blood_Group, Email_ID, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Aadhar}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}')`;
     con.query(sql, function (err) {
       if (err) throw err
 
-      console.log('record inserted');
+      console.log('Staff Record Inserted');
       return res.redirect('/addstaff');
     });
   } catch (e) {
