@@ -207,6 +207,8 @@ app.get('/addstudent', (req, res) => {
 
 
 app.post('/addstudent', async (req, res) => {
+  let err_msg = "";
+  let success = "";
 
   try {
 
@@ -230,15 +232,43 @@ app.post('/addstudent', async (req, res) => {
     const Password = req.body.pwd
     var hashedpassword = bcrypt.hashSync(Password, 12)
 
+    if (Stud_ID.length < 5) {
+      err_msg = "STUDENT ID VALUE IS TOO SHORT"
+      return res.render('addstudent', { err_msg });
+    }
 
-    var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id, Password) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}', '${hashedpassword}');`;
-    con.query(sql, function (err) {
+    const mailformat = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+    var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}'`
+    con.query(dupstud, (err, result) => {
       if (err) throw err
+      else if (result.length == 1) {
+        const studid = result[0].Stud_ID
+        if (studid == Stud_ID) {
+          err_msg = "STUDENT ID IS ALREADY TAKEN";
+          return res.render('addstudent', { err_msg })
+        }
 
-      console.log('Student Record Inserted');
-      return res.redirect('/addstudent');
-    });
-  } catch (e) {
+      }
+
+      if (!Email_id.match(mailformat)) {
+        err_msg = "INVALID MAIL ID";
+        return res.render('addstudent', { err_msg })
+      }
+
+
+      else
+
+
+        var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id, Password) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}', '${hashedpassword}');`;
+      con.query(sql, function (err) {
+        if (err) throw err
+
+        console.log('Student Record Inserted');
+        return res.redirect('/addstudent');
+      });
+    })
+  }
+  catch (e) {
     console.log(e);
   }
 });
