@@ -1,59 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 
- 
 
 
 
-<body>  
+
+<body>
 
 
-  <div>
-    
+  <div class="bg-light">
+
     <div class="container pt-5">
       <div class="row align-items-center">
         <div class="col-md-10 offset-md-1">
-        <div class="container p-5 my-5 bg-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      
-      
-        
+          <div class="container p-5 my-5 bg-secondary">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 
 
 
 
-<% if(locals.err_msg) { %>
-  <div class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show" role="alert"><%= err_msg %>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
-  <% } %> 
- 
-  
 
 
-<form name="myForm" action="/stafflogin" method="POST">
 
-  <b><h1>STAFF LOGIN</h1></b><br>
-  
+            <% if(locals.err_msg) { %>
+              <div
+                class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                role="alert">
+                <%= err_msg %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              <% } %>
 
-  <div class="mb-3">
-    <label for="formGroupExampleInput" class="form-label">USER ID</label>
-    <input type="text" class="form-control" id="userid" name="userid" placeholder="User ID">
+
+                <center>
+
+                  <form name="myForm" action="/stafflogin" method="POST">
+
+                    <b>
+                      <h1 style="font-family: 'Times New Roman', Times, serif;">STAFF LOGIN</h1>
+                    </b><br>
+
+
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <input type="text" class="form-control" name="userid" id="userid" placeholder="Staff ID">
+                        <label for="userid">Staff ID</label>
+                      </div>
+                    </div>
+
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <select class="form-select" aria-label="Default select example" id="role" name="role">
+                          <option selected>Select</option>
+                          <option value="admin">Admin</option>
+                          <option value="staff">Staff</option>
+                        </select>
+                        <label for="role">Role</label>
+                      </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password">
+                        <label for="pwd">Password</label>
+                      </div>
+                    </div>
+
+
+
+                    <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
+
+
+
+
+                  </form>
+                </center>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="formGroupExampleInput2" class="form-label">PASSWORD</label>
-    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
-  </div>
-
-
-
-  <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
-
-
-
-
-</form>
-</div></div></div></div></div>
 
 </body>
+
 </html>

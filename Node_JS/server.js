@@ -83,10 +83,10 @@ app.post('/studentlogin', async (req, res) => {
               return res.render('studinfo', { success, Roll_no, name, Father_name, Mother_name, DOB, emergency_no, aadhar, mailid });
 
             }
-            // else {
-            //   err_msg = "Login Failed";
-            //   return res.render('studentlogin', { err_msg });
-            // }
+            else {
+              err_msg = "Login Failed";
+              return res.render('studentlogin', { err_msg });
+            }
           })
         } else if (!matchPass) {
           err_msg = "Wrong Password";
@@ -123,6 +123,7 @@ app.post('/stafflogin', (req, res) => {
   let success = "";
   let name = "";
   let staff_id = "";
+  let role = "";
   let dob = "";
   let martial_status = "";
   let joining_date = "";
@@ -140,7 +141,7 @@ app.post('/stafflogin', (req, res) => {
   try {
     const User_ID = req.body.userid
     const PWD = req.body.pwd
-
+    const rol = req.body.role
 
     var check = `SELECT * FROM school_addstaff WHERE Staff_id='${User_ID}'`
     con.query(check, (err, result) => {
@@ -150,13 +151,14 @@ app.post('/stafflogin', (req, res) => {
         const matchPass = bcrypt.compareSync(PWD, pwd);
 
         if (matchPass) {
-          var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${User_ID}' AND Password='${pwd}'`
+          var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${User_ID}' AND Password='${pwd}' AND Role='${rol}'`
           con.query(sql, function (err, result) {
             if (err) {
               throw err
             } else if (result.length == 1) {
               name = result[0].Full_Name
               staff_id = result[0].Staff_id
+              role = result[0].Role
               dob = result[0].DOB
               martial_status = result[0].Martial_Status
               joining_date = result[0].Joining_Date
@@ -168,16 +170,23 @@ app.post('/stafflogin', (req, res) => {
               emailid = result[0].Email_ID
               phone_no = result[0].Phone_Number
               pre_institute_name = result[0].Pre_Institute_Name
-              success = "Login Successfull";
-              return res.render('staffinfo', {
-                success, name, staff_id, dob, martial_status, joining_date,
-                qualification, aadhar, staff_type, acc_no, bloodgrp, emailid, phone_no, pre_institute_name,
-              })
+
+              if (rol == 'admin') {
+                success = "Login Successfull";
+                return res.render('addstaff');
+              }
+              else {
+                success = "Login Successfull";
+                return res.render('staffinfo', {
+                  success, name, staff_id, role, dob, martial_status, joining_date,
+                  qualification, aadhar, staff_type, acc_no, bloodgrp, emailid, phone_no, pre_institute_name,
+                })
+              }
             }
-            // else {
-            //   err_msg = "Login Failed";
-            //   return res.render('stafflogin', { err_msg });
-            // }
+            else {
+              err_msg = "Incorrect Role";
+              return res.render('stafflogin', { err_msg });
+            }
           })
         } else if (!matchPass) {
           err_msg = "Wrong Password";
@@ -216,13 +225,13 @@ app.post('/addstudent', async (req, res) => {
     const Class = req.body.class
     const First_Name = req.body.fname
     const Middle_Name = req.body.mname
-    const Last_Name = req.body.lname
+    const Last_Name = req.body.lname || "NIL"
     const Father_name = req.body.father_name
     const Mother_name = req.body.mother_name
-    const DOB = req.body.dob
-    const Weight = req.body.weight
-    const Height = req.body.height
-    const Emergency_Contact_No = req.body.ecn
+    const DOB = req.body.dob || "01-01-0001"
+    const Weight = req.body.weight || "01"
+    const Height = req.body.height || "01"
+    const Emergency_Contact_No = req.body.ecn || "NIL"
     const Religion = req.body.religion
     const Caste = req.body.caste
     const Mother_Tongue = req.body.mtongue
@@ -230,43 +239,68 @@ app.post('/addstudent', async (req, res) => {
     const Sex = req.body.sex
     const Email_id = req.body.Email
     const Password = req.body.pwd
+
     var hashedpassword = bcrypt.hashSync(Password, 12)
+
+    const mailformat = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
 
     if (Stud_ID.length < 5) {
       err_msg = "STUDENT ID VALUE IS TOO SHORT"
       return res.render('addstudent', { err_msg });
     }
 
-    const mailformat = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-    var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}'`
-    con.query(dupstud, (err, result) => {
-      if (err) throw err
-      else if (result.length == 1) {
-        const studid = result[0].Stud_ID
-        if (studid == Stud_ID) {
-          err_msg = "STUDENT ID IS ALREADY TAKEN";
-          return res.render('addstudent', { err_msg })
+    else if (!Email_id.match(mailformat)) {
+      err_msg = "INVALID MAIL ID";
+      return res.render('addstudent', { err_msg })
+    }
+
+    if (Stud_ID == 0 || Class == 0 || First_Name == 0 || Middle_Name == 0 || Father_name == 0 || Mother_name == 0 || DOB == 0 || Weight == 0 || Height == 0 || Emergency_Contact_No == 0 || Religion == 0 || Caste == 0 || Mother_Tongue == 0 || Stud_Aadhar_No == 0 || Sex == 0 || Email_id == 0 || Password == 0) {
+      err_msg = "Please fill all details"
+      return res.render("addstudent", { err_msg })
+    }
+
+    else {
+
+      var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}'`
+      con.query(dupstud, (err, result) => {
+        if (err) throw err
+        else if (result.length == 1) {
+          const studid = result[0].Stud_ID
+          const aadharno = result[0].Stud_Aadhar_No
+
+
+          if (studid == Stud_ID) {
+            err_msg = "STUDENT ID IS ALREADY TAKEN";
+            return res.render('addstudent', { err_msg })
+          }
+
+
+          if (aadharno == Stud_Aadhar_No) {
+            err_msg = "Duplicate Aadhar Number";
+            return res.render('addstudent', { err_msg })
+          }
+
         }
 
-      }
-
-      if (!Email_id.match(mailformat)) {
-        err_msg = "INVALID MAIL ID";
-        return res.render('addstudent', { err_msg })
-      }
 
 
-      else
 
 
-        var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id, Password) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}', '${hashedpassword}');`;
-      con.query(sql, function (err) {
-        if (err) throw err
+        else {
 
-        console.log('Student Record Inserted');
-        return res.redirect('/addstudent');
-      });
-    })
+
+          var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id, Password) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}', '${hashedpassword}');`;
+          con.query(sql, function (err) {
+            if (err) throw err
+
+            console.log('Student Record Inserted');
+            success = "Student Added Successfully";
+            return res.render('addstudent', { success });
+          });
+        }
+
+      })
+    }
   }
   catch (e) {
     console.log(e);
@@ -286,10 +320,11 @@ app.get('/addstaff', (req, res) => {
 })
 
 app.post('/addstaff', async (req, res) => {
-
+  let success = "";
   try {
 
     const Staff_id = req.body.staffid
+    const Role = req.body.role
     const First_Name = req.body.fname
     const Middle_Name = req.body.mname
     const Last_Name = req.body.lname
@@ -313,12 +348,13 @@ app.post('/addstaff', async (req, res) => {
     var hashedpassword = bcrypt.hashSync(Password, 12)
 
 
-    var sql = `INSERT INTO school_addstaff(Staff_id, First_Name, Middle_Name, Last_Name, Father_Name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Aadhar_No, Staff_type, Staff_Account_No, Blood_Group, Email_ID, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Aadhar}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}')`;
+    var sql = `INSERT INTO school_addstaff(Staff_id, Role, First_Name, Middle_Name, Last_Name, Father_Name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Aadhar_No, Staff_type, Staff_Account_No, Blood_Group, Email_ID, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${Role}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Aadhar}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}')`;
     con.query(sql, function (err) {
       if (err) throw err
 
       console.log('Staff Record Inserted');
-      return res.redirect('/addstaff');
+      success = "Staff Added Successffully";
+      return res.render('addstaff', { success });
     });
   } catch (e) {
     console.log(e);
