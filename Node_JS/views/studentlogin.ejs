@@ -52,32 +52,41 @@
               <% } %>
 
 
+                <center>
 
+                  <form name="myForm" action="/studentlogin" method="POST">
 
-                <form name="myForm" action="/studentlogin" method="POST">
-
-                  <b>
-                    <h1>STUDENT LOGIN</h1>
-                  </b><br>
-
-
-                  <div class="mb-3">
-                    <label for="formGroupExampleInput" class="form-label">USER ID</label>
-                    <input type="text" class="form-control" id="userid" name="userid" placeholder="User ID">
-                  </div>
-                  <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">PASSWORD</label>
-                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
-                  </div>
+                    <b>
+                      <h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT LOGIN</h1>
+                    </b><br>
 
 
 
-                  <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <input type="text" class="form-control" name="userid" id="userid" placeholder="STUDENT ID">
+                        <label for="userid">STUDENT ID</label>
+                      </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password">
+                        <label for="pwd">Password</label>
+                      </div>
+                    </div>
 
 
 
 
-                </form>
+                    <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
+
+
+
+
+                  </form>
+                </center>
           </div>
         </div>
       </div>
