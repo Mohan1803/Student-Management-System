@@ -146,216 +146,229 @@
     </div>
     <% } %>
 
-      <div class="container bg-light text-dark">
+      <% if(locals.err_msg) { %>
+        <div
+          class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+          role="alert">
+          <%= err_msg %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+
+          <div class="container bg-light text-dark">
 
 
-        <form name="myForm" action="/addstaff" method="POST">
+            <form name="myForm" action="/addstaff" method="POST">
 
-          <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Staff</h2>
+              <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Staff</h2>
 
-          <div class="row g-2">
+              <div class="row g-2">
 
 
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="staffid" id="staffid" placeholder="Staff ID">
-                  <label for="staffid">Staff ID</label>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="staffid" id="staffid" placeholder="Staff ID">
+                      <label for="staffid">Staff ID</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <select class="form-select" aria-label="Default select example" id="role" name="role">
+                        <option selected>Select</option>
+                        <option value="admin">Admin</option>
+                        <option value="staff">Staff</option>
+                      </select>
+                      <label for="role">Role</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating  w-75 p-2">
+                      <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
+                      <label for="fname">First Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating  w-75 p-2">
+                      <input type="text" class="form-control" name="mname" id="mname" placeholder="Middle Name">
+                      <label for="mname">Middle Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating  w-75 p-2">
+                      <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name">
+                      <label for="lname">Last Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating  w-75 p-2">
+                      <input type="text" class="form-control" name="father_name" id="father_name"
+                        placeholder="Father Name">
+                      <label for="father_name">Father's Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="mother_name" id="mother_name"
+                        placeholder="Mother Name">
+                      <label for="mother_name">Mother's Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="date" class="form-control" name="dob" id="dob" placeholder="Date Of Birth">
+                      <label for="dob">Date Of Birth</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <select class="form-select" aria-label="Default select example" id="sex" name="sex">
+                        <option selected>Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="others">Others</option>
+                      </select>
+                      <label for="sex">Sex</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <select class="form-select" aria-label="Default select example" id="martial_status"
+                        name="martial_status">
+                        <option selected>Select</option>
+                        <option value="married">Married</option>
+                        <option value="unmarried">Unmarried</option>
+                        <option value="widow">Widow</option>
+                      </select>
+                      <label for="martial_status">Martial Status</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="date" class="form-control" name="jdate" id="jdate" placeholder="Joining Date">
+                      <label for="jdate">Joining Date</label>
+                    </div>
+                  </div>
+
+
+
+
+
                 </div>
-              </div>
 
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <select class="form-select" aria-label="Default select example" id="role" name="role">
-                    <option selected>Select</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                  </select>
-                  <label for="role">Role</label>
+                <div class="col-lg-6">
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="qualification" id="qualification"
+                        placeholder="Qualification">
+                      <label for="qualification">Qualification</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="aadhar" id="aadhar" placeholder="Aadhar Number">
+                      <label for="aadhar">Aadhar Number</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <select class="form-select" aria-label="Default select example" id="staff_type" name="staff_type">
+                        <option selected>Select</option>
+                        <option value="teaching">Teaching</option>
+                        <option value="non-teaching">Non-Teaching</option>
+                      </select>
+                      <label for="staff_type">Staff Type</label>
+                    </div>
+                  </div>
+
+
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="saccno" id="saccno" placeholder="Account Number">
+                      <label for="saccno">Account Number</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="bgroup" id="bgroup" placeholder="Blood Group">
+                      <label for="bgroup">Blood Group</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Email ID">
+                      <label for="email">Email ID</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="phno" id="phno" placeholder="Phone Number">
+                      <label for="phno">Phone Number</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="emcno" id="emcno"
+                        placeholder="Emergency Contact No">
+                      <label for="emcno">Emergency Contact No</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="bpay" id="bpay" placeholder="Basic Pay">
+                      <label for="bpay">Basic Pay</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="text" class="form-control" name="piname" id="piname"
+                        placeholder="Pre Institute Name">
+                      <label for="piname">Pre Institute Name</label>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Set Password">
+                      <label for="pwd">Set Password</label>
+                    </div>
+                  </div>
+
+
                 </div>
-              </div>
 
-              <div class="mb-3">
-                <div class="form-floating  w-75 p-2">
-                  <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
-                  <label for="fname">First Name</label>
+              </div>
+              <center>
+                <div class="mb-3 align-center">
+                  <div class="form-floating">
+                    <input type="submit" class="btn btn-primary align-center" value="submit" />
+                  </div>
                 </div>
-              </div>
+              </center>
 
-              <div class="mb-3">
-                <div class="form-floating  w-75 p-2">
-                  <input type="text" class="form-control" name="mname" id="mname" placeholder="Middle Name">
-                  <label for="mname">Middle Name</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating  w-75 p-2">
-                  <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name">
-                  <label for="lname">Last Name</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating  w-75 p-2">
-                  <input type="text" class="form-control" name="father_name" id="father_name" placeholder="Father Name">
-                  <label for="father_name">Father's Name</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="mother_name" id="mother_name" placeholder="Mother Name">
-                  <label for="mother_name">Mother's Name</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="date" class="form-control" name="dob" id="dob" placeholder="Date Of Birth">
-                  <label for="dob">Date Of Birth</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <select class="form-select" aria-label="Default select example" id="sex" name="sex">
-                    <option selected>Select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="others">Others</option>
-                  </select>
-                  <label for="sex">Sex</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <select class="form-select" aria-label="Default select example" id="martial_status"
-                    name="martial_status">
-                    <option selected>Select</option>
-                    <option value="married">Married</option>
-                    <option value="unmarried">Unmarried</option>
-                    <option value="widow">Widow</option>
-                  </select>
-                  <label for="martial_status">Martial Status</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="date" class="form-control" name="jdate" id="jdate" placeholder="Joining Date">
-                  <label for="jdate">Joining Date</label>
-                </div>
-              </div>
-
-
-
-
-
-            </div>
-
-            <div class="col-lg-6">
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="qualification" id="qualification"
-                    placeholder="Qualification">
-                  <label for="qualification">Qualification</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="aadhar" id="aadhar" placeholder="Aadhar Number">
-                  <label for="aadhar">Aadhar Number</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <select class="form-select" aria-label="Default select example" id="staff_type" name="staff_type">
-                    <option selected>Select</option>
-                    <option value="teaching">Teaching</option>
-                    <option value="non-teaching">Non-Teaching</option>
-                  </select>
-                  <label for="staff_type">Staff Type</label>
-                </div>
-              </div>
-
-
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="saccno" id="saccno" placeholder="Account Number">
-                  <label for="saccno">Account Number</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="bgroup" id="bgroup" placeholder="Blood Group">
-                  <label for="bgroup">Blood Group</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Email ID">
-                  <label for="email">Email ID</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="phno" id="phno" placeholder="Phone Number">
-                  <label for="phno">Phone Number</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="emcno" id="emcno" placeholder="Emergency Contact No">
-                  <label for="emcno">Emergency Contact No</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="bpay" id="bpay" placeholder="Basic Pay">
-                  <label for="bpay">Basic Pay</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="text" class="form-control" name="piname" id="piname" placeholder="Pre Institute Name">
-                  <label for="piname">Pre Institute Name</label>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <div class="form-floating w-75 p-2">
-                  <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Set Password">
-                  <label for="pwd">Set Password</label>
-                </div>
-              </div>
-
-
-            </div>
+            </form>
 
           </div>
-          <center>
-            <div class="mb-3 align-center">
-              <div class="form-floating">
-                <input type="submit" class="btn btn-primary align-center" value="submit" />
-              </div>
-            </div>
-          </center>
-
-        </form>
-
-      </div>
 
 
 
@@ -363,7 +376,7 @@
 
 
 
-      <!-- <div class="container-flex foot">
+          <!-- <div class="container-flex foot">
     <footer class="position-relative bottom-0 start-0 end-0 bg-danger bg-gradient">
 
       <h2>footer</h2>

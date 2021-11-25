@@ -225,7 +225,7 @@ app.post('/addstudent', async (req, res) => {
     const Class = req.body.class
     const First_Name = req.body.fname
     const Middle_Name = req.body.mname
-    const Last_Name = req.body.lname || "NIL"
+    const Last_Name = req.body.lname
     const Father_name = req.body.father_name
     const Mother_name = req.body.mother_name
     const DOB = req.body.dob || "01-01-0001"
@@ -254,6 +254,13 @@ app.post('/addstudent', async (req, res) => {
       return res.render('addstudent', { err_msg })
     }
 
+    else if (Emergency_Contact_No.length < 10) {
+      err_msg = "Invalid Phone Nummber"
+      return res.render('addstudent', { err_msg })
+    }
+
+
+
     if (Stud_ID == 0 || Class == 0 || First_Name == 0 || Middle_Name == 0 || Father_name == 0 || Mother_name == 0 || DOB == 0 || Weight == 0 || Height == 0 || Emergency_Contact_No == 0 || Religion == 0 || Caste == 0 || Mother_Tongue == 0 || Stud_Aadhar_No == 0 || Sex == 0 || Email_id == 0 || Password == 0) {
       err_msg = "Please fill all details"
       return res.render("addstudent", { err_msg })
@@ -261,13 +268,15 @@ app.post('/addstudent', async (req, res) => {
 
     else {
 
-      var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}'`
+      //To Find Duplicate Entries in Adding Student Module
+
+      var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}' OR Email_id='${Email_id}'`
       con.query(dupstud, (err, result) => {
         if (err) throw err
         else if (result.length == 1) {
           const studid = result[0].Stud_ID
           const aadharno = result[0].Stud_Aadhar_No
-
+          const dupemail = result[0].Email_id
 
           if (studid == Stud_ID) {
             err_msg = "STUDENT ID IS ALREADY TAKEN";
@@ -280,11 +289,11 @@ app.post('/addstudent', async (req, res) => {
             return res.render('addstudent', { err_msg })
           }
 
+          if (dupemail == Email_id) {
+            err_msg = "Duplicate Email"
+            return res.render('addstudent', { err_msg })
+          }
         }
-
-
-
-
 
         else {
 
@@ -330,10 +339,10 @@ app.post('/addstaff', async (req, res) => {
     const Last_Name = req.body.lname
     const Father_name = req.body.father_name
     const Mother_name = req.body.mother_name
-    const DOB = req.body.dob
+    const DOB = req.body.dob || "01-01-0001"
     const Sex = req.body.sex
     const Martial_Status = req.body.martial_status
-    const Joining_Date = req.body.jdate
+    const Joining_Date = req.body.jdate || "01-01-0001"
     const Qualification = req.body.qualification
     const Aadhar = req.body.aadhar
     const Staff_type = req.body.staff_type
@@ -348,14 +357,72 @@ app.post('/addstaff', async (req, res) => {
     var hashedpassword = bcrypt.hashSync(Password, 12)
 
 
-    var sql = `INSERT INTO school_addstaff(Staff_id, Role, First_Name, Middle_Name, Last_Name, Father_Name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Aadhar_No, Staff_type, Staff_Account_No, Blood_Group, Email_ID, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${Role}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Aadhar}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}')`;
-    con.query(sql, function (err) {
-      if (err) throw err
+    const mailformat = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+    if (!Email_id.match(mailformat)) {
+      err_msg = "INVALID MAIL ID";
+      return res.render('addstaff', { err_msg })
+    }
 
-      console.log('Staff Record Inserted');
-      success = "Staff Added Successffully";
-      return res.render('addstaff', { success });
-    });
+    else if (Staff_id.length < 5) {
+      err_msg = "Staff ID Value Is Too Short"
+      return res.render('addstaff', { err_msg })
+    }
+
+    else if (Phone_Number.length < 10 || Emergency_Contact_No.length < 10) {
+      err_msg = "Invalid Phone Number or Emergency Contact Number";
+      return res.render('addstaff', { err_msg })
+    }
+    else {
+
+      var dupstaff = `SELECT * FROM school_addstaff where Staff_id='${Staff_id}' OR Staff_Account_No='${Staff_Account_No}' OR Email_ID='${Email_id}' OR Aadhar_No='${Aadhar}'`
+
+      con.query(dupstaff, (err, result) => {
+        if (err) throw err
+        else if (result.length == 1) {
+          const id = result[0].Staff_id;
+          const accno = result[0].Staff_Account_No;
+          const mail = result[0].Email_ID;
+          const dupaadhar = result[0].Aadhar_No
+
+          // err_msg = "DUPLICATE ENTRIES"
+          // res.render('addstaff', { err_msg })
+
+
+          if (id == Staff_id) {
+            err_msg = "Staff ID Exists"
+            return res.render('addstaff', { err_msg })
+          }
+
+          if (accno == Staff_Account_No) {
+            err_msg = "Duplicate Account Number"
+            return res.render('addstaff', { err_msg })
+          }
+
+          if (mail == Email_id) {
+            err_msg = "Duplicate Mail ID"
+            return res.render('addstaff', { err_msg })
+          }
+
+          if (dupaadhar == Aadhar) {
+            err_msg = "Duplicate Aadhar Number"
+            return res.render('addstaff', { err_msg })
+          }
+
+        }
+
+        else {
+
+          var sql = `INSERT INTO school_addstaff(Staff_id, Role, First_Name, Middle_Name, Last_Name, Father_Name, Mother_name, DOB, Sex, Martial_Status, Joining_Date, Qualification, Aadhar_No, Staff_type, Staff_Account_No, Blood_Group, Email_ID, Phone_Number, Emergency_Contact_No, Basic_Pay, Pre_Institute_Name, Password) VALUES ('${Staff_id}', '${Role}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Sex}', '${Martial_Status}', '${Joining_Date}', '${Qualification}', '${Aadhar}', '${Staff_type}', '${Staff_Account_No}', '${Blood_Group}', '${Email_id}', '${Phone_Number}', '${Emergency_Contact_No}', '${Basic_Pay}', '${Pre_Institute_Name}', '${hashedpassword}')`;
+          con.query(sql, function (err) {
+            if (err) throw err
+
+            console.log('Staff Record Inserted');
+            success = "Staff Added Successffully";
+            return res.render('addstaff', { success });
+          });
+        }
+      })
+    }
   } catch (e) {
     console.log(e);
   }
