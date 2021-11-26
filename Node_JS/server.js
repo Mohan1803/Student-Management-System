@@ -58,6 +58,12 @@ app.post('/studentlogin', async (req, res) => {
     const User_ID = req.body.userid
     const PWD = req.body.pwd
 
+    if (User_ID == 0 && PWD == 0) {
+      err_msg = "Please enter the values"
+      return res.render('studentlogin', { err_msg })
+    }
+
+
     var check = `SELECT * FROM school_addstudent WHERE Stud_ID='${User_ID}'`
     con.query(check, (err, result) => {
       if (err) { throw err }
@@ -270,29 +276,17 @@ app.post('/addstudent', async (req, res) => {
 
       //To Find Duplicate Entries in Adding Student Module
 
-      var dupstud = `SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}' OR Email_id='${Email_id}'`
+      var dupstud = `SELECT EXISTS (SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}' OR Email_id='${Email_id}') as count`
       con.query(dupstud, (err, result) => {
+
         if (err) throw err
-        else if (result.length == 1) {
-          const studid = result[0].Stud_ID
-          const aadharno = result[0].Stud_Aadhar_No
-          const dupemail = result[0].Email_id
 
-          if (studid == Stud_ID) {
-            err_msg = "STUDENT ID IS ALREADY TAKEN";
-            return res.render('addstudent', { err_msg })
-          }
+        else if (result[0].count == 1) {
+
+          err_msg = "Duplicate Entries Found"
+          return res.render('addstudent', { err_msg })
 
 
-          if (aadharno == Stud_Aadhar_No) {
-            err_msg = "Duplicate Aadhar Number";
-            return res.render('addstudent', { err_msg })
-          }
-
-          if (dupemail == Email_id) {
-            err_msg = "Duplicate Email"
-            return res.render('addstudent', { err_msg })
-          }
         }
 
         else {
@@ -318,10 +312,6 @@ app.post('/addstudent', async (req, res) => {
 
 
 
-
-
-
-
 //ADDING STAFF
 
 app.get('/addstaff', (req, res) => {
@@ -330,8 +320,8 @@ app.get('/addstaff', (req, res) => {
 
 app.post('/addstaff', async (req, res) => {
   let success = "";
+  let err_msg = "";
   try {
-
     const Staff_id = req.body.staffid
     const Role = req.body.role
     const First_Name = req.body.fname
@@ -352,7 +342,7 @@ app.post('/addstaff', async (req, res) => {
     const Phone_Number = req.body.phno
     const Emergency_Contact_No = req.body.emcno
     const Basic_Pay = req.body.bpay
-    const Pre_Institute_Name = req.body.piname
+    const Pre_Institute_Name = req.body.piname || "NIL"
     const Password = req.body.pwd
     var hashedpassword = bcrypt.hashSync(Password, 12)
 
@@ -365,48 +355,30 @@ app.post('/addstaff', async (req, res) => {
 
     else if (Staff_id.length < 5) {
       err_msg = "Staff ID Value Is Too Short"
-      return res.render('addstaff', { err_msg })
+      return res.render('createstaffid', { err_msg })
     }
 
     else if (Phone_Number.length < 10 || Emergency_Contact_No.length < 10) {
       err_msg = "Invalid Phone Number or Emergency Contact Number";
       return res.render('addstaff', { err_msg })
     }
+
+    // if (Role == 0 || First_Name == 0 || Middle_Name == 0 || Father_name == 0 || Mother_name == 0 || Sex == 0 || Martial_Status == 0 || Joining_Date == 0 || Qualification == 0 || Aadhar == 0 || Staff_type == 0 || Staff_Account_No == 0 || Blood_Group == 0 || Email_id == 0 || Phone_Number == 0 || Emergency_Contact_No == 0 || Basic_Pay == 0 || Password == 0) {
+    //   err_msg = "Please fill all details"
+    //   return res.render('addstaff', { err_msg })
+    // }
     else {
 
-      var dupstaff = `SELECT * FROM school_addstaff where Staff_id='${Staff_id}' OR Staff_Account_No='${Staff_Account_No}' OR Email_ID='${Email_id}' OR Aadhar_No='${Aadhar}'`
+      var dupstaff = `SELECT EXISTS (SELECT * FROM school_addstaff where Staff_id='${Staff_id}' OR Staff_Account_No='${Staff_Account_No}' OR Email_ID='${Email_id}' OR Aadhar_No='${Aadhar}') as count`
 
       con.query(dupstaff, (err, result) => {
         if (err) throw err
-        else if (result.length == 1) {
-          const id = result[0].Staff_id;
-          const accno = result[0].Staff_Account_No;
-          const mail = result[0].Email_ID;
-          const dupaadhar = result[0].Aadhar_No
+        else if (result[0].count == 1) {
 
-          // err_msg = "DUPLICATE ENTRIES"
-          // res.render('addstaff', { err_msg })
+          err_msg = "Duplicate Entries either in STAFF ID or ACCOUNT NUMBER or EMAIL ID or AADHAR NUMBER"
+          return res.render('addstaff', { err_msg })
 
 
-          if (id == Staff_id) {
-            err_msg = "Staff ID Exists"
-            return res.render('addstaff', { err_msg })
-          }
-
-          if (accno == Staff_Account_No) {
-            err_msg = "Duplicate Account Number"
-            return res.render('addstaff', { err_msg })
-          }
-
-          if (mail == Email_id) {
-            err_msg = "Duplicate Mail ID"
-            return res.render('addstaff', { err_msg })
-          }
-
-          if (dupaadhar == Aadhar) {
-            err_msg = "Duplicate Aadhar Number"
-            return res.render('addstaff', { err_msg })
-          }
 
         }
 
