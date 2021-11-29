@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-
-
-<body>
-
+<div class="container">
   <% if(locals.err_msg) { %>
     <div
       class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
@@ -27,7 +20,7 @@
           <div class="container bg-light text-dark">
 
 
-            <form name="myForm" action="/addstudent" method="POST">
+            <form name="myForm" action="/student/addstudent" method="POST">
 
               <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Student</h2>
 
@@ -208,14 +201,13 @@
 
 
           <!-- <div class="container-flex foot">
-    <footer class="position-relative bottom-0 start-0 end-0 bg-danger bg-gradient">
-
-      <h2>footer</h2>
-
-
-    </footer>
-  </div> -->
+      <footer class="position-relative bottom-0 start-0 end-0 bg-danger bg-gradient">
+  
+        <h2>footer</h2>
+  
+  
+      </footer>
+    </div> -->
           <!-- <script src="/public/js/validation.js"></script> -->
-</body>
 
-</html>
+</div>
