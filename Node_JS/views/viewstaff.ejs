@@ -1,0 +1,69 @@
+    <center>
+    <h1 style="font-family: 'Times New Roman', Times, serif;">STAFF'S INFO</h1><br>
+    <a href="/staff/addstaff">
+        <h5 style="font-family: 'Times New Roman', Times, serif;"> To Add a New Staff Please Click Here
+        </h5>
+    </a>
+</center>
+<% if(locals.success.length > 0) { %>
+    <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+    <table class="table table-light text-center">
+        <thead>
+          <tr>
+          <th scope="col">S. No</th>
+          <th scope="col">Staff ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Role</th>
+          <th scope="col">Father Name</th>
+          <th scope="col">Mother Name</th>
+          <th scope="col">DOB</th>
+          <th scope="col">Sex</th>
+          <th scope="col">Martial Status</th>
+          <th scope="col">Joining Date</th>
+          <th scope="col">Qualification</th>
+          <th scope="col">Aadhar Number</th>
+          <th scope="col">Staff Type</th>
+          <th scope="col">Staff Account Number</th>
+          <th scope="col">Blood Group</th>
+          <th scope="col">Email ID</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Pre Institute Name</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% if(locals.result.length > 0) {        
+                for(var i = 0; i < locals.result.length; i++) { %>
+                  <tr>
+                    <th scope="row"><%= (i+1) %></th>
+                    <td><%= locals.result[i].Staff_id %></td>
+                    <td><%= locals.result[i].Full_Name %></td>
+                    <td><%= locals.result[i].Role %></td>
+                    <td><%= locals.result[i].Father_Name %></td>
+                    <td><%= locals.result[i].Mother_name %></td>
+                    <td><%= locals.result[i].DOB %></td>
+                    <td><%= locals.result[i].Sex %></td>
+                    <td><%= locals.result[i].Martial_Status %></td>
+                    <td><%= locals.result[i].Joining_Date %></td>
+                    <td><%= locals.result[i].Qualification %></td>
+                    <td><%= locals.result[i].Aadhar_No %></td>
+                    <td><%= locals.result[i].Staff_type %></td>
+                    <td><%= locals.result[i].Staff_Account_No %></td>
+                    <td><%= locals.result[i].Blood_Group %></td>
+                    <td><%= locals.result[i].Email_ID %></td>
+                    <td><%= locals.result[i].Phone_Number %></td>
+                    <td><%= locals.result[i].Pre_Institute_Name %></td>
+                  </tr>
+            <%  }  
+              } else { %>
+                      <tr>
+                        <td colspan="5" class="text-center">No records found.</td>
+                       </tr>
+                <% } %>
+            </tbody>
+          </table>

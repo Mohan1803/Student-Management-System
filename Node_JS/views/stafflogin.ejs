@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-
-
-
-
-<body>
 
 
   <div class="bg-light">
@@ -24,11 +17,11 @@
 
 
 
-            <% if(locals.err_msg) { %>
+            <% if(locals.error.length>0) { %>
               <div
                 class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
                 role="alert">
-                <%= err_msg %>
+                <%= error %>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
               <% } %>
@@ -54,17 +47,6 @@
 
 
 
-                    <div class="mb-3">
-                      <div class="form-floating w-75 p-2">
-                        <select class="form-select" aria-label="Default select example" id="role" name="role">
-                          <option selected>Select</option>
-                          <option value="admin">Admin</option>
-                          <option value="staff">Staff</option>
-                        </select>
-                        <label for="role">Role</label>
-                      </div>
-                    </div>
-
 
                     <div class="mb-3">
                       <div class="form-floating w-75 p-2">
@@ -88,6 +70,3 @@
     </div>
   </div>
 
-</body>
-
-</html>
