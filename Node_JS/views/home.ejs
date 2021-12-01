@@ -1,28 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
 
-
-
-<body>
-
-  <nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-light bg-secondary">
     <div class="container-fluid">
-      <h4 style="font-family: 'Times New Roman', Times, serif;" class="text-primary">Homepage</h4>
-
+      <h4 style="font-family: 'Times New Roman', Times, serif;" class="text-white">Bharat Matric Hr.sec School</h4>
+     <a href="mailto:hege@example.com" class="href">bharatmatric@gmail.com</a>
     </div>
+
   </nav>
-  <marquee>SCHOOL MESSAGES GOES HERE</marquee>
+  <marquee class="blink_me">SCHOOL MESSAGES GOES HERE</marquee>
+ 
   <div>
 
-    <div class="container pt-5">
+    <div class="container pt-5 my-5 bg-white">
 
       <center>
-        <h1 class="text-success" style="font-family: 'Times New Roman', Times, serif;">Bharat Matric Hr.sec School</h1>
+        <h1 class="text-success" style="font-family: 'Times New Roman', Times, serif;">Homepage</h1>
       </center>
       <div class="row align-items-center">
 
         <div class="col-md-10 offset-md-1">
-          <div class="container p-5 my-5 bg-white">
+    
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
@@ -32,10 +28,9 @@
                 <br><br>
 
 
-                <button class="btn btn-outline-primary btn-sm"><a href="/staff/stafflogin">Staff Login</a></button>
+                <a href="/staff/stafflogin" class="btn btn-outline-primary btn-sm" role="button">Staff Login</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn btn-outline-primary btn-sm"><a href="/student/studentlogin">Student
-                    Login</a></button>
+                <a href="/student/studentlogin" class="btn btn-outline-primary btn-sm" role="button">Student Login</a>
                 <br><br><br>
               </form>
 
@@ -43,7 +38,7 @@
             </center>
 
 
-          </div>
+          
         </div>
       </div>
     </div>
@@ -58,6 +53,13 @@
 
     </footer>
   </div>
-</body>
 
-</html>
+<!-- Animations -->
+
+  <script>
+    (function blink() {
+   $('.blink_me').fadeOut(300).fadeIn(300, blink);
+   $('.blink_me').css('color', 'red');
+   $('.href').css('color', 'white');
+ })();
+  </script>
