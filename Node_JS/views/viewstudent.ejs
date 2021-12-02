@@ -1,0 +1,55 @@
+<center>
+    <h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT'S INFO</h1><br>
+   
+</center>
+<% if(locals.success.length > 0) { %>
+    <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+    <table class="table table-light text-center">
+        <thead>
+          <tr>
+          <th scope="col">S. No</th>
+          <th scope="col">Student ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Father Name</th>
+          <th scope="col">Mother Name</th>
+          <th scope="col">DOB</th>
+          <th scope="col">Weight</th>
+          <th scope="col">Height</th>
+          <th scope="col">Emergency Contact No</th>
+          <th scope="col">Aadhar Number</th>
+          <th scope="col">Sex</th>
+          <th scope="col">Email ID</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% if(locals.result.length > 0) {        
+                for(var i = 0; i < locals.result.length; i++) { %>
+                  <tr>
+                    <th scope="row"><%= (i+1) %></th>
+                    <td><%= locals.result[i].Stud_ID %></td>
+                    <td><%= locals.result[i].Class %></td>
+                    <td><%= locals.result[i].Full_Name %></td>
+                    <td><%= locals.result[i].Father_name %></td>
+                    <td><%= locals.result[i].Mother_name %></td>
+                    <td><%= locals.result[i].DOB %></td>
+                    <td><%= locals.result[i].Weight %></td>
+                    <td><%= locals.result[i].Height %></td>
+                    <td><%= locals.result[i].Emergency_Contact_No %></td>
+                    <td><%= locals.result[i].Stud_Aadhar_No %></td>
+                    <td><%= locals.result[i].Sex %></td>
+                    <td><%= locals.result[i].Email_ID %></td>
+                  </tr>
+            <%  }  
+              } else { %>
+                      <tr>
+                        <td colspan="5" class="text-center">No records found.</td>
+                       </tr>
+                <% } %>
+            </tbody>
+          </table>

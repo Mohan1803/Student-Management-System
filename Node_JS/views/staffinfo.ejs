@@ -19,6 +19,11 @@
                             </a></center>
                 <% } %>
                 
+           <% if(locals.result[0].Role == 'staff') { %>
+            <center><a href="/student/viewstudent" class="btn btn-secondary" role="button">View All Student Details
+                            </a></center>
+                <% } %>
+                
 
             <table
                 class="w-50 p-3 container d-flex align-items-center justify-content-center table table-dark table-striped">

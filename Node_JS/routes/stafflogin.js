@@ -62,7 +62,7 @@ stafflogin.post("/stafflogin", (req, res) => {
           return res.redirect("stafflogin");
         }
       } else {
-        req.flash("error", "Authentication failed.");
+        req.flash("error", "User Not Found");
         return res.redirect("stafflogin");
       }
     });
@@ -136,6 +136,17 @@ stafflogin.get("/staffinfo", (req, res) => {
   }
 });
 
+//Get view student
+stafflogin.get("/viewstudent", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  return res.render("viewstudent");
+});
+
 // get view staffs
 stafflogin.get("/view-staff", (req, res) => {
   let error = "";
@@ -156,8 +167,15 @@ stafflogin.get("/view-staff", (req, res) => {
       }
     });
   } else {
-    req.flash("error", "You are not an Admin.");
-    return res.redirect("/staff/stafflogin");
+    var viewstudent = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
+    con.query(viewstudent, (err, result) => {
+      if (err) throw err;
+      else {
+        console.log(result);
+        res.locals.result = result;
+        return res.status(200).render("viewstudent");
+      }
+    });
   }
 });
 
