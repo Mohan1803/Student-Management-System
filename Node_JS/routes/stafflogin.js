@@ -56,14 +56,14 @@ stafflogin.post("/stafflogin", (req, res) => {
             "welcome",
             `Hi ${session.Staff_id}, How are you doing today?`
           );
-          return res.status(200).redirect("staffinfo");
+          return res.status(200).redirect("/staff/staffinfo");
         } else {
           req.flash("error", "Incorrect Password.");
-          return res.redirect("stafflogin");
+          return res.redirect("/staff/stafflogin");
         }
       } else {
         req.flash("error", "User Not Found");
-        return res.redirect("stafflogin");
+        return res.redirect("/staff/stafflogin");
       }
     });
   } catch (err) {
@@ -124,12 +124,12 @@ stafflogin.get("/staffinfo", (req, res) => {
           return res.render("staffinfo");
         } else {
           req.flash("error", "Authentication failed.");
-          return res.redirect("stafflogin");
+          return res.redirect("/staff/stafflogin");
         }
       });
     } else {
       req.flash("error", "Please login to continue.");
-      return res.redirect("stafflogin");
+      return res.redirect("/staff/stafflogin");
     }
   } catch (err) {
     console.log(err);
@@ -138,13 +138,19 @@ stafflogin.get("/staffinfo", (req, res) => {
 
 //Get view student
 stafflogin.get("/viewstudent", (req, res) => {
-  let error = "";
-  error = req.flash("error");
-  res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
-  res.locals.success = success;
-  return res.render("viewstudent");
+  var viewstud = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
+  con.query(viewstud, (err, student) => {
+    if (err) throw err;
+    else {
+      let error = "";
+      error = req.flash("error");
+      res.locals.error = error;
+      let success = "";
+      success = req.flash("success");
+      res.locals.success = success;
+      return res.status(200).render("viewstudent", { student });
+    }
+  });
 });
 
 // get view staffs
@@ -157,25 +163,27 @@ stafflogin.get("/view-staff", (req, res) => {
   res.locals.success = success;
   // check session
   let session = req.session;
+
   if (session.role == "admin") {
     var viewstaff = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff`;
     con.query(viewstaff, (err, result) => {
       if (err) throw err;
       else {
-        res.locals.result = result;
-        return res.status(200).render("viewstaff");
+        return res.status(200).render("viewstaff", { result });
       }
     });
+  } else if (session.role == "staff") {
+    return res.status(200).redirect("/viewstudent");
+    // var viewstudent = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
+    // con.query(viewstudent, (err, student) => {
+    //   if (err) throw err;
+    //   else {
+    // return res.status(200).redirect("/viewstudent");
+    //   }
+    // });
   } else {
-    var viewstudent = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
-    con.query(viewstudent, (err, result) => {
-      if (err) throw err;
-      else {
-        console.log(result);
-        res.locals.result = result;
-        return res.status(200).render("viewstudent");
-      }
-    });
+    req.flash("error", "Not A Valid User");
+    return res.redirect("/staff/stafflogin");
   }
 });
 
