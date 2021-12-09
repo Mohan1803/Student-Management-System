@@ -81,4 +81,19 @@ studlogin.post("/studentlogin", async (req, res) => {
   }
 });
 
+//Student Logout
+studlogin.get("/studlogout", (req, res) => {
+  try {
+    let session = req.session;
+    if (session.id) {
+      req.session.destroy();
+      res.clearCookie("account");
+      console.log("logged out");
+      return res.redirect("/student/studentlogin");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = studlogin;

@@ -1,4 +1,10 @@
-
+<% if(locals.success) { %>
+  <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+      role="alert">
+      <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
     <div class="container pt-5 my-5 bg-white">
       <div class="row align-items-center">
         <div class="col-md-10 offset-md-1">
@@ -23,7 +29,7 @@
 
                     <div class="mb-3">
                       <div class="form-floating w-50 p-2">
-                        <input type="text" class="form-control" name="userid" id="userid" placeholder="Student ID">
+                        <input type="text" class="form-control input-sm" name="userid" id="userid" placeholder="Student ID">
                         <label for="userid">Student ID</label>
                       </div>
                     </div>
@@ -50,3 +56,10 @@
         </div>
       </div>
     </div>
+
+
+
+    <script>
+
+
+    </script>

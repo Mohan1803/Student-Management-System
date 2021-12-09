@@ -28,16 +28,16 @@ const addstud = require("./routes/addstudent");
 const studlogin = require("./routes/studentlogin");
 const addstaff = require("./routes/addstaff");
 const stafflogin = require("./routes/stafflogin");
+const addclass = require("./routes/addclass");
 
 app.use("/student", addstud);
 app.use("/student", studlogin);
 app.use("/staff", addstaff);
 app.use("/staff", stafflogin);
+app.use("/class", addclass);
 
 app.get("/", (req, res) => {
   res.render("home");
 });
-
-// app.post("/", async (req, res) => {});
 
 app.listen(port, () => console.info(`Listening on port ${port}`));
