@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const addstaff = express.Router();
 const con = require("../db/db");
+const { DATETIME } = require("mysql/lib/protocol/constants/types");
 
 //ADDING STAFF
 
@@ -35,6 +36,22 @@ addstaff.post("/addstaff", async (req, res) => {
     const Basic_Pay = req.body.bpay;
     const Pre_Institute_Name = req.body.piname || "NIL";
     const Password = req.body.pwd;
+
+    //calculating age for staffs
+    var today = new Date();
+    var bday = new Date(DOB);
+    var age = today.getFullYear() - bday.getFullYear();
+    var month = today.getMonth() - bday.getMonth();
+    if (month < 0 || today.getDate() < bday.getDate()) {
+      age--;
+    }
+
+    if (age < 25) {
+      err_msg = "Age Is Too Low For a Staff";
+      return res.render("addstaff", { err_msg });
+    }
+
+    //encrypting password
     var hashedpassword = bcrypt.hashSync(Password, 12);
 
     const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

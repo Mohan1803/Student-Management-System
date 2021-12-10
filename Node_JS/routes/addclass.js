@@ -14,12 +14,13 @@ addclass.post("/addclass", async (req, res) => {
   try {
     const Class = req.body.class;
     const division = req.body.division;
+    const Capacity = req.body.capacity;
 
-    if (Class == 0 || division == 0) {
-      err_msg = "Please Enter Class & Division";
+    if (Class == 0 || division == 0 || Capacity == 0) {
+      err_msg = "Please Enter Values";
       return res.render("addclass", { err_msg });
     } else {
-      var sql = `INSERT INTO school_addclass(Class,Division) VALUES ('${Class}', '${division}')`;
+      var sql = `INSERT INTO school_addclass(Class,Division,Capacity) VALUES ('${Class}', '${division}', '${Capacity}')`;
       con.query(sql, function (err) {
         if (err) throw err;
 
