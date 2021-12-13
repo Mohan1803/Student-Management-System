@@ -29,12 +29,14 @@ const studlogin = require("./routes/studentlogin");
 const addstaff = require("./routes/addstaff");
 const stafflogin = require("./routes/stafflogin");
 const addclass = require("./routes/addclass");
+const studfee = require("./routes/studfee");
 
 app.use("/student", addstud);
 app.use("/student", studlogin);
 app.use("/staff", addstaff);
 app.use("/staff", stafflogin);
 app.use("/class", addclass);
+app.use("/staff", studfee);
 
 app.get("/", (req, res) => {
   res.render("home");

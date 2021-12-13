@@ -25,7 +25,7 @@ addclass.post("/addclass", async (req, res) => {
         if (err) throw err;
 
         console.log("Class Record Inserted");
-        success = "Class Added Successffully";
+        success = "Class Added Successfully";
         return res.render("addclass", { success });
       });
     }

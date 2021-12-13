@@ -31,7 +31,6 @@ stafflogin.post("/stafflogin", (req, res) => {
   try {
     const User_ID = req.body.userid;
     const PWD = req.body.pwd;
-    // const rol = req.body.role;
     if (User_ID.length == 0 && PWD.length == 0) {
       req.flash("error", "Enter The Details");
       return res.redirect("stafflogin");
@@ -42,7 +41,6 @@ stafflogin.post("/stafflogin", (req, res) => {
         throw err;
       } else if (result.length == 1) {
         const pwd = result[0].Password;
-        // const rol = result[0].Role;
         const matchPass = bcrypt.compareSync(PWD, pwd);
 
         if (matchPass) {
@@ -93,6 +91,23 @@ stafflogin.get("/staffinfo", (req, res) => {
         if (err) {
           throw err;
         } else if (result.length == 1) {
+          // session.dob = result[0].DOB;
+          // session.joiningdate = result[0].Joining_Date;
+          // //getting date format
+          // var date1 = new Date(dob);
+          // var day = date1.getDate(); //Date of the month: 2 in our example
+          // var month = date1.getMonth(); //Month of the Year: 0-based index, so 1 in our example
+          // var year = date1.getFullYear();
+          // const DOB1 = year + "-" + month + "-" + day;
+
+          // var date2 = new Date(joiningdate);
+          // var day1 = date2.getDate();
+          // var month1 = date2.getMonth();
+          // var year1 = date2.getFullYear();
+          // const Joining_Date1 = year1 + "-" + month1 + "-" + day1;
+          // res.locals.DOB1 = result;
+          // res.locals.Joining_Date1 = result;
+
           res.locals.result = result;
           req.flash("success", "Welcome Back..!");
           return res.render("staffinfo");
