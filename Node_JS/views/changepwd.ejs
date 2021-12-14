@@ -1,0 +1,72 @@
+
+    <div class="container pt-3 my-3 bg-white">
+        <div class="row align-items-center">
+          <div class="col-md-8 offset-md-2">
+            
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  
+  
+  
+  
+  
+  
+              <% if(locals.success) { %>
+                <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    <%= success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+  
+              <% if(locals.error) { %>
+                <div
+                  class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                  role="alert">
+                  <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+  
+  
+                  <center>
+  
+                    <form name="myForm" action="/student/changepwd" style="background-color: rgb(92, 120, 133);" method="POST">
+                      <br>
+                      <b>
+                        <h1 style="font-family: 'Times New Roman', Times, serif;">Change Your Password</h1>
+                      </b><br>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-50 p-2">
+                          <input type="password" class="form-control" name="pwd1" id="pwd1" placeholder="Enter Your Old Password">
+                          <label for="pwd1">Enter Your Old Password</label>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-50 p-2">
+                          <input type="password" class="form-control" name="pwd2" id="pwd2" placeholder="Type New Password">
+                          <label for="pwd2">Type New Password</label>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-50 p-2">
+                          <input type="password" class="form-control" name="pwd3" id="pwd3" placeholder="Re-Type Password">
+                          <label for="pwd3">Re-Type Password</label>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary" type="submit">CHANGE PASSWORD</button> <br><br>
+  
+  
+                    
+  
+                    </form>
+                  </center>
+  
+          </div>
+        </div>
+      </div>
+  
+
+  

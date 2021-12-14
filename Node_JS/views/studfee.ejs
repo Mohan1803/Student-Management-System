@@ -37,7 +37,18 @@
                       </b><br>
                       <div class="row g-2">
 
+
+                     
                         <div class="col-lg-6">
+                          
+
+                          <div class="mb-3">
+                            <div class="form-floating w-75 p-2">
+                              <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
+                              <label for="studid">Student ID</label>
+                            </div>
+                          </div>
+
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
                           <select class="form-select" aria-label="Default select example" id="class" name="class">
@@ -75,12 +86,7 @@
                       </div>
   
   
-                      <div class="mb-3">
-                        <div class="form-floating w-75 p-2">
-                          <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
-                          <label for="studid">Student ID</label>
-                        </div>
-                      </div>
+                      
   
   
   
@@ -144,7 +150,42 @@
       </div>
   
   <script>
-   
+
+    
+   $(document).ready(function () {
+  $("#class_medium").on("change", function () {
+    var class_medium = this.value;
+    $("#class_section").html("");
+    $.ajax({
+      url: "/staff/addfee",
+      type: "POST",
+      data: {
+        class_id: class_medium,
+      },
+      dataType: "json",
+      success: function (result) {
+        $("#class_section").html(
+          '<option value="">Select Class Section here.</option>'
+        );
+        $.each(result.class_secs, function (key, value) {
+          $("#class_section").append(
+            '<option value="' +
+              value.id +
+              '">' +
+              value.class_section +
+              " Sec - " +
+              value.seats_free +
+              " Seats Left </option>"
+          );
+        });
+      },
+      error: function (err) {
+        alert(err);
+      },
+    });
+  });
+});
+
 
   </script>
   
