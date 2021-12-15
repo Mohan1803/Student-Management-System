@@ -185,4 +185,70 @@ stafflogin.get("/stafflogout", (req, res) => {
   }
 });
 
+//Changing Staff Password
+
+stafflogin.get("/staffchangepwd", (req, res) => {
+  return res.render("staffchangepwd");
+});
+
+stafflogin.post("/staffchangepwd", (req, res) => {
+  let error = "";
+  let success = "";
+  try {
+    const pwd1 = req.body.pwd1;
+    const pwd2 = req.body.pwd2;
+    const pwd3 = req.body.pwd3;
+
+    if (pwd1 == 0 || pwd2 == 0 || pwd3 == 0) {
+      error = "Please Enter Some values";
+      res.render("staffchangepwd", { error });
+    }
+
+    let session = req.session;
+
+    if (session.Staff_id) {
+      var sql = `SELECT * FROM school_addstaff WHERE Staff_id='${session.Staff_id}'`;
+      con.query(sql, function (err, result) {
+        if (err) {
+          throw err;
+        } else if (result.length == 1) {
+          const pwd = result[0].Password;
+          const matchpass = bcrypt.compareSync(pwd1, pwd);
+          const pwdformat =
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,}$/;
+          if (!pwd2.match(pwdformat)) {
+            error =
+              "Password Must have atleast 5 characters that include atleast 1 lowercase , 1 uppercase , 1 number & 1 special character in(!@#$%^&*)";
+            res.render("staffchangepwd", { error });
+          } else if (pwd1 == pwd2) {
+            error = "New Password & Old Password Shouldn't Be Same";
+            res.render("staffchangepwd", { error });
+          } else if (matchpass) {
+            if (pwd2 == pwd3) {
+              var hashedpassword = bcrypt.hashSync(pwd2, 12);
+              var change = `UPDATE school_addstaff SET Password = '${hashedpassword}' WHERE Staff_id='${session.Staff_id}'`;
+              con.query(change, (err, result) => {
+                if (err) {
+                  throw err;
+                } else {
+                  success = "Password Changed Successfully";
+                  res.render("staffchangepwd", { success });
+                }
+              });
+            } else {
+              error = "New Password Doesn't match";
+              res.render("staffchangepwd", { error });
+            }
+          } else {
+            error = "Incorrect Old Password";
+            res.render("staffchangepwd", { error });
+          }
+        }
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = stafflogin;

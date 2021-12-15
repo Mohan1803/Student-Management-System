@@ -71,7 +71,9 @@
                         </a>
         <a href="/staff/viewstudent">View All Student Details
                         </a>
-        
+        <a href="/staff/staffchangepwd">Change Password
+                        </a>
+        <a href="/staff/stafflogout" class="nav-link active " aria-current="page">Logout</a>
             <% } %>
             
        <% if(locals.result[0].Role == 'staff') { %>
@@ -79,6 +81,8 @@
                         </a>
             
       <a href="/student/addstudent">Add New Student</a>
+      <a href="/staff/staffchangepwd">Change Password
+                        </a>
       <a href="/staff/stafflogout" class="nav-link active " aria-current="page">Logout</a>
       <% } %>
     </div>

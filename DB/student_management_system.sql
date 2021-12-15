@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 14, 2021 at 02:56 PM
+-- Generation Time: Dec 15, 2021 at 01:08 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `school_addstaff` (
 --
 
 INSERT INTO `school_addstaff` (`ID`, `Staff_id`, `Role`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_Name`, `Mother_name`, `DOB`, `Sex`, `Martial_Status`, `Joining_Date`, `Qualification`, `Aadhar_No`, `Staff_type`, `Staff_Account_No`, `Blood_Group`, `Email_ID`, `Phone_Number`, `Emergency_Contact_No`, `Basic_Pay`, `Pre_Institute_Name`, `Password`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'BMH001', 'admin', 'D', 'Ram', 'Kumar', 'Dharmalingam', 'Mahalakshmi', '1989-10-24', 'male', 'married', '2016-10-06', 'Phd', '808923727534', 'non-teaching', 'ABC123', 'O+', 'ram@gmail.com', '6802682906', '6387592064', '40,000', 'NIL', '$2b$12$k4JbdUiEB.5EhrJlf4GZtuV4mk0lTfYM0Q/ayK26gveakIDUm37ym', '2021-11-25 20:05:27', '2021-11-25 14:35:27', NULL),
+(1, 'BMH001', 'admin', 'D', 'Ram', 'Kumar', 'Dharmalingam', 'Mahalakshmi', '1989-10-24', 'male', 'married', '2016-10-06', 'Phd', '808923727534', 'non-teaching', 'ABC123', 'O+', 'ram@gmail.com', '6802682906', '6387592064', '40,000', 'NIL', '$2b$12$dHlcyRbzjXRcHzf28pNykeKsTMhzUmupY8noXL0kiPyblMCL0mFri', '2021-11-25 20:05:27', '2021-11-25 14:35:27', NULL),
 (2, 'BMH002', 'staff', 'H', 'Dinesh', 'Kumar', 'Hari Harasudhan', 'Mahalakshmi', '1991-06-17', 'male', 'married', '2021-11-18', 'BA', '669274910462', 'non-teaching', 'ABC1234', 'O+', 'dinesh@gmail.com', '6802682906', '6387592064', '20,000', 'NIL', '$2b$12$a0znTZr.deOMFG8973f2kO21vSLFnrx8.SfVH5qT.EwzAglLEdFjO', '2021-11-25 20:11:33', '2021-11-25 14:41:33', NULL),
 (3, 'BMH003', 'staff', 'D', 'Ashok', 'Kumar', 'Dharmalingam', 'Muthulakshmi', '1991-09-16', 'male', 'married', '2021-10-19', 'BA', '906392846286', 'teaching', 'ABC12345', 'O+', 'ashokkumar1990@gmail.com', '9836103783', '9852857196', '20,000', 'NIL', '$2b$12$0nXHdYwvnsS49d8yMt0Speo.5N8sAto6JM0a39LJpam/cbKI8IXJy', '2021-11-26 11:08:51', '2021-11-26 05:38:51', NULL),
 (4, 'BMH004', 'staff', 'A', 'Kishore', '', 'Ashok', 'Rajalakshmi', '1991-05-24', 'male', 'married', '2021-11-15', 'Bsc', '557024859201', 'teaching', 'ABC1234Z', 'AB+', 'kishore@gmail.com', '6360185293', '9830286346', '20,000', 'NIL', '$2b$12$tGmlTpTcpNnMrk/wNQTYoee9.YAqa2JUx36mTlHT9u8SbRnKT1uBW', '2021-12-10 10:48:46', '2021-12-10 05:18:46', NULL),
@@ -160,9 +160,9 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
 --
 
 INSERT INTO `school_addstudent` (`id`, `Stud_ID`, `Class`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Weight`, `Height`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Email_id`, `Password`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, '12BMH001', '12', 'N', 'Sachin', '', 'Narayanan', 'Gayathri', '2010-06-15', 40, 5, '7864563456', 'Hindu', 'BC', 'tamil', '348753056212', 'male', 'sachin@gmail.com', '$2b$12$pkPy/WP3WwFZ11FiAyarSOod.k8D9X8efmXumcU4FX07x3mpdgDmu', '2021-11-25 20:16:12', '2021-11-25 14:46:12', NULL),
-(2, '12BMH002', '12', 'H', 'Rakesh', '', 'Hari Harasudhan', 'Gayathri', '2010-01-10', 44, 5, '6723580263', 'Hindu', 'MBC', 'tamil', '882749172575', 'male', 'rakesh@gmail.com', '$2b$12$V0UhdgupUTsA0LVhjPi4vOpppY.5dvRrfvTgF7etRAx7oKkdwHQCy', '2021-11-29 10:35:16', '2021-11-29 05:05:16', NULL),
-(3, '10BMH001', '10', 'V', 'Gowtham', '', 'Vinoth', 'Divya', '2012-06-11', 38, 5, '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', 'gowtham2012@gmail.com', '$2b$12$KIdOksAlnGOFoexRwVNwJOmnIXL0aFWy0S8QfOFPLHUtvMwO8JB1a', '2021-12-10 10:11:31', '2021-12-10 04:41:31', NULL);
+(1, '12BMH001', '12', 'N', 'Sachin', '', 'Narayanan', 'Gayathri', '2005-06-15', 40, 5, '7864563456', 'Hindu', 'BC', 'tamil', '348753056212', 'male', 'sachin@gmail.com', '$2b$12$N.Z48XmPQzTpUH/G8pviMeSKebsg0NF02c/ZdHhc79KHrr5XbG25K', '2021-11-25 20:16:12', '2021-11-25 14:46:12', NULL),
+(2, '12BMH002', '12', 'H', 'Rakesh', '', 'Hari Harasudhan', 'Gayathri', '2005-01-10', 44, 5, '6723580263', 'Hindu', 'MBC', 'tamil', '882749172575', 'male', 'rakesh@gmail.com', '$2b$12$V0UhdgupUTsA0LVhjPi4vOpppY.5dvRrfvTgF7etRAx7oKkdwHQCy', '2021-11-29 10:35:16', '2021-11-29 05:05:16', NULL),
+(3, '10BMH001', '10', 'V', 'Gowtham', '', 'Vinoth', 'Divya', '2007-06-11', 38, 5, '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', 'gowtham2012@gmail.com', '$2b$12$KIdOksAlnGOFoexRwVNwJOmnIXL0aFWy0S8QfOFPLHUtvMwO8JB1a', '2021-12-10 10:11:31', '2021-12-10 04:41:31', NULL);
 
 -- --------------------------------------------------------
 
