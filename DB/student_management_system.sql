@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 15, 2021 at 01:08 PM
+-- Generation Time: Dec 16, 2021 at 11:11 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -172,23 +172,16 @@ INSERT INTO `school_addstudent` (`id`, `Stud_ID`, `Class`, `First_Name`, `Middle
 
 DROP TABLE IF EXISTS `school_addsubjects`;
 CREATE TABLE IF NOT EXISTS `school_addsubjects` (
-  `Sub_ID` varchar(255) NOT NULL,
-  `Sub_Name` varchar(255) NOT NULL,
-  `Marks` int(10) NOT NULL,
-  `Pass_Marks` int(10) NOT NULL,
-  `Academic_Year` varchar(10) NOT NULL,
-  `Created_at` datetime NOT NULL,
-  `Updated_at` timestamp NOT NULL,
-  `Deleted_at` datetime DEFAULT NULL
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `subject_id` int(10) NOT NULL,
+  `subject_name` varchar(255) NOT NULL,
+  `actual_mark` int(10) NOT NULL,
+  `pass_mark` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `school_addsubjects`
---
-
-INSERT INTO `school_addsubjects` (`Sub_ID`, `Sub_Name`, `Marks`, `Pass_Marks`, `Academic_Year`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-('1', 'Tamil', 100, 35, '2021', '2021-10-27 11:39:10', '2021-10-27 06:09:10', NULL),
-('1', 'Tamil', 100, 35, '2021', '2021-10-27 14:58:19', '2021-10-27 09:28:19', NULL);
 
 -- --------------------------------------------------------
 

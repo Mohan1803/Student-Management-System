@@ -8,6 +8,7 @@ addclass.get("/addclass", (req, res) => {
 });
 
 addclass.post("/addclass", async (req, res) => {
+  let error = "";
   let err_msg = "";
   let success = "";
 
@@ -22,7 +23,10 @@ addclass.post("/addclass", async (req, res) => {
     } else {
       var sql = `INSERT INTO school_addclass(Class,Division,Capacity) VALUES ('${Class}', '${division}', '${Capacity}')`;
       con.query(sql, function (err) {
-        if (err) throw err;
+        if (err) {
+          error = "Server Crashed";
+          res.render("servererror", { error });
+        }
 
         console.log("Class Record Inserted");
         success = "Class Added Successfully";
@@ -30,7 +34,8 @@ addclass.post("/addclass", async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 

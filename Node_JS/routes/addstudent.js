@@ -8,6 +8,7 @@ addstud.get("/addstudent", (req, res) => {
 });
 
 addstud.post("/addstudent", async (req, res) => {
+  let error = "";
   let err_msg = "";
   let success = "";
 
@@ -100,14 +101,19 @@ addstud.post("/addstudent", async (req, res) => {
 
       var dupstud = `SELECT EXISTS (SELECT * FROM school_addstudent WHERE Stud_ID='${Stud_ID}' OR Stud_Aadhar_No='${Stud_Aadhar_No}' OR Email_id='${Email_id}') as count`;
       con.query(dupstud, (err, result) => {
-        if (err) throw err;
-        else if (result[0].count == 1) {
+        if (err) {
+          error = "Server Crashed";
+          res.render("servererror", { error });
+        } else if (result[0].count == 1) {
           err_msg = "Duplicate Entries Found";
           return res.render("addstudent", { err_msg });
         } else {
           var sql = `INSERT INTO school_addstudent(Stud_ID, Class, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Weight, Height, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex, Email_id, Password) VALUES ('${Stud_ID}','${Class}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Weight}', '${Height}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}', '${Email_id}', '${hashedpassword}');`;
           con.query(sql, function (err) {
-            if (err) throw err;
+            if (err) {
+              error = "Server Crashed";
+              res.render("servererror", { error });
+            }
 
             console.log("Student Record Inserted");
             success = "Student Added Successfully";
@@ -117,7 +123,8 @@ addstud.post("/addstudent", async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 

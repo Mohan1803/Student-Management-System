@@ -38,7 +38,8 @@ stafflogin.post("/stafflogin", (req, res) => {
     var check = `SELECT * FROM school_addstaff WHERE Staff_id='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
-        throw err;
+        error = "Server Crashed";
+        res.render("servererror", { error });
       } else if (result.length == 1) {
         const pwd = result[0].Password;
         const matchPass = bcrypt.compareSync(PWD, pwd);
@@ -65,7 +66,8 @@ stafflogin.post("/stafflogin", (req, res) => {
       }
     });
   } catch (err) {
-    console.log(err);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 
@@ -89,25 +91,9 @@ stafflogin.get("/staffinfo", (req, res) => {
       var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${session.Staff_id}' AND Role='${session.role}'`;
       con.query(sql, function (err, result) {
         if (err) {
-          throw err;
+          error = "Server Crashed";
+          res.render("servererror", { error });
         } else if (result.length == 1) {
-          // session.dob = result[0].DOB;
-          // session.joiningdate = result[0].Joining_Date;
-          // //getting date format
-          // var date1 = new Date(dob);
-          // var day = date1.getDate(); //Date of the month: 2 in our example
-          // var month = date1.getMonth(); //Month of the Year: 0-based index, so 1 in our example
-          // var year = date1.getFullYear();
-          // const DOB1 = year + "-" + month + "-" + day;
-
-          // var date2 = new Date(joiningdate);
-          // var day1 = date2.getDate();
-          // var month1 = date2.getMonth();
-          // var year1 = date2.getFullYear();
-          // const Joining_Date1 = year1 + "-" + month1 + "-" + day1;
-          // res.locals.DOB1 = result;
-          // res.locals.Joining_Date1 = result;
-
           res.locals.result = result;
           req.flash("success", "Welcome Back..!");
           return res.render("staffinfo");
@@ -121,7 +107,8 @@ stafflogin.get("/staffinfo", (req, res) => {
       return res.redirect("/staff/stafflogin");
     }
   } catch (err) {
-    console.log(err);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 
@@ -129,8 +116,10 @@ stafflogin.get("/staffinfo", (req, res) => {
 stafflogin.get("/viewstudent", (req, res) => {
   var viewstud = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
   con.query(viewstud, (err, student) => {
-    if (err) throw err;
-    else {
+    if (err) {
+      error = "Server Crashed";
+      res.render("servererror", { error });
+    } else {
       let error = "";
       error = req.flash("error");
       res.locals.error = error;
@@ -156,8 +145,10 @@ stafflogin.get("/view-staff", (req, res) => {
   if (session.role == "admin") {
     var viewstaff = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff`;
     con.query(viewstaff, (err, result) => {
-      if (err) throw err;
-      else {
+      if (err) {
+        error = "Server Crashed";
+        res.render("servererror", { error });
+      } else {
         return res.status(200).render("viewstaff", { result });
       }
     });
@@ -210,7 +201,8 @@ stafflogin.post("/staffchangepwd", (req, res) => {
       var sql = `SELECT * FROM school_addstaff WHERE Staff_id='${session.Staff_id}'`;
       con.query(sql, function (err, result) {
         if (err) {
-          throw err;
+          error = "Server Crashed";
+          res.render("servererror", { error });
         } else if (result.length == 1) {
           const pwd = result[0].Password;
           const matchpass = bcrypt.compareSync(pwd1, pwd);
@@ -247,7 +239,8 @@ stafflogin.post("/staffchangepwd", (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 

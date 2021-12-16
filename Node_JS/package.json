@@ -16,6 +16,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "popups": "^1.1.3"
   }

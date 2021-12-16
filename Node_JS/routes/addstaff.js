@@ -11,6 +11,7 @@ addstaff.get("/addstaff", (req, res) => {
 });
 
 addstaff.post("/addstaff", async (req, res) => {
+  let error = "";
   let success = "";
   let err_msg = "";
   try {
@@ -68,8 +69,10 @@ addstaff.post("/addstaff", async (req, res) => {
       var dupstaff = `SELECT EXISTS (SELECT * FROM school_addstaff where Staff_id='${Staff_id}' OR Staff_Account_No='${Staff_Account_No}' OR Email_ID='${Email_id}' OR Aadhar_No='${Aadhar}') as count`;
 
       con.query(dupstaff, (err, result) => {
-        if (err) throw err;
-        else if (result[0].count == 1) {
+        if (err) {
+          error = "Server Crashed";
+          res.render("servererror", { error });
+        } else if (result[0].count == 1) {
           err_msg =
             "Duplicate Entries either in STAFF ID or ACCOUNT NUMBER or EMAIL ID or AADHAR NUMBER";
           return res.render("addstaff", { err_msg });
@@ -86,7 +89,8 @@ addstaff.post("/addstaff", async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 

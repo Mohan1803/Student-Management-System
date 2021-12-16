@@ -38,6 +38,8 @@
                       <div class="form-floating w-50 p-2">
                         <input type="text" class="form-control" name="userid" id="userid" placeholder="Staff ID">
                         <label for="userid">Staff ID</label>
+                        <!-- <span class="error" id="userid_error">User ID should be at least 3 characters long.</span> -->
+                        <h4 id="demo" style="color: red;"></h4>
                       </div>
                     </div>
 
@@ -53,7 +55,7 @@
 
 
 
-                    <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
+                    <button class="btn btn-info" onclick="Validate()" type="submit">LOGIN</button> <br><br>
 
 
 
@@ -65,4 +67,27 @@
       </div>
     </div>
 
-
+    <script type="text/javascript">
+      function Validate() {
+          var userid = document.getElementById("userid").value;
+          var pwd = document.getElementById("pwd").value;
+          if (userid == "") {
+            document.getElementById("userid").style.borderColor = "FF0000";
+            document.getElementById("userid").style.borderWidth = "2px"
+            document.getElementById("demo").style.borderColor = "FF0000";
+            document.getElementById("demo").innerHTML="Wrong"
+          }
+          else{
+            document.getElementById("userid").style.borderColor = "green"
+            document.getElementById("userid").style.borderWidth = "2px"
+          }
+          if( pwd == ""){
+            document.getElementById("pwd").style.borderColor = "FF0000";
+            document.getElementById("pwd").style.borderWidth = "2px"
+          }
+          else{
+            document.getElementById("pwd").style.borderColor = "green"
+            document.getElementById("pwd").style.borderWidth = "2px"
+          }
+      }
+  </script>

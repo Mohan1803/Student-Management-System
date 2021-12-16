@@ -9,6 +9,7 @@ studlogin.get("/studentlogin", (req, res) => {
 });
 
 studlogin.post("/studentlogin", async (req, res) => {
+  let error = "";
   let err_msg = "";
   let success = "";
   let Roll_no = "";
@@ -31,7 +32,8 @@ studlogin.post("/studentlogin", async (req, res) => {
     var check = `SELECT * FROM school_addstudent WHERE Stud_ID='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
-        throw err;
+        error = "Server Crashed";
+        res.render("servererror", { error });
       } else if (result.length == 1) {
         const pwd = result[0].Password;
         const matchPass = bcrypt.compareSync(PWD, pwd);
@@ -43,7 +45,8 @@ studlogin.post("/studentlogin", async (req, res) => {
           var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name FROM school_addstudent WHERE Stud_ID = '${User_ID}' AND Password = '${pwd}'`;
           con.query(sql, function (err, result) {
             if (err) {
-              throw err;
+              error = "Server Crashed";
+              res.render("servererror", { error });
             } else if (result.length == 1) {
               Roll_no = result[0].Stud_ID;
               name = result[0].Full_Name;
@@ -80,7 +83,8 @@ studlogin.post("/studentlogin", async (req, res) => {
       }
     });
   } catch (e) {
-    console.log(e);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 
@@ -124,7 +128,8 @@ studlogin.post("/changepwd", (req, res) => {
       var sql = `SELECT * FROM school_addstudent WHERE Stud_ID='${session.studid}'`;
       con.query(sql, function (err, result) {
         if (err) {
-          throw err;
+          error = "Server Crashed";
+          res.render("servererror", { error });
         } else if (result.length == 1) {
           const pwd = result[0].Password;
           const matchpass = bcrypt.compareSync(pwd1, pwd);
@@ -161,7 +166,8 @@ studlogin.post("/changepwd", (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    error = "Server Crashed";
+    res.render("servererror", { error });
   }
 });
 
