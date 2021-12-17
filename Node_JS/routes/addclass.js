@@ -1,6 +1,6 @@
 const express = require("express");
 const addclass = express.Router();
-const con = require("../db/db");
+const con = require("../config/db");
 
 //Getting class
 addclass.get("/addclass", (req, res) => {

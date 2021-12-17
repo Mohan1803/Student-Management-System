@@ -3,7 +3,7 @@ const stafflogin = express.Router();
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("connect-flash");
-const con = require("../db/db");
+const con = require("../config/db");
 
 //STAFF LOGIN GET // display form
 stafflogin.get("/stafflogin", (req, res) => {
@@ -38,7 +38,7 @@ stafflogin.post("/stafflogin", (req, res) => {
     var check = `SELECT * FROM school_addstaff WHERE Staff_id='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
-        error = "Server Crashed";
+        error = "Oops!!!......Server Crashed....!!!!";
         res.render("servererror", { error });
       } else if (result.length == 1) {
         const pwd = result[0].Password;
@@ -66,7 +66,7 @@ stafflogin.post("/stafflogin", (req, res) => {
       }
     });
   } catch (err) {
-    error = "Server Crashed";
+    error = "Oops!!!......Server Crashed....!!!!";
     res.render("servererror", { error });
   }
 });
@@ -91,7 +91,7 @@ stafflogin.get("/staffinfo", (req, res) => {
       var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${session.Staff_id}' AND Role='${session.role}'`;
       con.query(sql, function (err, result) {
         if (err) {
-          error = "Server Crashed";
+          error = "Oops!!!......Server Crashed....!!!!";
           res.render("servererror", { error });
         } else if (result.length == 1) {
           res.locals.result = result;
@@ -107,7 +107,7 @@ stafflogin.get("/staffinfo", (req, res) => {
       return res.redirect("/staff/stafflogin");
     }
   } catch (err) {
-    error = "Server Crashed";
+    error = "Oops!!!......Server Crashed....!!!!";
     res.render("servererror", { error });
   }
 });
@@ -117,7 +117,7 @@ stafflogin.get("/viewstudent", (req, res) => {
   var viewstud = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
   con.query(viewstud, (err, student) => {
     if (err) {
-      error = "Server Crashed";
+      error = "Oops!!!......Server Crashed....!!!!";
       res.render("servererror", { error });
     } else {
       let error = "";
@@ -146,7 +146,7 @@ stafflogin.get("/view-staff", (req, res) => {
     var viewstaff = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff`;
     con.query(viewstaff, (err, result) => {
       if (err) {
-        error = "Server Crashed";
+        error = "Oops!!!......Server Crashed....!!!!";
         res.render("servererror", { error });
       } else {
         return res.status(200).render("viewstaff", { result });
@@ -201,7 +201,7 @@ stafflogin.post("/staffchangepwd", (req, res) => {
       var sql = `SELECT * FROM school_addstaff WHERE Staff_id='${session.Staff_id}'`;
       con.query(sql, function (err, result) {
         if (err) {
-          error = "Server Crashed";
+          error = "Oops!!!......Server Crashed....!!!!";
           res.render("servererror", { error });
         } else if (result.length == 1) {
           const pwd = result[0].Password;
@@ -239,7 +239,7 @@ stafflogin.post("/staffchangepwd", (req, res) => {
       });
     }
   } catch (err) {
-    error = "Server Crashed";
+    error = "Oops!!!......Server Crashed....!!!!";
     res.render("servererror", { error });
   }
 });

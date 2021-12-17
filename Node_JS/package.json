@@ -11,10 +11,12 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "connect-flash": "^0.1.1",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
+    "googleapis": "^92.0.0",
     "mysql": "^2.18.1",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",

@@ -1,7 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const addstud = express.Router();
-const con = require("../db/db");
+const con = require("../config/db");
+const sendMail = require("../config/mail");
 
 addstud.get("/addstudent", (req, res) => {
   res.render("addstudent");
@@ -112,12 +113,28 @@ addstud.post("/addstudent", async (req, res) => {
           con.query(sql, function (err) {
             if (err) {
               error = "Server Crashed";
+              console.log(err);
               res.render("servererror", { error });
+            } else {
+              const mail = sendMail({
+                from: process.env.MAIL_USERNAME,
+                to: Email_id,
+                subject: "Your User ID and Password for your login purpose.",
+                html: `<p>User ID: ${Stud_ID}
+                          Password: ${Password}</p>`,
+              });
+              mail
+                .then((result) => {
+                  console.log("Mail has been sent");
+                })
+                .catch((err) => {
+                  error = "Server Crashed";
+                  return res.render("servererror", { error });
+                });
+              console.log("Student Record Inserted");
+              success = "Student Added Successfully";
+              return res.render("addstudent", { success });
             }
-
-            console.log("Student Record Inserted");
-            success = "Student Added Successfully";
-            return res.render("addstudent", { success });
           });
         }
       });

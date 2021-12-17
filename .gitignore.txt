@@ -1,1 +1,2 @@
 /Node_JS/node_modules/*
+.env

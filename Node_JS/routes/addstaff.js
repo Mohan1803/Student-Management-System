@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const addstaff = express.Router();
-const con = require("../db/db");
+const con = require("../config/db");
 const { DATETIME } = require("mysql/lib/protocol/constants/types");
 
 //ADDING STAFF

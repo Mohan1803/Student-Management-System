@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 16, 2021 at 11:11 AM
+-- Generation Time: Dec 17, 2021 at 01:27 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Stud_ID` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addstudent`
@@ -161,8 +161,10 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
 
 INSERT INTO `school_addstudent` (`id`, `Stud_ID`, `Class`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Weight`, `Height`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Email_id`, `Password`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, '12BMH001', '12', 'N', 'Sachin', '', 'Narayanan', 'Gayathri', '2005-06-15', 40, 5, '7864563456', 'Hindu', 'BC', 'tamil', '348753056212', 'male', 'sachin@gmail.com', '$2b$12$N.Z48XmPQzTpUH/G8pviMeSKebsg0NF02c/ZdHhc79KHrr5XbG25K', '2021-11-25 20:16:12', '2021-11-25 14:46:12', NULL),
-(2, '12BMH002', '12', 'H', 'Rakesh', '', 'Hari Harasudhan', 'Gayathri', '2005-01-10', 44, 5, '6723580263', 'Hindu', 'MBC', 'tamil', '882749172575', 'male', 'rakesh@gmail.com', '$2b$12$V0UhdgupUTsA0LVhjPi4vOpppY.5dvRrfvTgF7etRAx7oKkdwHQCy', '2021-11-29 10:35:16', '2021-11-29 05:05:16', NULL),
-(3, '10BMH001', '10', 'V', 'Gowtham', '', 'Vinoth', 'Divya', '2007-06-11', 38, 5, '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', 'gowtham2012@gmail.com', '$2b$12$KIdOksAlnGOFoexRwVNwJOmnIXL0aFWy0S8QfOFPLHUtvMwO8JB1a', '2021-12-10 10:11:31', '2021-12-10 04:41:31', NULL);
+(2, '10BMH001', '10', 'V', 'Gowtham', '', 'Vinoth', 'Divya', '2007-06-11', 38, 5, '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', 'gowtham2012@gmail.com', '$2b$12$KIdOksAlnGOFoexRwVNwJOmnIXL0aFWy0S8QfOFPLHUtvMwO8JB1a', '2021-12-10 10:11:31', '2021-12-10 04:41:31', NULL),
+(3, '12BMH002', '12', 'N', 'Hari', 'Haran', 'Narayanan', 'chitra', '2005-06-07', 45, 5, '8907849838', 'Hindu', 'BC', 'tamil', '123456789011', 'male', 'harih3599@gmail.com', '$2b$12$dtu8leprDI8sY0ZCgO0ZN.KR6xyJzp7S02CpBuMzoB.YT037m0XQK', '2021-12-17 17:22:54', '2021-12-17 11:52:54', NULL),
+(4, '10BMH002', '10', 'P S', 'Nagendran', '', 'father name', 'mother name', '2007-06-05', 12, 2, '8907849838', 'Hindu', 'BC', 'tamil', '234567890123', 'male', 'psraja097@gmail.com', '$2b$12$L2092xPFzK1lqYTs1JY1D.DFdHC5bd7DyNG6FQzCwL4HdhGiTMv0.', '2021-12-17 17:27:58', '2021-12-17 11:57:58', NULL),
+(5, '12BMH003', '12', 'K', 'Gnana', 'Prakash', 'Father Name', 'Mother Name', '2005-03-10', 55, 6, '7864563443', 'Hindu', 'BC', 'tamil', '544345678901', 'male', 'prakashgnana57@gmail.com', '$2b$12$8wm6rAyHZRXIlchMf1UUduWsiBhoR44rQ0UQZvs1n9vF9LrGNP3WG', '2021-12-17 18:54:35', '2021-12-17 13:24:35', NULL);
 
 -- --------------------------------------------------------
 

@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const studlogin = express.Router();
 const session = require("express-session");
-const con = require("../db/db");
+const con = require("../config/db");
 
 studlogin.get("/studentlogin", (req, res) => {
   res.render("studentlogin");

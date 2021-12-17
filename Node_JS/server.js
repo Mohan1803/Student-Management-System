@@ -4,30 +4,9 @@ const app = express();
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("connect-flash");
-const nodemailer = require("nodemailer");
 const port = 8080;
-// var transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "mohanofficials18@gmail.com",
-//     pass: "mohan123",
-//   },
-// });
+require("dotenv").config();
 
-// var mailOptions = {
-//   from: "mohanofficials18@gmail.com",
-//   to: "mohannraj.s@koinnovation.com",
-//   subject: "Sending Email using Node.js",
-//   text: "That was easy!",
-// };
-
-// transporter.sendMail(mailOptions, function (error, info) {
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log("Email sent: " + info.response);
-//   }
-// });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -51,7 +30,6 @@ const addstaff = require("./routes/addstaff");
 const stafflogin = require("./routes/stafflogin");
 const addclass = require("./routes/addclass");
 const studfee = require("./routes/studfee");
-const { config } = require("./db/db");
 
 app.use("/student", addstud);
 app.use("/student", studlogin);

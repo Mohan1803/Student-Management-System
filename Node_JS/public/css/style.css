@@ -1,4 +1,4 @@
-/* input.invalid, textarea.invalid{
+input.invalid, textarea.invalid{
 	border: 2px solid red;
 }
 
@@ -15,4 +15,4 @@ input.valid, textarea.valid{
 .error_display{
 	color: red;
 	margin: 10px;
-}  */
+} 

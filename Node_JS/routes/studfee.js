@@ -1,6 +1,6 @@
 const express = require("express");
 const studfee = express.Router();
-const con = require("../db/db");
+const con = require("../config/db");
 
 studfee.get("/studfee", (req, res) => {
   res.render("studfee");

@@ -1,7 +1,16 @@
 <div class="container">
     <div class="row p-5 mt-5">
-        <% if(locals.err_msg) { %>
-        <p><%= error %></p>
+        <% if(locals.error) { %>
+        <h1 class="h1" ><%= error %></h1>
         <% } %>
     </div>
 </div>
+
+<style>
+    .h1{
+        text-align: center;
+        font-size: 75px;
+        color: red;
+        font-family: 'Times New Roman', Times, serif;
+    }
+</style>
