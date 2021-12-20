@@ -1,0 +1,121 @@
+
+   
+    <div class="container pt-5 my-5 bg-white">
+        <div class="row align-items-center">
+          <div class="col-md-10 offset-md-1">
+            
+             
+  
+  
+  
+  
+  
+  
+  
+  
+              <% if(locals.error) { %>
+                <div
+                  class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                  role="alert">
+                  <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+
+                <% if(locals.success) { %>
+                  <div
+                    class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    <%= success %>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <% } %>
+  
+  
+                  <center>
+  
+                    <form name="myForm" action="/staff/addnewstudent" method="POST">
+  
+                      <b>
+                        <h1 style="font-family: 'Times New Roman', Times, serif;">ADD NEW STUDENT</h1>
+                      </b><br>
+  
+  
+  
+  
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
+                          <label for="studid">Student ID</label>
+                        </div>
+                      </div>
+  
+  
+  
+  
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <select class="form-select" aria-label="Default select example" id="class" name="class">
+                            <option selected>Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                          </select>
+                          <label for="class">Class</label>
+                        </div>
+                      </div>
+            
+            
+            
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <select class="form-select" aria-label="Default select example" id="section" name="section">
+                            <option selected>Select</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                          </select>
+                          <label for="section">Section</label>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <input type="email" class="form-control" name="email" id="email" placeholder="Email ID">
+                          <label for="Email">Email ID</label>
+                        </div>
+                      </div>
+    
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Set Password">
+                          <label for="pwd">Set Password</label>
+                        </div>
+                      </div>
+
+
+  
+  
+  
+                      <button class="btn btn-info"  type="submit">SUBMIT</button> <br><br>
+  
+  
+  
+  
+                    </form>
+                  </center>
+  
+          </div>
+        </div>
+      </div>

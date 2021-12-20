@@ -4,7 +4,7 @@ const app = express();
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("connect-flash");
-const port = 8080;
+
 require("dotenv").config();
 
 app.use(express.urlencoded({ extended: true }));
@@ -41,5 +41,5 @@ app.use("/staff", studfee);
 app.get("/", (req, res) => {
   res.render("home");
 });
-
+const port = process.env.PORT || 6890;
 app.listen(port, () => console.info(`Listening on port ${port}`));

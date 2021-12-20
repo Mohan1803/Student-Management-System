@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const flash = require("connect-flash");
 const con = require("../config/db");
+const sendMail = require("../config/mail");
 
 //STAFF LOGIN GET // display form
 stafflogin.get("/stafflogin", (req, res) => {
@@ -235,6 +236,70 @@ stafflogin.post("/staffchangepwd", (req, res) => {
             error = "Incorrect Old Password";
             res.render("staffchangepwd", { error });
           }
+        }
+      });
+    }
+  } catch (err) {
+    error = "Oops!!!......Server Crashed....!!!!";
+    res.render("servererror", { error });
+  }
+});
+
+stafflogin.get("/addnewstudent", (req, res) => {
+  res.render("addnewstudent");
+});
+
+stafflogin.post("/addnewstudent", (req, res) => {
+  let error = "";
+
+  let success = "";
+
+  try {
+    const studid = req.body.studid;
+    const Class = req.body.class;
+    const section = req.body.section;
+    const email = req.body.email;
+    const pwd = req.body.pwd;
+    var hashedpassword = bcrypt.hashSync(pwd, 12);
+    if (studid == 0 || Class == 0 || section == 0 || email == 0 || pwd == 0) {
+      error = "Please Enter Some values";
+      res.render("addnewstudent", { error });
+    } else {
+      var sql = `SELECT * from school_initialaddstudent where Stud_ID = '${studid}'`;
+      con.query(sql, (err, result) => {
+        if (err) {
+          error = "Server Crashed";
+          res.render("servererror", { error });
+        } else if (result == 1) {
+          error = "Student ID Already Taken";
+          res.render("addnewstudent", { error });
+        } else {
+          var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,class,section,email_id,password) values ('${studid}','${Class}','${section}','${email}','${hashedpassword}')`;
+          con.query(newstud, function (err) {
+            if (err) {
+              error = "Server Crashed";
+              console.log(err);
+              res.render("servererror", { error });
+            } else {
+              const mail = sendMail({
+                from: process.env.MAIL_USERNAME,
+                to: email,
+                subject: "Your User ID and Password for your login purpose.",
+                html: `<p>User ID: ${studid}  Password: ${pwd}</p>`,
+              });
+              mail
+                .then((result) => {
+                  console.log("Mail Sent", result);
+                })
+                .catch((err) => {
+                  error = "Server Crashed";
+                  return res.render("servererror", { error });
+                });
+              console.log("Student Record Inserted");
+              success = "Student Added Successfully";
+              return res.render("addnewstudent", { success });
+            }
+          });
         }
       });
     }

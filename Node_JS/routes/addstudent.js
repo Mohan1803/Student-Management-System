@@ -120,12 +120,11 @@ addstud.post("/addstudent", async (req, res) => {
                 from: process.env.MAIL_USERNAME,
                 to: Email_id,
                 subject: "Your User ID and Password for your login purpose.",
-                html: `<p>User ID: ${Stud_ID}
-                          Password: ${Password}</p>`,
+                html: `<p>User ID: ${Stud_ID}  Password: ${Password}</p>`,
               });
               mail
                 .then((result) => {
-                  console.log("Mail has been sent");
+                  console.log("Mail Sent", result);
                 })
                 .catch((err) => {
                   error = "Server Crashed";
