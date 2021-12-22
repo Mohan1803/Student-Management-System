@@ -1,8 +1,16 @@
 <div class="container">
     <div class="row p-5 mt-5">
-        <% if(locals.error) { %>
-        <h1 class="h1" ><%= error %></h1>
-        <% } %>
+       
+                
+    
+            <% if(locals.error.length>0) { %>
+                <div
+                  class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                  role="alert">
+                  <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
     </div>
 </div>
 

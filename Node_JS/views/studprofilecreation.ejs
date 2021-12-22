@@ -1,14 +1,14 @@
 <div class="container">
-  <% if(locals.err_msg) { %>
+  <% if(locals.error.length>0) { %>
     <div
       class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
       role="alert">
-      <%= err_msg %>
+      <%= error %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <% } %>
 
-      <% if(locals.success) { %>
+      <% if(locals.success.length>0) { %>
         <div
           class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
           role="alert">
@@ -20,39 +20,47 @@
           <div class="container bg-light text-dark">
 
 
-            <form name="myForm" action="/student/addstudent" method="POST">
+            <form name="myForm" action="/student/create-student-profile" method="POST">
 
-              <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Student</h2>
+              <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Student Profile Creation</h2><br>
 
+               <h6 class="text-center">Please Fill Out All The Mandatory Fields Which Are Marked By *</h6>
               <div class="row g-2">
 
 
                 <div class="col-lg-6">
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
-                      <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
+                      <input type="text" class="form-control" name="studid" id="studid" value="<%= locals.result[0].Stud_ID %>" placeholder="Student ID" disabled>
                       <label for="studid">Student ID</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating  w-75 p-2">
-                      <input type="text" class="form-control" name="class" id="class" placeholder="Class">
+                      <input type="text" class="form-control" name="class" id="class" placeholder="Class" value="<%= result[0].class %>" disabled>
                       <label for="class">Class</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating  w-75 p-2">
+                      <input type="text" class="form-control" name="section" id="section" placeholder="Section" value="<%= result[0].section %>" disabled>
+                      <label for="section">Section</label>
+                    </div>
+                  </div>
+ 
+                  <div class="mb-3">
+                    <div class="form-floating  w-75 p-2">
                       <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
-                      <label for="fname">First Name</label>
+                      <label for="fname">First Name *</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating  w-75 p-2">
                       <input type="text" class="form-control" name="mname" id="mname" placeholder="Middle Name">
-                      <label for="mname">Middle Name</label>
+                      <label for="mname">Middle Name *</label>
                     </div>
                   </div>
 
@@ -67,7 +75,7 @@
                     <div class="form-floating  w-75 p-2">
                       <input type="text" class="form-control" name="father_name" id="father_name"
                         placeholder="Father Name">
-                      <label for="father_name">Father's Name</label>
+                      <label for="father_name">Father's Name *</label>
                     </div>
                   </div>
 
@@ -75,63 +83,41 @@
                     <div class="form-floating w-75 p-2">
                       <input type="text" class="form-control" name="mother_name" id="mother_name"
                         placeholder="Mother Name">
-                      <label for="mother_name">Mother's Name</label>
+                      <label for="mother_name">Mother's Name *</label>
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                    <div class="form-floating w-75 p-2">
-                      <select class="form-select" aria-label="Default select example" id="sex" name="sex">
-                        <option selected>Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="others">Others</option>
-                      </select>
-                      <label for="sex">Sex</label>
-                    </div>
-                  </div>
+               
 
-                  <div class="mb-3">
-                    <div class="form-floating w-75 p-2">
-                      <input type="text" class="form-control" name="ano" id="ano" placeholder="Aadhar Number">
-                      <label for="ano">Aadhar Number</label>
-                    </div>
-                  </div>
+                 
                 </div>
 
                 <div class="col-lg-6">
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
                       <input type="text" class="form-control" name="mtongue" id="mtongue" placeholder="Mother Tongue">
-                      <label for="mtongue">Mother Tongue</label>
+                      <label for="mtongue">Mother Tongue *</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
                       <input type="date" class="form-control" name="dob" id="dob" placeholder="Date Of Birth">
-                      <label for="dob">Date Of Birth</label>
+                      <label for="dob">Date Of Birth *</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
-                      <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight">
-                      <label for="weight">Weight</label>
+                      <input type="text" class="form-control" name="ano" id="ano" placeholder="Aadhar Number">
+                      <label for="ano">Aadhar Number *</label>
                     </div>
                   </div>
-
-                  <div class="mb-3">
-                    <div class="form-floating w-75 p-2">
-                      <input type="text" class="form-control" name="height" id="height" placeholder="Height">
-                      <label for="height">Height</label>
-                    </div>
-                  </div>
-
+                  
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
                       <input type="text" class="form-control" name="ecn" id="ecn" placeholder="Emergency Contact No">
-                      <label for="ecn">Emergency Contact No</label>
+                      <label for="ecn">Emergency Contact No *</label>
                     </div>
                   </div>
 
@@ -144,7 +130,7 @@
                         <option value="Muslim">Muslim</option>
                         <object value="Others">Others</option>
                       </select>
-                      <label for="religion">Religion</label>
+                      <label for="religion">Religion *</label>
                     </div>
                   </div>
 
@@ -157,23 +143,30 @@
                         <option value="OBC">OBC</option>
                         <option value="SC/ST">SC/ST</option>
                       </select>
-                      <label for="caste">Caste</label>
-                    </div>
-                  </div>
-
-                  <div class="mb-3">
-                    <div class="form-floating w-75 p-2 text-lowercase">
-                      <input type="email" class="form-control" name="Email" id="Email" placeholder="Email ID">
-                      <label for="Email">Email ID</label>
+                      <label for="caste">Caste *</label>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <div class="form-floating w-75 p-2">
-                      <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Set Password">
-                      <label for="pwd">Set Password</label>
+                      <select class="form-select" aria-label="Default select example" id="sex" name="sex">
+                        <option selected>Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="others">Others</option>
+                      </select>
+                      <label for="sex">Sex *</label>
                     </div>
                   </div>
+
+                  <div class="mb-3">
+                    <div class="form-floating w-75 p-2">
+                      <input type="email" class="form-control" name="Email" id="Email" placeholder="Email ID" value="<%= result[0].email_id %>" disabled>
+                      <label for="Email">Email ID</label>
+                    </div>
+                  </div>
+
+                
 
 
                 </div>
@@ -211,3 +204,10 @@
           <!-- <script src="/public/js/validation.js"></script> -->
 
 </div>
+
+<style>
+  
+h6{
+	color: red;
+}
+</style>

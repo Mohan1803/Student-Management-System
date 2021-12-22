@@ -5,151 +5,60 @@
 
      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
       
-     <h4 style="font-family: 'Times New Roman', Times, serif;" class="text-white">Hi! <%= name %>...</h4>
-
+<h4 style="font-family: 'Times New Roman', Times, serif;">Hi!!...<%= locals.result[0].Full_Name %></h4>
         
     
     </div>
   
   </nav>
 
-   <!-- SIDEBARS -->
-
-   <style>
   
-    .sidenav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #111;
-      overflow-x: hidden;
-      transition: 0.5s;
-      padding-top: 60px;
-    }
-    
-    .sidenav a {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 18px;
-      font-family: 'Times New Roman', Times, serif;
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-    }
-    
-    .sidenav a:hover {
-      color: #f1f1f1;
-    }
-    
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
-    
-    @media screen and (max-height: 450px) {
-      .sidenav {padding-top: 15px;}
-      .sidenav a {font-size: 18px;}
-    }
-    </style>
 
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="/staff/studfee">Pay Your Fee</a>
+    <a href="/">Homepage</a>
+    <a href="/fee/studfee">Pay Your Fee</a>
     <a href="/student/changepwd">Change Password</a>
       <a href="/student/studlogout">Logout</a>
     </div>
 
 
   
-    <script>
-        function openNav() {
-          document.getElementById("mySidenav").style.width = "250px";
-        }
-        
-        function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-        }
-        </script>
-
+   
 
 
     <center>
-        <h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT'S INFO</h1>
+        <h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT PROFILE</h1>
     </center>
-    <% if(locals.success) { %>
+    <% if(locals.success.length>0) { %>
         <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
             role="alert">
             <%= success %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <% } %>
-            <div>
+            
 
-
-                <table
-                    class="w-50 p-3 container d-flex align-items-center justify-content-center table table-success table-striped">
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">ROLL NO</td>
-                        <td>
-                            <%= Roll_no %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">NAME</td>
-                        <td>
-                            <%= name %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">FATHER NAME</td>
-                        <td>
-                            <%= Father_name %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">MOTHER NAME</td>
-                        <td>
-                            <%= Mother_name %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">DOB</td>
-                        <td>
-                            <%= DOB %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">CONTACT NUMBER</td>
-                        <td>
-                            <%= emergency_no %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">AADHAR NUMBER</td>
-                        <td>
-                            <%= aadhar %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-decoration-underline fw-bold">EMAIL ID</td>
-                        <td>
-                            <%= mailid %>
-                        </td>
-                    </tr>
-                </table>
-
+        <% if(locals.error.length>0) { %>
+            <div
+              class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+              role="alert">
+              <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-
-
-
-
-
-
-
-
+            <% } %>
+            <div class="container pt-3 my-5 bg-white">
+             
+               
+<center>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Name: <%= locals.result[0].Full_Name %></h5></li>
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Father Name: <%= locals.result[0].Father_name %></h5></li>
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Mother Name: <%= locals.result[0].Mother_name %></h5></li>
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">DOB: <%= locals.result[0].DOB %></h5></li>
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Aadhar Number: <%= locals.result[0].Stud_Aadhar_No %></h5></li>
+    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Phone Number: <%= locals.result[0].Emergency_Contact_No %></h5></li>
+  </ul>
+            
+          </center>
+                </div>

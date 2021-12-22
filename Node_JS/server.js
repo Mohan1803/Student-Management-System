@@ -23,20 +23,19 @@ app.use(flash());
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/layout");
+app.use(express.static("public"));
+app.use("/css", express.static(__dirname + "public/css"));
+app.use("/js", express.static(__dirname + "public/js"));
 
-const addstud = require("./routes/addstudent");
-const studlogin = require("./routes/studentlogin");
-const addstaff = require("./routes/addstaff");
-const stafflogin = require("./routes/stafflogin");
+const studentroute = require("./routes/studentRoute");
+const staffroute = require("./routes/staffroute");
 const addclass = require("./routes/addclass");
 const studfee = require("./routes/studfee");
 
-app.use("/student", addstud);
-app.use("/student", studlogin);
-app.use("/staff", addstaff);
-app.use("/staff", stafflogin);
+app.use("/student", studentroute);
+app.use("/staff", staffroute);
 app.use("/class", addclass);
-app.use("/staff", studfee);
+app.use("/fee", studfee);
 
 app.get("/", (req, res) => {
   res.render("home");

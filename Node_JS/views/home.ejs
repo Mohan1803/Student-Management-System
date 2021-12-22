@@ -7,23 +7,115 @@
 
   </nav>
   <marquee class="blink_me">SCHOOL MESSAGES GOES HERE</marquee>
- 
+  <% if(locals.error) { %>
+    <div
+      class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
   <div>
 
     <div class="container pt-5 my-5 bg-white">
 
-      <center>
-        <h1 class="text-success" style="font-family: 'Times New Roman', Times, serif;">Homepage</h1>
-      </center>
       <div class="row align-items-center">
 
-        <div class="col-md-10 offset-md-1">
+       
     
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+            
 
             <center>
               <form name="myForm" action="/" method="POST">
+
+                <!-- <ul class="nav nav-pills nav-fill mb-8" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Student Login</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="pills-parent-tab" data-bs-toggle="pill" data-bs-target="#pills-parent" type="button" role="tab" aria-controls="pills-parent" aria-selected="false">Staff Login</button>
+                  </li>
+                 
+              </ul>
+
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                  <form name="myForm" action="/student/studentlogin" method="POST">
+
+                    <b>
+                      <h1 style="font-family: 'Times New Roman', Times, serif;">STUDENT LOGIN</h1>
+                    </b><br>
+
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-50 p-2">
+                        <input type="text" class="form-control input-sm" name="userid" id="userid" placeholder="Student ID">
+                        <label for="userid">Student ID</label>
+                      </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-50 p-2">
+                        <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password">
+                        <label for="pwd">Password</label>
+                      </div>
+                    </div>
+
+
+
+
+                    <button class="btn btn-info" type="submit">LOGIN</button> <br><br>
+
+
+
+
+                  </form>
+
+
+                </div>
+                <div class="tab-pane fade show" id="pills-parent" role="tabpanel" aria-labelledby="pills-parent-tab">
+                  <form name="myForm" action="/staff/stafflogin" method="POST">
+
+                    <b>
+                      <h1 style="font-family: 'Times New Roman', Times, serif;">STAFF LOGIN</h1>
+                    </b><br>
+
+
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-50 p-2">
+                        <input type="text" class="form-control" name="userid" id="userid" placeholder="Staff ID">
+                        <label for="userid">Staff ID</label>
+                        <span class="error" id="userid-error">User ID should be at least 3 characters long.</span>
+                      </div>
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                      <div class="form-floating w-50 p-2">
+                        <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password">
+                        <label for="pwd">Password</label>
+                        <span class="error" id="pwd-error">Insecure Password Please Change Your Password</span>
+                      </div>
+                    </div>
+
+
+
+                    <button class="btn btn-info"  type="submit">LOGIN</button> <br><br>
+
+
+
+
+                  </form>
+                  </div>
+              
+              
+              </div> -->
                 <h4 style="font-family: 'Times New Roman', Times, serif;">Please Choose the login type</h4>
                 <br><br>
 
@@ -39,7 +131,7 @@
 
 
           
-        </div>
+        
       </div>
     </div>
   </div>

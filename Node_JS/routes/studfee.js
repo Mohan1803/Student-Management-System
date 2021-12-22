@@ -3,12 +3,18 @@ const studfee = express.Router();
 const con = require("../config/db");
 
 studfee.get("/studfee", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
   res.render("studfee");
 });
 
 studfee.post("/studfee", (req, res) => {
-  let err_msg = "";
-  let success = "";
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
 
   try {
     const Class = req.body.class;

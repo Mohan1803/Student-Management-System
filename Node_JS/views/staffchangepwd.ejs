@@ -9,23 +9,25 @@
   
   
   
-  
-              <% if(locals.success) { %>
-                <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+              <% if(locals.success.length>0) { %>
+                <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
                     role="alert">
                     <%= success %>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <% } %>
+                    
+        
+                <% if(locals.error.length>0) { %>
+                    <div
+                      class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                      role="alert">
+                      <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <% } %>
   
-              <% if(locals.error) { %>
-                <div
-                  class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
-                  role="alert">
-                  <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <% } %>
+          
   
   
                   <center>
@@ -49,7 +51,7 @@
                           <label for="pwd2">Type New Password</label>
                         </div>
                       </div>
-<h5 id="demo"></h5>
+
                       <div class="mb-3">
                         <div class="form-floating w-50 p-2">
                           <input type="password" class="form-control" name="pwd3" id="pwd3" placeholder="Re-Type Password">

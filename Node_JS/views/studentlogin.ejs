@@ -1,4 +1,4 @@
-<% if(locals.success) { %>
+<% if(locals.success.length>0) { %>
   <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
       role="alert">
       <%= success %>
@@ -10,11 +10,11 @@
         <div class="col-md-10 offset-md-1">
           
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <% if(locals.err_msg) { %>
+            <% if(locals.error.length>0) { %>
               <div
                 class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
                 role="alert">
-                <%= err_msg %>
+                <%= error %>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
               <% } %>
@@ -31,6 +31,8 @@
                       <div class="form-floating w-50 p-2">
                         <input type="text" class="form-control input-sm" name="userid" id="userid" placeholder="Student ID">
                         <label for="userid">Student ID</label>
+                        <span class="error" id="userid-error">User ID should be at least 3 characters long.</span>
+
                       </div>
                     </div>
 
@@ -39,6 +41,7 @@
                       <div class="form-floating w-50 p-2">
                         <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password">
                         <label for="pwd">Password</label>
+                        <span class="error" id="pwd-error">Insecure Password Please Change Your Password</span>
                       </div>
                     </div>
 
