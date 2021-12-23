@@ -30,12 +30,10 @@ app.use("/js", express.static(__dirname + "public/js"));
 const studentroute = require("./routes/studentRoute");
 const staffroute = require("./routes/staffroute");
 const addclass = require("./routes/addclass");
-const studfee = require("./routes/studfee");
 
 app.use("/student", studentroute);
 app.use("/staff", staffroute);
 app.use("/class", addclass);
-app.use("/fee", studfee);
 
 app.get("/", (req, res) => {
   res.render("home");

@@ -42,7 +42,6 @@ studentRoute.post("/studentlogin", async (req, res) => {
           let session = req.session;
           session.studentId = result[0].ID;
           session.pass = result[0].Password;
-          session.studid = result[0].Stud_ID;
           session.loggedIn = true;
           return res.redirect("/student/student-profile");
         } else if (!matchPass) {
@@ -94,8 +93,8 @@ studentRoute.get("/create-student-profile", (req, res) => {
   res.locals.success = success;
   try {
     let session = req.session;
-    console.log(session.studentId);
-    var stud = `Select * from school_initialaddstudent where id = '${session.studentId}' `;
+    // console.log(session.studentId);
+    var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
     con.query(stud, (err, result) => {
       if (err) {
         throw err;
@@ -166,6 +165,58 @@ studentRoute.post("/create-student-profile", (req, res) => {
         }
       });
     }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+//getting student fee
+studentRoute.get("/studfee", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    let session = req.session;
+    // console.log(session.studentId);
+    var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
+    con.query(stud, (err, result) => {
+      if (err) {
+        throw err;
+      } else if (result.length == 1) {
+        res.locals.result = result;
+        return res.render("studfee");
+      } else {
+        req.flash("error", "Login To Continue");
+        return res.redirect("/student/studentlogin");
+      }
+    });
+  } catch (e) {
+    error = "Server Crashed";
+    res.render("servererror", { error });
+  }
+});
+
+//post in student fee
+studentRoute.post("/studfee", (req, res) => {
+  let session = req.session;
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    const Class = req.body.class;
+    const actualfee = req.body.actualfee;
+    const payingamt = paying_amt;
+
+    var fee = `INSERT INTO school_studentfee (Stud_ID, Actual_fee, Paying_amt)VALUES('${session.studentId}','${actualfee}','${payingamt}')`;
+    con.query(fee, (err, result) => {
+      if (err) throw err;
+      else if (result.length == 1) {
+        res.locals.success = ("success", "Fees Paid");
+        res.redirect("/student/student-profile");
+      }
+    });
   } catch (err) {
     console.log(err);
   }

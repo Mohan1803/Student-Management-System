@@ -119,19 +119,15 @@ stafflogin.get("/viewstudent", (req, res) => {
   let success = "";
   success = req.flash("success");
   res.locals.success = success;
-  var viewstud = `SELECT *, CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstudent`;
+  var viewstud = `SELECT * from school_initialaddstudent LEFT JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID UNION ALL SELECT * from school_initialaddstudent RIGHT JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID WHERE school_initialaddstudent.ID IS NULL`;
   con.query(viewstud, (err, student) => {
     if (err) {
+      console.log(err);
       error = "Oops!!!......Server Crashed....!!!!";
       res.render("servererror", { error });
     } else {
-      let error = "";
-      error = req.flash("error");
-      res.locals.error = error;
-      let success = "";
-      success = req.flash("success");
-      res.locals.success = success;
-      return res.status(200).render("viewstudent", { student });
+      res.locals.student = student;
+      return res.render("viewstudent");
     }
   });
 });

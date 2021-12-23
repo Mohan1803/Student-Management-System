@@ -33,13 +33,12 @@
           <th scope="col">S.No</th>
           <th scope="col">Student ID</th>
           <th scope="col">Class</th>
+          <th scope="col">Section</th>
           <th scope="col">Name</th>
           <th scope="col">Father Name</th>
           <th scope="col">Mother Name</th>
           <th scope="col">DOB</th>
           <th scope="col">Emergency Contact No</th>
-          <th scope="col">Aadhar Number</th>
-          <th scope="col">Sex</th>
           <th scope="col">Email ID</th>
         </tr>
         </thead>
@@ -49,15 +48,14 @@
                   <tr>
                     <th scope="row"><%= (i+1) %></th>
                     <td><%= student[i].Stud_ID %></td>
-                    <td><%= student[i].Class %></td>
-                    <td><%= student[i].Full_Name %></td>
+                    <td><%= student[i].class %></td>
+                    <td><%= student[i].section %></td>
+                    <td><%= student[i].Middle_Name %></td>
                     <td><%= student[i].Father_name %></td>
                     <td><%= student[i].Mother_name %></td>
                     <td><%= student[i].DOB %></td>
                     <td><%= student[i].Emergency_Contact_No %></td>
-                    <td><%= student[i].Stud_Aadhar_No %></td>
-                    <td><%= student[i].Sex %></td>
-                    <td><%= student[i].Email_id %></td>
+                    <td><%= student[i].email_id %></td>
                   </tr>
             <%  }  
               } else { %>

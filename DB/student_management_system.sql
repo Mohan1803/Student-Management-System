@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 22, 2021 at 01:05 PM
+-- Generation Time: Dec 23, 2021 at 01:00 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -149,14 +149,15 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `id` (`ID`),
   KEY `student_id link` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addstudent`
 --
 
 INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 'B', 'Sachin', '', 'Baskar', 'Chitra', '2005-07-14', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-22 14:46:59', '2021-12-22 09:16:59', NULL);
+(1, 1, 'B', 'Sachin', '', 'Baskar', 'Chitra', '2005-07-14', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-22 14:46:59', '2021-12-22 09:16:59', NULL),
+(2, 2, 'V', 'Kishore', '', 'Vinoth', 'Divya', '2005-01-04', '7864563443', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-23 12:37:11', '2021-12-23 07:07:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -196,14 +197,15 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
 --
 
 INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `class`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '12BMH001', '12', 'A', '2005-07-14', 'mohannraj.s@koinnovation.com', '$2b$12$XNfPpMgFiTueGi8F2LuvIuKCriiQTCFRHQsgrWOZ0FRNVF6BVibXi', '2021-12-22 14:44:54', '2021-12-22 09:14:54', NULL);
+(1, '12BMH001', '12', 'A', '2005-07-14', 'mohannraj.s@koinnovation.com', '$2b$12$aKKBIhfnfRKx.JwcYwdBvegEbUxw454N8WAg/7O.oa04df4Wmjv/W', '2021-12-22 14:44:54', '2021-12-22 09:14:54', NULL),
+(2, '12BMH002', '12', 'A', '2005-01-04', 'kishore@gmail.com', '$2b$12$fZaBS5wBxf/SZ4z7Nna5X.KvSSvc9bHut7aOn7SU2KbOml9BzpCju', '2021-12-23 12:35:39', '2021-12-23 07:05:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -271,16 +273,13 @@ DROP TABLE IF EXISTS `school_studentfee`;
 CREATE TABLE IF NOT EXISTS `school_studentfee` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Stud_ID` varchar(255) NOT NULL,
-  `Phone_Number` varchar(20) NOT NULL,
-  `Email` varchar(30) NOT NULL,
-  `Class` varchar(10) NOT NULL,
-  `Section` varchar(10) NOT NULL,
   `Actual_fee` varchar(10) NOT NULL,
   `Paying_amt` varchar(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `Stud_ID` (`Stud_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
