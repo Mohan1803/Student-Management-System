@@ -1,25 +1,25 @@
 <div class="container pt-5 my-5 bg-white">
     <div class="row align-items-center">
       <div class="col-md-10 offset-md-1">
-        <% if(locals.err_msg) { %>
-            <div
-              class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+        <% if(locals.success.length>0) { %>
+          <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
               role="alert">
-              <%= err_msg %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <% } %>
-        
-              <% if(locals.success) { %>
-                <div
-                  class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
-                  role="alert">
-                  <%= success %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <% } %>
+              <%= success %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <% } %>
+
+        <% if(locals.error.length>0) { %>
+          <div
+            class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+            role="alert">
+            <%= error %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <% } %>
+
     <center>
-    <form name="myForm" action="/class/addclass" method="POST">
+    <form name="myForm" action="/staff/addclass" method="POST">
 
       <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Class</h2>
 
@@ -50,27 +50,14 @@
           </div>
 
 
-
           <div class="mb-3">
-            <div class="form-floating w-50 p-2">
-              <select class="form-select" aria-label="Default select example" id="division" name="division">
-                <option selected>Select</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
-              </select>
-              <label for="division">Section</label>
+            <div class="form-floating  w-50 p-2">
+              <input type="text" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee">
+              <label for="actualfee">Actual Fee Per Year</label>
             </div>
           </div>
-
-          <div class="mb-3">
-            <div class="form-floating w-50 p-2">
-              <input type="text" class="form-control" name="capacity" id="capacity" placeholder="Capacity">
-              <label for="capacity">Capacity</label>
-            </div>
-          </div>
+          
+         
 
        
   

@@ -478,4 +478,57 @@ stafflogin.post("/addstaff", async (req, res) => {
   }
 });
 
+//Adding Class
+stafflogin.get("/addclass", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  res.render("addclass");
+});
+
+stafflogin.post("/addclass", async (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  try {
+    const Class = req.body.class;
+    const Actual_fee = req.body.actualfee;
+
+    if (Class == 0 || Actual_fee == 0) {
+      req.flash("error", "Please Enter Values");
+      return res.redirect("/staff/addclass");
+    } else {
+      var dup = `SELECT * FROM school_addclass WHERE Class = '${Class}'`;
+      con.query(dup, (err, result) => {
+        if (err) {
+          throw err;
+        } else if (result.length == 1) {
+          req.flash("error", "Class Already Added");
+          return res.redirect("/staff/addclass");
+        } else {
+          var sql = `INSERT INTO school_addclass(Class,Actual_fee) VALUES ('${Class}', '${Actual_fee}')`;
+          con.query(sql, function (err) {
+            if (err) {
+              throw err;
+            }
+
+            req.flash("success", "Class Added Successfully");
+            return res.redirect("/staff/staffinfo");
+          });
+        }
+      });
+    }
+  } catch (e) {
+    error = "Server Crashed";
+    res.render("servererror", { error });
+  }
+});
+
 module.exports = stafflogin;

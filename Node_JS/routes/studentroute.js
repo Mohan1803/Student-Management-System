@@ -32,6 +32,7 @@ studentRoute.post("/studentlogin", async (req, res) => {
     var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
+        console.log(err);
         req.flash("error", "Server Crashed");
         res.render("servererror");
       } else if (result.length == 1) {
@@ -49,11 +50,12 @@ studentRoute.post("/studentlogin", async (req, res) => {
           return res.redirect("/student/studentlogin");
         }
       } else {
-        req.flash("error", "User Not Found");
+        req.flash("error", "Student Not Found");
         return res.redirect("/student/studentlogin");
       }
     });
   } catch (e) {
+    console.log(e);
     req.flash("error", "Server Crashed");
     res.render("servererror");
   }
@@ -70,8 +72,11 @@ studentRoute.get("/student-profile", (req, res) => {
     // run a query and display render
     var stuLoginInfor = `SELECT * , CONCAT(First_Name, " ",Middle_Name, " ",Last_Name) as Full_Name FROM school_addstudent WHERE Stud_ID='${session.studentId}'`;
     con.query(stuLoginInfor, (err, result) => {
-      if (err) throw err;
-      else if (result.length == 1) {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        res.render("servererror");
+      } else if (result.length == 1) {
         res.locals.result = result;
         return res.render("studinfo");
       } else {
@@ -82,6 +87,8 @@ studentRoute.get("/student-profile", (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
@@ -97,18 +104,21 @@ studentRoute.get("/create-student-profile", (req, res) => {
     var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
     con.query(stud, (err, result) => {
       if (err) {
-        throw err;
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        res.render("servererror");
       } else if (result.length == 1) {
         res.locals.result = result;
         return res.render("studprofilecreation");
       } else {
-        req.flash("error", "User Not Found");
+        req.flash("error", "Times Up Please Login Again");
         return res.redirect("/student/studentlogin");
       }
     });
   } catch (e) {
-    error = "Server Crashed";
-    res.render("servererror", { error });
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
@@ -146,27 +156,29 @@ studentRoute.post("/create-student-profile", (req, res) => {
       Stud_Aadhar_No == 0 ||
       Sex == 0
     ) {
-      error = "Please fill all details";
-      return res.redirect("/student/create-student-profile", { error });
+      req.flash("error", "Please fill all details");
+      return res.redirect("/student/create-student-profile");
     } else if (Emergency_Contact_No.length < 10) {
-      error = "Invalid Phone Nummber";
-      return res.redirect("/student/create-student-profile", { error });
+      req.flash("error", "Invalid Phone Nummber");
+      return res.redirect("/student/create-student-profile");
     } else {
       var sql = `INSERT INTO school_addstudent(Stud_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex) VALUES ('${session.studentId}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}');`;
       con.query(sql, function (err, inserted) {
         if (err) {
-          error = "Server Crashed here";
           console.log(err);
-          res.render("servererror", { error });
+          req.flash("error", "Server Crashed");
+          res.render("servererror");
         } else {
           console.log("Student Record Inserted");
-          req.flash("success", "Student Added Successfully");
+          req.flash("success", "Profile Created Successfully");
           return res.redirect("/student/student-profile");
         }
       });
     }
   } catch (err) {
     console.log(err);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
@@ -182,7 +194,9 @@ studentRoute.get("/studfee", (req, res) => {
     var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
     con.query(stud, (err, result) => {
       if (err) {
-        throw err;
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        res.render("servererror");
       } else if (result.length == 1) {
         res.locals.result = result;
         return res.render("studfee");
@@ -192,8 +206,9 @@ studentRoute.get("/studfee", (req, res) => {
       }
     });
   } catch (e) {
-    error = "Server Crashed";
-    res.render("servererror", { error });
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
@@ -211,14 +226,19 @@ studentRoute.post("/studfee", (req, res) => {
 
     var fee = `INSERT INTO school_studentfee (Stud_ID, Actual_fee, Paying_amt)VALUES('${session.studentId}','${actualfee}','${payingamt}')`;
     con.query(fee, (err, result) => {
-      if (err) throw err;
-      else if (result.length == 1) {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        res.render("servererror");
+      } else if (result.length == 1) {
         res.locals.success = ("success", "Fees Paid");
         res.redirect("/student/student-profile");
       }
     });
   } catch (err) {
     console.log(err);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
@@ -252,8 +272,9 @@ studentRoute.post("/changepwd", (req, res) => {
     var sql = `SELECT * FROM school_initialaddstudent WHERE ID='${session.studentId}'`;
     con.query(sql, function (err, result) {
       if (err) {
-        error = "Server Crashed";
-        res.render("servererror", { error });
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        res.render("servererror");
       } else if (result.length == 1) {
         const pwd = result[0].password;
         const matchpass = bcrypt.compareSync(pwd1, pwd);
@@ -274,7 +295,9 @@ studentRoute.post("/changepwd", (req, res) => {
             var change = `UPDATE school_initialaddstudent SET password = '${hashedpassword}' WHERE ID='${session.studentId}'`;
             con.query(change, (err, result) => {
               if (err) {
-                throw err;
+                console.log(err);
+                req.flash("error", "Server Crashed");
+                res.render("servererror");
               } else {
                 req.flash("success", "Password Changed Successfully");
                 return res.redirect("/student/student-profile");
@@ -294,8 +317,9 @@ studentRoute.post("/changepwd", (req, res) => {
       }
     });
   } catch (err) {
+    console.log(err);
     req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+    res.render("servererror");
   }
 });
 
@@ -311,6 +335,8 @@ studentRoute.get("/studlogout", (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    req.flash("error", "Server Crashed");
+    res.render("servererror");
   }
 });
 
