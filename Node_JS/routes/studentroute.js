@@ -100,7 +100,6 @@ studentRoute.get("/create-student-profile", (req, res) => {
   res.locals.success = success;
   try {
     let session = req.session;
-    // console.log(session.studentId);
     var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
     con.query(stud, (err, result) => {
       if (err) {

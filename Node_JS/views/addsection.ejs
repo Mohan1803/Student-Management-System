@@ -19,45 +19,42 @@
           <% } %>
 
     <center>
-    <form name="myForm" action="/staff/addclass" method="POST">
+    <form name="myForm" action="/staff/addsection" method="POST">
 
-      <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Class</h2>
+      <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Section</h2>
 
       
 
 
        
 
-          <div class="mb-3">
-            <div class="form-floating w-50 p-2">
-              <select class="form-select" aria-label="Default select example" id="class" name="class">
-                <option selected>Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
-              <label for="class">Class</label>
-            </div>
-          </div>
+      <div class="mb-3">
+        <div class="form-floating w-50 p-2">
+          <select class="form-select" aria-label="Default select example" id="class" name="class">
+            <% if (locals.result) { %>
+                <% for ( let i=0; i < locals.result.length; i++){ %>
+                    <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %></option>
+                
+           <% } }  %>
+          </select>
+          <label for="class">Class</label>
+        </div>
+      </div>
 
 
           <div class="mb-3">
             <div class="form-floating  w-50 p-2">
-              <input type="text" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee">
-              <label for="actualfee">Actual Fee Per Year</label>
+              <input type="text" class="form-control" name="section" id="section" placeholder="Section">
+              <label for="section">Section</label>
             </div>
           </div>
           
-         
+          <div class="mb-3">
+            <div class="form-floating  w-50 p-2">
+              <input type="text" class="form-control" name="capacity" id="capacity" placeholder="Capacity">
+              <label for="capacity">Capacity</label>
+            </div>
+          </div>
 
        
   
@@ -68,14 +65,17 @@
         </div>
         <a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
 
+
       </center>
-      <br>
-      <table class="table table-light text-center">
+
+    <br>
+    <table class="table table-light text-center">
         <thead>
           <tr>
           <th scope="col">S.No</th>
           <th scope="col">Class</th>
-          <th scope="col">ACTUAL FEE FOR THE CLASS</th>
+          <th scope="col">SECTION</th>
+          <th scope="col">CAPACITY</th>
         </tr>
         </thead>
         <tbody>
@@ -84,7 +84,8 @@
                   <tr>
                     <th scope="row"><%= (i+1) %></th>
                     <td><%= result[i].Class %></td>
-                    <td><%= result[i].Actual_fee %></td>
+                    <td><%= result[i].section %></td>
+                    <td><%= result[i].capacity %></td>
                   </tr>
             <%  }  
               } else { %>
@@ -94,6 +95,7 @@
                 <% } %>
             </tbody>
           </table>
+
 </div>
 </div>
 </div>

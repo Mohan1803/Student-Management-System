@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 27, 2021 at 12:53 PM
+-- Generation Time: Dec 28, 2021 at 01:23 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -38,6 +38,24 @@ CREATE TABLE IF NOT EXISTS `school_addclass` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `school_addclass`
+--
+
+INSERT INTO `school_addclass` (`ID`, `Class`, `Actual_fee`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, '12', '20000', '2021-12-28 15:42:19', '2021-12-28 10:12:19', NULL),
+(2, '11', '19000', '2021-12-28 15:42:24', '2021-12-28 10:12:24', NULL),
+(3, '10', '18000', '2021-12-28 15:42:28', '2021-12-28 10:12:28', NULL),
+(4, '9', '17000', '2021-12-28 15:42:37', '2021-12-28 10:12:37', NULL),
+(5, '8', '16000', '2021-12-28 15:42:58', '2021-12-28 10:12:58', NULL),
+(6, '7', '15000', '2021-12-28 15:43:18', '2021-12-28 10:13:18', NULL),
+(7, '6', '14000', '2021-12-28 15:43:30', '2021-12-28 10:13:30', NULL),
+(8, '5', '13000', '2021-12-28 15:43:50', '2021-12-28 10:13:50', NULL),
+(9, '4', '12000', '2021-12-28 15:44:01', '2021-12-28 10:14:01', NULL),
+(10, '3', '11000', '2021-12-28 15:44:05', '2021-12-28 10:14:05', NULL),
+(11, '2', '10000', '2021-12-28 15:44:10', '2021-12-28 10:14:10', NULL),
+(12, '1', '9000', '2021-12-28 15:44:16', '2021-12-28 10:14:16', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +73,21 @@ CREATE TABLE IF NOT EXISTS `school_addsection` (
   `daleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `class_id link` (`class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_addsection`
+--
+
+INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `created_at`, `updated_at`, `daleted_at`) VALUES
+(1, 1, 'A', 40, '2021-12-28 16:00:03', '2021-12-28 10:30:03', NULL),
+(2, 1, 'B', 40, '2021-12-28 16:07:57', '2021-12-28 10:37:57', NULL),
+(3, 1, 'C', 40, '2021-12-28 16:11:18', '2021-12-28 10:41:18', NULL),
+(4, 2, 'A', 40, '2021-12-28 16:21:55', '2021-12-28 10:51:55', NULL),
+(5, 2, 'B', 40, '2021-12-28 16:22:18', '2021-12-28 10:52:18', NULL),
+(6, 2, 'C', 40, '2021-12-28 16:22:25', '2021-12-28 10:52:25', NULL),
+(7, 3, 'A', 50, '2021-12-28 16:25:31', '2021-12-28 10:55:31', NULL),
+(8, 3, 'B', 50, '2021-12-28 16:25:44', '2021-12-28 10:55:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -135,14 +167,14 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `id` (`ID`),
   KEY `student_id link` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addstudent`
 --
 
 INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(2, 1, 'B', 'Kishore', '', 'Balamurugan', 'Mother name', '2005-04-13', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-27 16:24:38', '2021-12-27 10:54:38', NULL);
+(1, 1, 'B', 'Kishore', '', 'Balamurugan', 'Mother Name', '2016-02-09', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-28 17:05:03', '2021-12-28 11:35:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -173,23 +205,23 @@ DROP TABLE IF EXISTS `school_initialaddstudent`;
 CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_ID` varchar(255) NOT NULL,
-  `class` int(10) NOT NULL,
-  `section` varchar(20) NOT NULL,
+  `section` int(10) NOT NULL,
   `DOB` date NOT NULL,
   `email_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `section_link` (`section`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
 --
 
-INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `class`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '12BMH001', 12, 'A', '2005-04-13', 'mohannraj.s@koinnovation.com', '$2b$12$9n2LbdDZqhadEH6eoWYtIubkci40lA/UzpM9I9BU8uGnPlolLuo4i', '2021-12-27 16:24:03', '2021-12-27 10:54:03', NULL);
+INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'BMH21001', 1, '2007-06-12', 'mohannraj.s@koinnovation.com', '$2b$12$Sk5mFVh0dirXchxbsZcMwOXtjZNP8x1RaasQV0lgxA0oh/Sj4nU3y', '2021-12-28 16:57:55', '2021-12-28 11:27:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -281,6 +313,12 @@ ALTER TABLE `school_addsection`
 --
 ALTER TABLE `school_addstudent`
   ADD CONSTRAINT `student_id link` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
+
+--
+-- Constraints for table `school_initialaddstudent`
+--
+ALTER TABLE `school_initialaddstudent`
+  ADD CONSTRAINT `section_link` FOREIGN KEY (`section`) REFERENCES `school_addsection` (`ID`);
 
 --
 -- Constraints for table `school_staffattendance`

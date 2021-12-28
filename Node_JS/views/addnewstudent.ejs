@@ -12,24 +12,22 @@
   
   
   
-  
-              <% if(locals.error) { %>
-                <div
-                  class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+            <% if(locals.success.length>0) { %>
+              <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
                   role="alert">
-                  <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <% } %>
-
-                <% if(locals.success) { %>
-                  <div
-                    class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
-                    role="alert">
-                    <%= success %>
+                  <%= success %>
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                  <% } %>
+              </div>
+              <% } %>
+    
+            <% if(locals.error.length>0) { %>
+              <div
+                class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                role="alert">
+                <%= error %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              <% } %>
   
   
                   <center>
@@ -52,39 +50,28 @@
   
   
   
-  
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
                           <select class="form-select" aria-label="Default select example" id="class" name="class">
-                            <option selected>Select</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
+                            <% if (locals.result) { %>
+                                <% for ( let i=0; i < locals.result.length; i++){ %>
+                                    <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %></option>
+                                
+                           <% } }  %>
                           </select>
                           <label for="class">Class</label>
                         </div>
                       </div>
             
             
-            
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
                           <select class="form-select" aria-label="Default select example" id="section" name="section">
-                            <option selected>Select</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                            <option value="E">E</option>
+                            <% if (locals.result) { %>
+                              <% for ( let i=0; i < locals.result.length; i++){ %>
+                                  <option value="<%= locals.result[i].ID %>"><%= locals.result[i].section %></option>
+                              
+                         <% } }  %>
                           </select>
                           <label for="section">Section</label>
                         </div>

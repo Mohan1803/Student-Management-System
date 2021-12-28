@@ -5,6 +5,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const con = require("../config/db");
 const sendMail = require("../config/mail");
+const { OAuth2Client } = require("google-auth-library");
 
 //STAFF LOGIN GET // display form
 stafflogin.get("/stafflogin", (req, res) => {
@@ -52,10 +53,7 @@ stafflogin.post("/stafflogin", (req, res) => {
           session.role = result[0].Role;
 
           session.logged_in = true;
-          req.flash(
-            "welcome",
-            `Hi ${session.Staff_id}, How are you doing today?`
-          );
+          req.flash("welcome", `Hi ${session.Staff_id}`);
           return res.status(200).redirect("/staff/staffinfo");
         } else {
           req.flash("error", "Incorrect Password.");
@@ -265,15 +263,198 @@ stafflogin.post("/staffchangepwd", (req, res) => {
     res.render("servererror", { error });
   }
 });
+//Adding New Class
 
+stafflogin.get("/addclass", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  // get all data from school_addclass - action - edit, delte modal
+  try {
+    var Class = `SELECT * FROM school_addclass`;
+    con.query(Class, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("addclass");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.redirect("servererror");
+  }
+});
+
+stafflogin.post("/addclass", async (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  try {
+    const Class = req.body.class;
+    const Actual_fee = req.body.actualfee;
+
+    if (Class == 0 || Actual_fee == 0) {
+      req.flash("error", "Please Enter Values");
+      return res.redirect("/staff/addclass");
+    } else {
+      var dup = `SELECT * FROM school_addclass WHERE Class = '${Class}'`;
+      con.query(dup, (err, result) => {
+        if (err) {
+          throw err;
+        } else if (result.length == 1) {
+          const classId = result[0].ID;
+          console.log(classId);
+          req.flash("error", "Class Already Added");
+          return res.redirect("/staff/addclass");
+        } else {
+          var sql = `INSERT INTO school_addclass(Class,Actual_fee) VALUES ('${Class}', '${Actual_fee}')`;
+          con.query(sql, function (err) {
+            if (err) {
+              throw err;
+            }
+            req.flash("success", "Class Added Successfully");
+            return res.redirect("/staff/addclass");
+          });
+        }
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.redirect("servererror");
+  }
+});
+
+//Adding Section For Created Classes
+stafflogin.get("/addsection", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    // get data from school_addsection // table - edit modal
+
+    var stud = `Select * from school_addclass`;
+    con.query(stud, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+
+        return res.redirect("/servererror");
+      } else {
+        // console.log(result);
+        res.locals.result = result;
+        return res.render("addsection");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+stafflogin.post("/addsection", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    const Class = req.body.class;
+    const Section = req.body.section;
+    const Capacity = req.body.capacity;
+    if (Section == 0 || Capacity == 0) {
+      req.flash("error", "Please Enter Some Values");
+      return res.redirect("/staff/addsection");
+    } else {
+      var dup = `SELECT * FROM school_addsection where class_id = '${Class}' AND section = '${Section}'`;
+      con.query(dup, (err, result) => {
+        if (err) {
+          console.log(err);
+          req.flash("error", "Server Crashed");
+          return res.render("servererror");
+        } else if (result.length == 1) {
+          req.flash(
+            "error",
+            "Section " + Section + " for this Class is Already Created"
+          );
+          res.redirect("/staff/addsection");
+        } else {
+          var sec = `INSERT INTO school_addsection (class_id,section,capacity)values('${Class}','${Section}','${Capacity}')`;
+          con.query(sec, (err, result) => {
+            if (err) {
+              console.log(err);
+              req.flash("error", "Server Crashed");
+              return res.render("servererror");
+            } else {
+              req.flash("success", "Section Added Successfully");
+              return res.redirect("/staff/addsection");
+            }
+          });
+        }
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+//Adding New Student
 stafflogin.get("/addnewstudent", (req, res) => {
-  res.render("addnewstudent");
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  try {
+    //TO get class and section from school_addclass & school_addsection tables
+    var stud = `Select * from school_addclass LEFT JOIN school_addsection ON school_addclass.ID = school_addsection.class_id UNION ALL Select * from school_addclass RIGHT JOIN school_addsection ON school_addclass.ID = school_addsection.class_id Where school_addclass.ID IS NULL`;
+    con.query(stud, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+
+        return res.redirect("/servererror");
+      } else {
+        // console.log(result);
+        res.locals.result = result;
+        return res.render("addnewstudent");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
 });
 
 stafflogin.post("/addnewstudent", (req, res) => {
   let error = "";
-
+  error = req.flash("error");
+  res.locals.error = error;
   let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
 
   try {
     const studid = req.body.stud_id;
@@ -284,41 +465,41 @@ stafflogin.post("/addnewstudent", (req, res) => {
     const pwd = req.body.pwd;
     var hashedpassword = bcrypt.hashSync(pwd, 12);
 
-    //calculating age for students
-    var today = new Date();
-    var bday = new Date(dob);
-    var age = today.getFullYear() - bday.getFullYear();
-    var month = today.getMonth() - bday.getMonth();
-    if (month < 0 || today.getDate() < bday.getDate()) {
-      age--;
-    }
+    // //calculating age for students
+    // var today = new Date();
+    // var bday = new Date(dob);
+    // var age = today.getFullYear() - bday.getFullYear();
+    // var month = today.getMonth() - bday.getMonth();
+    // if (month < 0 || today.getDate() < bday.getDate()) {
+    //   age--;
+    // }
 
-    if (
-      (Class == 1 && age < 5) ||
-      (Class == 2 && age < 6) ||
-      (Class == 3 && age < 7) ||
-      (Class == 4 && age < 8) ||
-      (Class == 5 && age < 9) ||
-      (Class == 6 && age < 10) ||
-      (Class == 7 && age < 11) ||
-      (Class == 8 && age < 12) ||
-      (Class == 9 && age < 13) ||
-      (Class == 10 && age < 14) ||
-      (Class == 11 && age < 15) ||
-      (Class == 12 && age < 16)
-    ) {
-      error =
-        "Age for the class " + Class + " doesn't match with the age " + age;
-      return res.render("addnewstudent", { error });
-    }
+    // if (
+    //   (Class == 1 && age < 5) ||
+    //   (Class == 2 && age < 6) ||
+    //   (Class == 3 && age < 7) ||
+    //   (Class == 4 && age < 8) ||
+    //   (Class == 5 && age < 9) ||
+    //   (Class == 6 && age < 10) ||
+    //   (Class == 7 && age < 11) ||
+    //   (Class == 8 && age < 12) ||
+    //   (Class == 9 && age < 13) ||
+    //   (Class == 10 && age < 14) ||
+    //   (Class == 11 && age < 15) ||
+    //   (Class == 12 && age < 16)
+    // ) {
+    //   error =
+    //     "Age for the class " + Class + " doesn't match with the age " + age;
+    //   return res.render("addnewstudent", { error });
+    // }
     const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (studid.length < 5) {
-      error = "STUDENT ID VALUE IS TOO SHORT";
-      return res.render("addnewstudent", { error });
+      req.flash("error", "STUDENT ID VALUE IS TOO SHORT");
+      return res.redirect("/staff/addnewstudent");
     } else if (!email.match(mailformat)) {
-      error = "INVALID MAIL ID";
-      return res.render("addnewstudent", { error });
+      req.flash("error", "INVALID MAIL ID");
+      return res.redirect("/staff/addnewstudent");
     }
     if (
       studid == 0 ||
@@ -329,18 +510,18 @@ stafflogin.post("/addnewstudent", (req, res) => {
       pwd == 0
     ) {
       error = "Please Enter Some values";
-      res.render("addnewstudent", { error });
+      return res.render("addnewstudent", { error });
     } else {
       var sql = `SELECT * from school_initialaddstudent where Stud_ID = '${studid}'`;
       con.query(sql, (err, result) => {
         if (err) {
           error = "Server Crashed";
-          res.render("servererror", { error });
+          return res.render("servererror", { error });
         } else if (result.length == 1) {
           error = "Student ID Already Taken";
-          res.render("addnewstudent", { error });
+          return res.render("addnewstudent", { error });
         } else {
-          var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,class,section,DOB,email_id,password) values ('${studid}','${Class}','${section}','${dob}','${email}','${hashedpassword}')`;
+          var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,section,DOB,email_id,password) values ('${studid}','${section}','${dob}','${email}','${hashedpassword}')`;
           con.query(newstud, function (err) {
             if (err) {
               error = "Server Crashed";
@@ -362,21 +543,22 @@ stafflogin.post("/addnewstudent", (req, res) => {
                   return res.render("servererror", { error });
                 });
               console.log("Student Record Inserted");
-              success = "Student Added Successfully";
-              return res.render("addnewstudent", { success });
+              req.flash("success", "Student Added Successfully");
+              return res.redirect("/staff/addnewstudent");
             }
           });
         }
       });
     }
   } catch (err) {
+    console.log(err);
     error = "Oops!!!......Server Crashed....!!!!";
     res.render("servererror", { error });
   }
 });
 
 stafflogin.get("/addstaff", (req, res) => {
-  res.render("addstaff");
+  return res.render("addstaff");
 });
 
 stafflogin.post("/addstaff", async (req, res) => {
@@ -440,7 +622,7 @@ stafflogin.post("/addstaff", async (req, res) => {
       con.query(dupstaff, (err, result) => {
         if (err) {
           error = "Server Crashed";
-          res.render("servererror", { error });
+          return res.render("servererror", { error });
         } else if (result[0].count == 1) {
           err_msg =
             "Duplicate Entries either in STAFF ID or ACCOUNT NUMBER or EMAIL ID or AADHAR NUMBER";
@@ -468,59 +650,6 @@ stafflogin.post("/addstaff", async (req, res) => {
               success = "Staff Added Successffully";
               return res.render("addstaff", { success });
             }
-          });
-        }
-      });
-    }
-  } catch (e) {
-    error = "Server Crashed";
-    res.render("servererror", { error });
-  }
-});
-
-//Adding Class
-stafflogin.get("/addclass", (req, res) => {
-  let error = "";
-  error = req.flash("error");
-  res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
-  res.locals.success = success;
-  res.render("addclass");
-});
-
-stafflogin.post("/addclass", async (req, res) => {
-  let error = "";
-  error = req.flash("error");
-  res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
-  res.locals.success = success;
-
-  try {
-    const Class = req.body.class;
-    const Actual_fee = req.body.actualfee;
-
-    if (Class == 0 || Actual_fee == 0) {
-      req.flash("error", "Please Enter Values");
-      return res.redirect("/staff/addclass");
-    } else {
-      var dup = `SELECT * FROM school_addclass WHERE Class = '${Class}'`;
-      con.query(dup, (err, result) => {
-        if (err) {
-          throw err;
-        } else if (result.length == 1) {
-          req.flash("error", "Class Already Added");
-          return res.redirect("/staff/addclass");
-        } else {
-          var sql = `INSERT INTO school_addclass(Class,Actual_fee) VALUES ('${Class}', '${Actual_fee}')`;
-          con.query(sql, function (err) {
-            if (err) {
-              throw err;
-            }
-
-            req.flash("success", "Class Added Successfully");
-            return res.redirect("/staff/staffinfo");
           });
         }
       });
