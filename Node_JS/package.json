@@ -18,6 +18,7 @@
     "express-session": "^1.17.2",
     "googleapis": "^92.0.0",
     "mysql": "^2.18.1",
+    "mysql-upgrade": "^0.1.2",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "popups": "^1.1.3",

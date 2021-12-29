@@ -13,7 +13,7 @@ app.use(
   session({
     name: "account",
     secret: "SecretStringForExpressSession",
-    cookie: { maxAge: 1200000 },
+    cookie: { maxAge: 120000000 },
     resave: true,
     saveUninitialized: true,
   })
@@ -28,7 +28,7 @@ app.use("/css", express.static(__dirname + "public/css"));
 app.use("/js", express.static(__dirname + "public/js"));
 
 const studentroute = require("./routes/studentRoute");
-const staffroute = require("./routes/staffroute");
+const staffroute = require("./routes/staffRoute");
 
 app.use("/student", studentroute);
 app.use("/staff", staffroute);
