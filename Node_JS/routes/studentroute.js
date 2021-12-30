@@ -161,16 +161,28 @@ studentRoute.post("/create-student-profile", (req, res) => {
       req.flash("error", "Invalid Phone Nummber");
       return res.redirect("/student/create-student-profile");
     } else {
-      var sql = `INSERT INTO school_addstudent(Stud_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex) VALUES ('${session.studentId}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}');`;
-      con.query(sql, function (err, inserted) {
+      var dup = `SELECT * FROM school_addstudent WHERE Stud_Aadhar_No = '${Stud_Aadhar_No}'`;
+      con.query(dup, (err, result) => {
         if (err) {
           console.log(err);
           req.flash("error", "Server Crashed");
           res.render("servererror");
+        } else if (result.length == 1) {
+          req.flash("error", "Duplicate Aadhar Number");
+          return res.redirect("/student/create-student-profile");
         } else {
-          console.log("Student Record Inserted");
-          req.flash("success", "Profile Created Successfully");
-          return res.redirect("/student/student-profile");
+          var sql = `INSERT INTO school_addstudent(Stud_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex) VALUES ('${session.studentId}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}');`;
+          con.query(sql, function (err, inserted) {
+            if (err) {
+              console.log(err);
+              req.flash("error", "Server Crashed");
+              res.render("servererror");
+            } else {
+              console.log("Student Record Inserted");
+              req.flash("success", "Profile Created Successfully");
+              return res.redirect("/student/student-profile");
+            }
+          });
         }
       });
     }

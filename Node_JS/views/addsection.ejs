@@ -22,18 +22,12 @@
     <form name="myForm" action="/staff/addsection" method="POST">
 
       <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Section</h2>
-
-      
-
-
-       
-
       <div class="mb-3">
         <div class="form-floating w-50 p-2">
           <select class="form-select" aria-label="Default select example" id="class" name="class">
             <% if (locals.result) { %>
-                <% for ( let i=0; i < locals.result.length; i++){ %>
-                    <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %></option>
+                <% for ( let i=0; i < locals.result[1].length; i++){ %>
+                    <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].Class %></option>
                 
            <% } }  %>
           </select>
@@ -42,9 +36,24 @@
       </div>
 
 
+         
+
+          
           <div class="mb-3">
-            <div class="form-floating  w-50 p-2">
-              <input type="text" class="form-control" name="section" id="section" placeholder="Section">
+            <div class="form-floating w-50 p-2">
+              <select class="form-select" aria-label="Default select example" id="section" name="section">
+                <option selected>Select</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+                <option value="J">J</option>
+              </select>
               <label for="section">Section</label>
             </div>
           </div>
@@ -80,12 +89,12 @@
         </thead>
         <tbody>
             <% if(result) {        
-                for(var i = 0; i < result.length; i++) { %>
+                for(var i = 0; i < result[0].length; i++) { %>
                   <tr>
                     <th scope="row"><%= (i+1) %></th>
-                    <td><%= result[i].Class %></td>
-                    <td><%= result[i].section %></td>
-                    <td><%= result[i].capacity %></td>
+                    <td><%= result[0][i].Class %></td>
+                    <td><%= result[0][i].section %></td>
+                    <td><%= result[0][i].capacity %></td>
                   </tr>
             <%  }  
               } else { %>

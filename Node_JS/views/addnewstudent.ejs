@@ -52,30 +52,18 @@
   
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
-                          <select class="form-select" aria-label="Default select example" id="class" name="class">
+                          <select class="form-select" aria-label="Default select example" id="section" name="section">
                             <% if (locals.result) { %>
-                                <% for ( let i=0; i < locals.result.length; i++){ %>
-                                    <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %></option>
-                                
-                           <% } }  %>
+                              <% for ( let i=0; i < locals.result.length; i++){ %>
+                                  <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %>-<%= locals.result[i].section %></option>
+                              
+                         <% } }  %>
                           </select>
                           <label for="class">Class</label>
                         </div>
                       </div>
             
             
-                      <div class="mb-3">
-                        <div class="form-floating w-75 p-2">
-                          <select class="form-select" aria-label="Default select example" id="section" name="section">
-                            <% if (locals.result) { %>
-                              <% for ( let i=0; i < locals.result.length; i++){ %>
-                                  <option value="<%= locals.result[i].ID %>"><%= locals.result[i].section %></option>
-                              
-                         <% } }  %>
-                          </select>
-                          <label for="section">Section</label>
-                        </div>
-                      </div>
 
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">

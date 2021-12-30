@@ -121,7 +121,22 @@ staffRoute.get("/viewstudent", (req, res) => {
   let success = "";
   success = req.flash("success");
   res.locals.success = success;
-  var viewstud = `SELECT school_initialaddstudent.Stud_ID,school_initialaddstudent.email_id,school_addstudent.Middle_Name,school_addstudent.Father_name,school_addstudent.Mother_name,school_addstudent.DOB,school_addstudent.Emergency_Contact_No FROM school_initialaddstudent JOIN school_addstudent ON school_initialaddstudent.ID=school_addstudent.Stud_ID`;
+  var viewstud = `SELECT 
+  school_initialaddstudent.Stud_ID,
+  school_initialaddstudent.email_id,
+  school_initialaddstudent.section,
+  school_addstudent.Middle_Name,
+  school_addstudent.Father_name,
+  school_addstudent.Mother_name,
+  school_addstudent.DOB,
+  school_addstudent.Emergency_Contact_No,
+  school_addsection.section,
+  school_addclass.Class
+   FROM
+    school_initialaddstudent INNER JOIN school_addstudent
+     ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
+     INNER JOIN school_addsection ON school_initialaddstudent.section=school_addsection.ID
+     INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id`;
   con.query(viewstud, (err, student) => {
     if (err) {
       console.log(err);
@@ -284,7 +299,7 @@ staffRoute.get("/addclass", (req, res) => {
   res.locals.success = success;
   // get all data from school_addclass - action - edit, delte modal
   try {
-    var Class = `SELECT * FROM school_addclass`;
+    var Class = `SELECT * FROM school_addclass `;
     con.query(Class, (err, result) => {
       if (err) {
         console.log(err);
@@ -358,12 +373,11 @@ staffRoute.get("/addsection", (req, res) => {
   try {
     // get data from school_addsection // table - edit modal
 
-    var stud = `Select * from school_addclass`;
+    var stud = `Select sas.class_id, sac.Class, sas.section, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id; SELECT * FROM school_addclass`;
     con.query(stud, (err, result) => {
       if (err) {
         console.log(err);
         req.flash("error", "Server Crashed");
-
         return res.redirect("/servererror");
       } else {
         // console.log(result);
@@ -438,7 +452,7 @@ staffRoute.get("/addnewstudent", (req, res) => {
   res.locals.success = success;
   try {
     //TO get class and section from school_addclass & school_addsection tables
-    var stud = `SELECT school_addclass.Class,school_addsection.section FROM school_addclass JOIN school_addsection ON school_addclass.ID=school_addsection.class_id`;
+    var stud = `Select sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
     con.query(stud, (err, result) => {
       if (err) {
         console.log(err);
@@ -446,7 +460,6 @@ staffRoute.get("/addnewstudent", (req, res) => {
 
         return res.redirect("/servererror");
       } else {
-        // console.log(result);
         res.locals.result = result;
         return res.render("addnewstudent");
       }
@@ -468,7 +481,6 @@ staffRoute.post("/addnewstudent", (req, res) => {
 
   try {
     const studid = req.body.stud_id;
-    const Class = req.body.class;
     const section = req.body.section;
     const email = req.body.email;
     const dob = req.body.dob;
@@ -511,14 +523,7 @@ staffRoute.post("/addnewstudent", (req, res) => {
       req.flash("error", "INVALID MAIL ID");
       return res.redirect("/staff/addnewstudent");
     }
-    if (
-      studid == 0 ||
-      Class == 0 ||
-      dob == 0 ||
-      section == 0 ||
-      email == 0 ||
-      pwd == 0
-    ) {
+    if (studid == 0 || dob == 0 || section == 0 || email == 0 || pwd == 0) {
       error = "Please Enter Some values";
       return res.render("addnewstudent", { error });
     } else {
@@ -529,8 +534,8 @@ staffRoute.post("/addnewstudent", (req, res) => {
           req.flash("error", "Server Crashed");
           return res.render("servererror");
         } else if (result.length == 1) {
-          error = "Student ID Already Taken";
-          return res.render("addnewstudent", { error });
+          req.flash("error", "Student ID Already Taken");
+          return res.redirect("/staff/addnewstudent");
         } else {
           var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,section,DOB,email_id,password) values ('${studid}','${section}','${dob}','${email}','${hashedpassword}')`;
           con.query(newstud, function (err) {
