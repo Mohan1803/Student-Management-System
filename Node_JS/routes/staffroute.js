@@ -527,7 +527,7 @@ staffRoute.post("/addnewstudent", (req, res) => {
       error = "Please Enter Some values";
       return res.render("addnewstudent", { error });
     } else {
-      var sql = `SELECT * from school_initialaddstudent where Stud_ID = '${studid}'`;
+      var sql = `SELECT * from school_initialaddstudent where Stud_ID = '${studid}';`;
       con.query(sql, (err, result) => {
         if (err) {
           console.log(err);
@@ -686,6 +686,18 @@ staffRoute.post("/addstaff", async (req, res) => {
     req.flash("error", "Server Crashed");
     return res.render("servererror");
   }
+});
+
+//Collect Fee
+
+staffRoute.get("/payfee", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+
+  let success = req.flash("success");
+  res.locals.success = success;
+
+  return res.render("payfeebystaff");
 });
 
 module.exports = staffRoute;

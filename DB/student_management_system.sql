@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 30, 2021 at 01:06 PM
+-- Generation Time: Dec 31, 2021 at 10:44 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -73,14 +73,14 @@ CREATE TABLE IF NOT EXISTS `school_addsection` (
   `daleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `class_id link` (`class_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addsection`
 --
 
 INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `created_at`, `updated_at`, `daleted_at`) VALUES
-(1, 1, 'A', 1, '2021-12-28 16:00:03', '2021-12-28 10:30:03', NULL),
+(1, 1, 'A', 40, '2021-12-28 16:00:03', '2021-12-28 10:30:03', NULL),
 (2, 1, 'B', 40, '2021-12-28 16:07:57', '2021-12-28 10:37:57', NULL),
 (3, 1, 'C', 40, '2021-12-28 16:11:18', '2021-12-28 10:41:18', NULL),
 (4, 2, 'A', 40, '2021-12-28 16:21:55', '2021-12-28 10:51:55', NULL),
@@ -94,7 +94,16 @@ INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `creat
 (12, 4, 'C', 50, '2021-12-30 12:00:05', '2021-12-30 06:30:05', NULL),
 (13, 5, 'A', 50, '2021-12-30 12:03:48', '2021-12-30 06:33:48', NULL),
 (14, 5, 'B', 50, '2021-12-30 12:15:09', '2021-12-30 06:45:09', NULL),
-(15, 5, 'C', 50, '2021-12-30 15:11:32', '2021-12-30 09:41:32', NULL);
+(15, 5, 'C', 50, '2021-12-30 15:11:32', '2021-12-30 09:41:32', NULL),
+(16, 6, 'A', 60, '2021-12-31 11:36:28', '2021-12-31 06:06:28', NULL),
+(17, 6, 'B', 60, '2021-12-31 11:36:38', '2021-12-31 06:06:38', NULL),
+(18, 6, 'C', 60, '2021-12-31 11:36:45', '2021-12-31 06:06:45', NULL),
+(19, 7, 'A', 60, '2021-12-31 11:36:56', '2021-12-31 06:06:56', NULL),
+(20, 7, 'B', 60, '2021-12-31 11:37:01', '2021-12-31 06:07:01', NULL),
+(21, 7, 'C', 60, '2021-12-31 11:37:07', '2021-12-31 06:07:07', NULL),
+(22, 8, 'A', 60, '2021-12-31 11:37:12', '2021-12-31 06:07:12', NULL),
+(23, 8, 'B', 60, '2021-12-31 11:37:22', '2021-12-31 06:07:22', NULL),
+(24, 8, 'C', 60, '2021-12-31 11:37:29', '2021-12-31 06:07:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -182,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
 
 INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, 1, 'B', 'Kishore', '', 'Balamurugan', 'Mother Name', '2016-02-09', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-28 17:05:03', '2021-12-28 11:35:03', NULL),
-(2, 2, 'B', 'Gowtham', '', 'Father Name', 'Mother name', '2021-12-16', '7864563456', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2021-12-30 17:44:26', '2021-12-30 12:14:26', NULL);
+(2, 3, 'A', 'Baskar', '', 'Ashok', 'Mother Name', '2021-12-07', '7864563443', 'Hindu', 'BC', 'tamil', '882749172575', 'male', '2021-12-31 14:41:39', '2021-12-31 09:11:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -222,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `section_link` (`section`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
@@ -230,7 +239,8 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
 
 INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'BMH21001', 1, '2007-06-12', 'mohannraj.s@koinnovation.com', '$2b$12$Sk5mFVh0dirXchxbsZcMwOXtjZNP8x1RaasQV0lgxA0oh/Sj4nU3y', '2021-12-28 16:57:55', '2021-12-28 11:27:55', NULL),
-(2, 'BMH21002', 1, '2021-12-21', 'baskar@gmail.com', '$2b$12$hLXvrrzu4X4O.kaCa2a9l.RZ10FaSSPwsmayXmVVg/1VQjmqmf7U.', '2021-12-30 17:43:19', '2021-12-30 12:13:19', NULL);
+(2, 'BMH21002', 1, '2021-11-30', 'kishore@gmail.com', '$2b$12$XZJQQXsX9Q95BG/AWCr94.FDyCoJ1.UMouFOxY0Hn4HjdQSH2HW0m', '2021-12-31 12:38:53', '2021-12-31 07:08:53', NULL),
+(3, 'BMH21006', 13, '2021-12-15', 'kishore@gmail.com', '$2b$12$EANrWfOJ6B9/0T760GXRsufVYRYBMhWpUgL/JxgnWhkPwxSVtVzpa', '2021-12-31 14:40:43', '2021-12-31 09:10:43', NULL);
 
 -- --------------------------------------------------------
 

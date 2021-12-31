@@ -30,7 +30,7 @@
   
                   <center>
   
-                    <form name="myForm" action="/student/studfee" style="background-color: rgb(92, 120, 133);" method="POST">
+                    <form name="myForm" action="/staff/payfee" style="background-color: rgb(92, 120, 133);" method="POST">
   
                       <b>
                         <h1 style="font-family: 'Times New Roman', Times, serif;">PAY YOUR FEE</h1>
@@ -44,14 +44,14 @@
 
                           <div class="mb-3">
                             <div class="form-floating w-75 p-2">
-                              <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID" value="<%= result[0].Stud_ID %>" disabled>
+                              <input type="text" class="form-control" name="studid" id="studid" placeholder="Student ID">
                               <label for="studid">Student ID</label>
                             </div>
                           </div>
 
                           <div class="mb-3">
                             <div class="form-floating  w-75 p-2">
-                              <input type="text" class="form-control" name="class" id="class1" placeholder="Class" value="<%= result[0].Class %>" disabled>
+                              <input type="text" class="form-control" name="class" id="class1" placeholder="Class" >
                               <label for="class">Class</label>
                             </div>
                           </div>
@@ -59,7 +59,7 @@
 
                           <div class="mb-3">
                             <div class="form-floating  w-75 p-2">
-                              <input type="text" class="form-control" name="section" id="section" placeholder="Section" value="<%= result[0].section %>" disabled>
+                              <input type="text" class="form-control" name="section" id="section" placeholder="Section" >
                               <label for="section">Section</label>
                             </div>
                           </div>
@@ -72,7 +72,7 @@
   
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Name"  value="<%= result[0].Middle_Name %>" disabled>
+                          <input type="text" class="form-control" name="name" id="name" placeholder="Name"  >
                           <label for="name">Name</label>
                         </div>
                       </div>
@@ -82,14 +82,14 @@
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <div class="form-floating w-75 p-2">
-                              <input type="text" class="form-control" name="phno" id="phno" placeholder="Phone Number" value="<%= result[0].Emergency_Contact_No %>" disabled>
+                              <input type="text" class="form-control" name="phno" id="phno" placeholder="Phone Number">
                               <label for="phno">Phone Number</label>
                             </div>
                           </div>
 
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
-                          <input type="email" class="form-control" name="Email" id="Email" placeholder="Email ID" value="<%= result[0].email_id %>" disabled>
+                          <input type="email" class="form-control" name="Email" id="Email" placeholder="Email ID" >
                           <label for="Email">Email ID</label>
                         </div>
                       </div>
@@ -101,7 +101,7 @@
 
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
-                          <input type="text" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee" value="<%= result[0].Actual_fee %>" disabled>
+                          <input type="text" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee">
                           <label for="actualfee">Actual Fee</label>
                         </div>
                       </div>

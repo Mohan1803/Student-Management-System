@@ -202,18 +202,16 @@ studentRoute.get("/studfee", (req, res) => {
   try {
     let session = req.session;
     // console.log(session.studentId);
-    var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}' `;
+    var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}'`;
     con.query(stud, (err, result) => {
+      console.log(result[0].Stud_ID);
       if (err) {
         console.log(err);
         req.flash("error", "Server Crashed");
         res.render("servererror");
-      } else if (result.length == 1) {
+      } else {
         res.locals.result = result;
         return res.render("studfee");
-      } else {
-        req.flash("error", "Login To Continue");
-        return res.redirect("/student/studentlogin");
       }
     });
   } catch (e) {
@@ -225,15 +223,14 @@ studentRoute.get("/studfee", (req, res) => {
 
 //post in student fee
 studentRoute.post("/studfee", (req, res) => {
-  let session = req.session;
   let error = req.flash("error");
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
   try {
-    const Class = req.body.class;
     const actualfee = req.body.actualfee;
-    const payingamt = paying_amt;
+    const payingamt = req.body.paying_amt;
+    let session = req.session;
 
     var fee = `INSERT INTO school_studentfee (Stud_ID, Actual_fee, Paying_amt)VALUES('${session.studentId}','${actualfee}','${payingamt}')`;
     con.query(fee, (err, result) => {
@@ -241,7 +238,7 @@ studentRoute.post("/studfee", (req, res) => {
         console.log(err);
         req.flash("error", "Server Crashed");
         res.render("servererror");
-      } else if (result.length == 1) {
+      } else {
         res.locals.success = ("success", "Fees Paid");
         res.redirect("/student/student-profile");
       }

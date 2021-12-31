@@ -1,6 +1,4 @@
-<div class="container pt-5 my-5 bg-white">
-    <div class="row align-items-center">
-      <div class="col-md-10 offset-md-1">
+
         <% if(locals.success.length>0) { %>
           <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
               role="alert">
@@ -18,12 +16,17 @@
           </div>
           <% } %>
 
-    <center>
+          <div class="container-fluid">
+            <div class="row mt-5">
+            <div class="col-lg-4 col-xl-4 col-sm-12">
+           <div class="sticky-top bg-light pt-5">
+
+            <!-- Form Code -->
     <form name="myForm" action="/staff/addsection" method="POST">
 
       <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Add Section</h2>
       <div class="mb-3">
-        <div class="form-floating w-50 p-2">
+        <div class="form-floating w-100 p-2">
           <select class="form-select" aria-label="Default select example" id="class" name="class">
             <% if (locals.result) { %>
                 <% for ( let i=0; i < locals.result[1].length; i++){ %>
@@ -40,7 +43,7 @@
 
           
           <div class="mb-3">
-            <div class="form-floating w-50 p-2">
+            <div class="form-floating w-100 p-2">
               <select class="form-select" aria-label="Default select example" id="section" name="section">
                 <option selected>Select</option>
                 <option value="A">A</option>
@@ -59,7 +62,7 @@
           </div>
           
           <div class="mb-3">
-            <div class="form-floating  w-50 p-2">
+            <div class="form-floating  w-100 p-2">
               <input type="text" class="form-control" name="capacity" id="capacity" placeholder="Capacity">
               <label for="capacity">Capacity</label>
             </div>
@@ -67,17 +70,20 @@
 
        
   
-        <div class="mb-3 align-center">
-          <div class="form-floating">
+     <center>
             <input type="submit" class="btn btn-primary align-center" value="submit" />
-          </div>
-        </div>
+        
         <a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
 
 
       </center>
-
-    <br>
+    </div>
+  </div>
+ 
+ <div class="col-xl-8 col-lg-8 col-sm-12 overflow-auto border">
+ 
+ <!-- table code  -->
+    
     <table class="table table-light text-center">
         <thead>
           <tr>
@@ -104,7 +110,7 @@
                 <% } %>
             </tbody>
           </table>
+        </div>
+      </div>
+      </div>
 
-</div>
-</div>
-</div>
