@@ -29,9 +29,11 @@ app.use("/js", express.static(__dirname + "public/js"));
 
 const studentroute = require("./routes/studentRoute");
 const staffroute = require("./routes/staffRoute");
+const apiroute = require("./routes/apiroute");
 
 app.use("/student", studentroute);
 app.use("/staff", staffroute);
+app.use("/api", apiroute);
 
 app.get("/", (req, res) => {
   res.render("home");

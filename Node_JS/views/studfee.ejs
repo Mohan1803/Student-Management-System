@@ -29,6 +29,10 @@
                     <% } %>
   
                   <center>
+
+                    <% if(locals.result != 0){ %>
+
+                   
   
                     <form name="myForm" action="/student/studfee" style="background-color: rgb(92, 120, 133);" method="POST">
   
@@ -101,7 +105,8 @@
 
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
-                          <input type="text" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee" value="<%= result[0].Actual_fee %>" disabled>
+                          <input type="number" class="form-control" name="actualfee" id="actualfee" placeholder="Actual Fee" value="<%= result[0].Actual_fee %>" disabled>
+                          <input type="hidden" class="form-control" name="actualfee_hide" id="actualfee_hide" placeholder="Actual Fee" value="<%= result[0].Actual_fee %>" >
                           <label for="actualfee">Actual Fee</label>
                         </div>
                       </div>
@@ -111,6 +116,15 @@
                         <div class="form-floating w-75 p-2">
                           <input type="text" class="form-control" name="paying_amt" id="paying_amt" placeholder="Paying Amount">
                           <label for="paying_amt">Paying Amount</label>
+                        </div>
+                      </div>
+
+
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <input type="number" class="form-control" name="balance" id="balance" placeholder="Balance" value="<%= result[0].Actual_fee %>" disabled>
+                          <input type="hidden" class="form-control" name="balance_hide" id="balance_hide" placeholder="Balance" value="<%= result[0].Actual_fee %>"> 
+                          <label for="balance">Balance</label>
                         </div>
                       </div>
                     </div>
@@ -123,7 +137,16 @@
   
                     </form>
                   </center>
-  
+                  <%  } %>
+
+                  <% if(locals.result == 0) { %>
+                   
+                      <div class="col">
+                        <h1>Please login to continue</h1>
+                        <a href="/" class="btn btn-primary" role="button">Login Here</a>
+                      </div>
+                   
+                    <% } %>
           </div>
         </div>
       </div>

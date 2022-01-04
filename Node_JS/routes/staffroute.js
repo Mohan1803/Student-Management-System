@@ -690,7 +690,7 @@ staffRoute.post("/addstaff", async (req, res) => {
 
 //Collect Fee
 
-staffRoute.get("/payfee", (req, res) => {
+staffRoute.get("/collectfee", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
 
@@ -698,6 +698,16 @@ staffRoute.get("/payfee", (req, res) => {
   res.locals.success = success;
 
   return res.render("payfeebystaff");
+});
+
+staffRoute.post("/collectfee", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+
+  let success = req.flash("success");
+  res.locals.success = success;
+
+  //insert values in school_studentadmission table from ajax call
 });
 
 module.exports = staffRoute;

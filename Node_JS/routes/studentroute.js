@@ -80,8 +80,6 @@ studentRoute.get("/student-profile", (req, res) => {
         res.locals.result = result;
         return res.render("studinfo");
       } else {
-        // error
-        // req.flash("error", "Student not found");
         return res.redirect("/student/create-student-profile");
       }
     });
@@ -134,7 +132,6 @@ studentRoute.post("/create-student-profile", (req, res) => {
     const Last_Name = req.body.lname;
     const Father_name = req.body.father_name;
     const Mother_name = req.body.mother_name;
-    const DOB = req.body.dob || "01-01-0001";
     const Emergency_Contact_No = req.body.ecn || "NIL";
     const Religion = req.body.religion;
     const Caste = req.body.caste;
@@ -147,7 +144,6 @@ studentRoute.post("/create-student-profile", (req, res) => {
       Middle_Name == 0 ||
       Father_name == 0 ||
       Mother_name == 0 ||
-      DOB == 0 ||
       Emergency_Contact_No == 0 ||
       Religion == 0 ||
       Caste == 0 ||
@@ -171,7 +167,7 @@ studentRoute.post("/create-student-profile", (req, res) => {
           req.flash("error", "Duplicate Aadhar Number");
           return res.redirect("/student/create-student-profile");
         } else {
-          var sql = `INSERT INTO school_addstudent(Stud_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, DOB, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex) VALUES ('${session.studentId}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${DOB}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}');`;
+          var sql = `INSERT INTO school_addstudent(Stud_ID, First_Name, Middle_Name, Last_Name, Father_name, Mother_name, Emergency_Contact_No, Religion, Caste, Mother_Tongue, Stud_Aadhar_No, Sex) VALUES ('${session.studentId}', '${First_Name}', '${Middle_Name}', '${Last_Name}', '${Father_name}', '${Mother_name}', '${Emergency_Contact_No}', '${Religion}', '${Caste}', '${Mother_Tongue}', '${Stud_Aadhar_No}', '${Sex}');`;
           con.query(sql, function (err, inserted) {
             if (err) {
               console.log(err);
@@ -201,19 +197,26 @@ studentRoute.get("/studfee", (req, res) => {
   res.locals.success = success;
   try {
     let session = req.session;
-    // console.log(session.studentId);
-    var stud = `Select * from school_initialaddstudent where ID = '${session.studentId}'`;
-    con.query(stud, (err, result) => {
-      console.log(result[0].Stud_ID);
-      if (err) {
-        console.log(err);
-        req.flash("error", "Server Crashed");
-        res.render("servererror");
-      } else {
-        res.locals.result = result;
-        return res.render("studfee");
-      }
-    });
+    if (session) {
+      // console.log(session.studentId);
+      var stud = `SELECT school_initialaddstudent.Stud_ID, school_initialaddstudent.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sac.Class, sac.Actual_fee, sas.section FROM school_addstudent AS sadds INNER JOIN school_initialaddstudent  ON sadds.Stud_ID = school_initialaddstudent.ID INNER JOIN school_addsection AS sas ON sas.ID = school_initialaddstudent.section INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE school_initialaddstudent.ID= '${session.studentId}'`;
+      con.query(stud, (err, result) => {
+        if (err) {
+          console.log(err);
+          req.flash("error", "Server Crashed");
+          res.render("servererror");
+        } else if (result.length == 1) {
+          res.locals.result = result;
+          return res.render("studfee");
+        } else {
+          res.locals.result = 0;
+          return res.render("studfee");
+        }
+      });
+    } else {
+      req.flash("error", "NOT Loggedin");
+      return res.redirect("/");
+    }
   } catch (e) {
     console.log(e);
     req.flash("error", "Server Crashed");
@@ -223,23 +226,27 @@ studentRoute.get("/studfee", (req, res) => {
 
 //post in student fee
 studentRoute.post("/studfee", (req, res) => {
+  let session = req.session;
+
   let error = req.flash("error");
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
   try {
-    const actualfee = req.body.actualfee;
+    const actualfee = req.body.actualfee_hide;
     const payingamt = req.body.paying_amt;
-    let session = req.session;
-
-    var fee = `INSERT INTO school_studentfee (Stud_ID, Actual_fee, Paying_amt)VALUES('${session.studentId}','${actualfee}','${payingamt}')`;
+    const balance = req.body.balance_hide;
+    console.log(session.studentId);
+    var fee = `INSERT INTO school_studentfee (Stud_ID, Actual_fee, Paying_amt, Balance) VALUES ('${session.studentId}','${actualfee}','${payingamt}','${actualfee}' - '${payingamt}')`;
     con.query(fee, (err, result) => {
       if (err) {
         console.log(err);
         req.flash("error", "Server Crashed");
         res.render("servererror");
       } else {
-        res.locals.success = ("success", "Fees Paid");
+        res.locals.paying_amt = payingamt;
+
+        req.flash("success", "Fees Paid");
         res.redirect("/student/student-profile");
       }
     });

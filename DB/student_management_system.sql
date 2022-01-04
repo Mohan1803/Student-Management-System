@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 31, 2021 at 10:44 AM
+-- Generation Time: Jan 04, 2022 at 12:27 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `school_addclass`;
 CREATE TABLE IF NOT EXISTS `school_addclass` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Class` varchar(20) NOT NULL,
-  `Actual_fee` varchar(10) NOT NULL,
+  `Actual_fee` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
@@ -43,18 +43,18 @@ CREATE TABLE IF NOT EXISTS `school_addclass` (
 --
 
 INSERT INTO `school_addclass` (`ID`, `Class`, `Actual_fee`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, '12', '20000', '2021-12-28 15:42:19', '2021-12-28 10:12:19', NULL),
-(2, '11', '19000', '2021-12-28 15:42:24', '2021-12-28 10:12:24', NULL),
-(3, '10', '18000', '2021-12-28 15:42:28', '2021-12-28 10:12:28', NULL),
-(4, '9', '17000', '2021-12-28 15:42:37', '2021-12-28 10:12:37', NULL),
-(5, '8', '16000', '2021-12-28 15:42:58', '2021-12-28 10:12:58', NULL),
-(6, '7', '15000', '2021-12-28 15:43:18', '2021-12-28 10:13:18', NULL),
-(7, '6', '14000', '2021-12-28 15:43:30', '2021-12-28 10:13:30', NULL),
-(8, '5', '13000', '2021-12-28 15:43:50', '2021-12-28 10:13:50', NULL),
-(9, '4', '12000', '2021-12-28 15:44:01', '2021-12-28 10:14:01', NULL),
-(10, '3', '11000', '2021-12-28 15:44:05', '2021-12-28 10:14:05', NULL),
-(11, '2', '10000', '2021-12-28 15:44:10', '2021-12-28 10:14:10', NULL),
-(12, '1', '9000', '2021-12-28 15:44:16', '2021-12-28 10:14:16', NULL);
+(1, '12', 20000, '2022-01-04 15:36:48', '2022-01-04 10:06:48', NULL),
+(2, '11', 19000, '2022-01-04 15:36:55', '2022-01-04 10:06:55', NULL),
+(3, '10', 18000, '2022-01-04 15:37:02', '2022-01-04 10:07:02', NULL),
+(4, '9', 17000, '2022-01-04 15:37:09', '2022-01-04 10:07:09', NULL),
+(5, '8', 16000, '2022-01-04 15:37:20', '2022-01-04 10:07:20', NULL),
+(6, '7', 15000, '2022-01-04 15:37:33', '2022-01-04 10:07:33', NULL),
+(7, '6', 14000, '2022-01-04 15:37:42', '2022-01-04 10:07:42', NULL),
+(8, '5', 13000, '2022-01-04 15:37:47', '2022-01-04 10:07:47', NULL),
+(9, '4', 12000, '2022-01-04 15:37:53', '2022-01-04 10:07:53', NULL),
+(10, '3', 11000, '2022-01-04 15:38:15', '2022-01-04 10:08:15', NULL),
+(11, '2', 10000, '2022-01-04 15:38:21', '2022-01-04 10:08:21', NULL),
+(12, '1', 9000, '2022-01-04 15:38:25', '2022-01-04 10:08:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -73,37 +73,42 @@ CREATE TABLE IF NOT EXISTS `school_addsection` (
   `daleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `class_id link` (`class_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addsection`
 --
 
 INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `created_at`, `updated_at`, `daleted_at`) VALUES
-(1, 1, 'A', 40, '2021-12-28 16:00:03', '2021-12-28 10:30:03', NULL),
-(2, 1, 'B', 40, '2021-12-28 16:07:57', '2021-12-28 10:37:57', NULL),
-(3, 1, 'C', 40, '2021-12-28 16:11:18', '2021-12-28 10:41:18', NULL),
-(4, 2, 'A', 40, '2021-12-28 16:21:55', '2021-12-28 10:51:55', NULL),
-(5, 2, 'B', 40, '2021-12-28 16:22:18', '2021-12-28 10:52:18', NULL),
-(6, 2, 'C', 40, '2021-12-28 16:22:25', '2021-12-28 10:52:25', NULL),
-(7, 3, 'A', 50, '2021-12-28 16:25:31', '2021-12-28 10:55:31', NULL),
-(8, 3, 'B', 50, '2021-12-28 16:25:44', '2021-12-28 10:55:44', NULL),
-(9, 3, 'C', 50, '2021-12-29 14:05:16', '2021-12-29 08:35:16', NULL),
-(10, 4, 'A', 50, '2021-12-29 14:05:24', '2021-12-29 08:35:24', NULL),
-(11, 4, 'B', 50, '2021-12-30 11:55:14', '2021-12-30 06:25:14', NULL),
-(12, 4, 'C', 50, '2021-12-30 12:00:05', '2021-12-30 06:30:05', NULL),
-(13, 5, 'A', 50, '2021-12-30 12:03:48', '2021-12-30 06:33:48', NULL),
-(14, 5, 'B', 50, '2021-12-30 12:15:09', '2021-12-30 06:45:09', NULL),
-(15, 5, 'C', 50, '2021-12-30 15:11:32', '2021-12-30 09:41:32', NULL),
-(16, 6, 'A', 60, '2021-12-31 11:36:28', '2021-12-31 06:06:28', NULL),
-(17, 6, 'B', 60, '2021-12-31 11:36:38', '2021-12-31 06:06:38', NULL),
-(18, 6, 'C', 60, '2021-12-31 11:36:45', '2021-12-31 06:06:45', NULL),
-(19, 7, 'A', 60, '2021-12-31 11:36:56', '2021-12-31 06:06:56', NULL),
-(20, 7, 'B', 60, '2021-12-31 11:37:01', '2021-12-31 06:07:01', NULL),
-(21, 7, 'C', 60, '2021-12-31 11:37:07', '2021-12-31 06:07:07', NULL),
-(22, 8, 'A', 60, '2021-12-31 11:37:12', '2021-12-31 06:07:12', NULL),
-(23, 8, 'B', 60, '2021-12-31 11:37:22', '2021-12-31 06:07:22', NULL),
-(24, 8, 'C', 60, '2021-12-31 11:37:29', '2021-12-31 06:07:29', NULL);
+(1, 1, 'A', 50, '2022-01-04 15:38:45', '2022-01-04 10:08:45', NULL),
+(2, 1, 'B', 50, '2022-01-04 15:38:51', '2022-01-04 10:08:51', NULL),
+(3, 2, 'A', 50, '2022-01-04 15:38:56', '2022-01-04 10:08:56', NULL),
+(4, 2, 'B', 50, '2022-01-04 15:39:00', '2022-01-04 10:09:00', NULL),
+(5, 3, 'A', 60, '2022-01-04 15:39:06', '2022-01-04 10:09:06', NULL),
+(6, 3, 'B', 60, '2022-01-04 15:39:14', '2022-01-04 10:09:14', NULL),
+(7, 4, 'A', 60, '2022-01-04 15:39:20', '2022-01-04 10:09:20', NULL),
+(8, 4, 'B', 60, '2022-01-04 15:39:28', '2022-01-04 10:09:28', NULL),
+(9, 5, 'A', 60, '2022-01-04 15:39:34', '2022-01-04 10:09:34', NULL),
+(10, 5, 'B', 60, '2022-01-04 15:39:40', '2022-01-04 10:09:40', NULL),
+(11, 5, 'C', 60, '2022-01-04 15:39:47', '2022-01-04 10:09:47', NULL),
+(12, 6, 'A', 60, '2022-01-04 15:40:01', '2022-01-04 10:10:01', NULL),
+(13, 6, 'B', 60, '2022-01-04 15:40:06', '2022-01-04 10:10:06', NULL),
+(14, 6, 'C', 60, '2022-01-04 15:40:11', '2022-01-04 10:10:11', NULL),
+(15, 7, 'A', 70, '2022-01-04 15:40:18', '2022-01-04 10:10:18', NULL),
+(16, 7, 'B', 70, '2022-01-04 15:40:25', '2022-01-04 10:10:25', NULL),
+(17, 7, 'C', 70, '2022-01-04 15:40:34', '2022-01-04 10:10:34', NULL),
+(18, 8, 'A', 60, '2022-01-04 15:40:40', '2022-01-04 10:10:40', NULL),
+(19, 8, 'B', 60, '2022-01-04 15:40:47', '2022-01-04 10:10:47', NULL),
+(20, 8, 'C', 60, '2022-01-04 15:40:53', '2022-01-04 10:10:53', NULL),
+(21, 9, 'A', 70, '2022-01-04 15:41:05', '2022-01-04 10:11:05', NULL),
+(22, 9, 'B', 70, '2022-01-04 15:41:14', '2022-01-04 10:11:14', NULL),
+(23, 9, 'C', 70, '2022-01-04 15:41:23', '2022-01-04 10:11:23', NULL),
+(24, 10, 'A', 60, '2022-01-04 15:41:42', '2022-01-04 10:11:42', NULL),
+(25, 10, 'B', 60, '2022-01-04 15:41:49', '2022-01-04 10:11:49', NULL),
+(26, 11, 'A', 60, '2022-01-04 15:41:57', '2022-01-04 10:11:57', NULL),
+(27, 11, 'B', 60, '2022-01-04 15:42:02', '2022-01-04 10:12:02', NULL),
+(28, 12, 'A', 70, '2022-01-04 15:42:10', '2022-01-04 10:12:10', NULL),
+(29, 12, 'B', 70, '2022-01-04 15:42:16', '2022-01-04 10:12:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -170,7 +175,6 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   `Last_Name` varchar(255) NOT NULL,
   `Father_name` varchar(255) NOT NULL,
   `Mother_name` varchar(255) NOT NULL,
-  `DOB` date NOT NULL,
   `Emergency_Contact_No` varchar(20) NOT NULL,
   `Religion` varchar(255) NOT NULL,
   `Caste` varchar(255) NOT NULL,
@@ -189,9 +193,9 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
 -- Dumping data for table `school_addstudent`
 --
 
-INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `DOB`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 'B', 'Kishore', '', 'Balamurugan', 'Mother Name', '2016-02-09', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2021-12-28 17:05:03', '2021-12-28 11:35:03', NULL),
-(2, 3, 'A', 'Baskar', '', 'Ashok', 'Mother Name', '2021-12-07', '7864563443', 'Hindu', 'BC', 'tamil', '882749172575', 'male', '2021-12-31 14:41:39', '2021-12-31 09:11:39', NULL);
+INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 1, 'First Name', 'Gowtham', '', 'Father Name', 'Mother Name', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2022-01-04 17:21:03', '2022-01-04 11:51:03', NULL),
+(2, 2, 'First Name', 'Baskar', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2022-01-04 17:30:58', '2022-01-04 12:00:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -231,16 +235,15 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `section_link` (`section`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
 --
 
 INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'BMH21001', 1, '2007-06-12', 'mohannraj.s@koinnovation.com', '$2b$12$Sk5mFVh0dirXchxbsZcMwOXtjZNP8x1RaasQV0lgxA0oh/Sj4nU3y', '2021-12-28 16:57:55', '2021-12-28 11:27:55', NULL),
-(2, 'BMH21002', 1, '2021-11-30', 'kishore@gmail.com', '$2b$12$XZJQQXsX9Q95BG/AWCr94.FDyCoJ1.UMouFOxY0Hn4HjdQSH2HW0m', '2021-12-31 12:38:53', '2021-12-31 07:08:53', NULL),
-(3, 'BMH21006', 13, '2021-12-15', 'kishore@gmail.com', '$2b$12$EANrWfOJ6B9/0T760GXRsufVYRYBMhWpUgL/JxgnWhkPwxSVtVzpa', '2021-12-31 14:40:43', '2021-12-31 09:10:43', NULL);
+(1, 'BMH21001', 1, '2022-01-05', 'mohannraj.s@koinnovation.com', '$2b$12$jiYj/iFVkx9nj5qPrf3C4.D0JSRbVjAclEB9/pEU72JqXEXpNR516', '2022-01-04 17:19:49', '2022-01-04 11:49:49', NULL),
+(2, 'BMH21002', 1, '2022-01-02', 'kishore@gmail.com', '$2b$12$806goHlv1k4wrcFVRGhKx.RgkXkPbMoPzgStmtBseC8eam6hF7alC', '2022-01-04 17:30:20', '2022-01-04 12:00:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -284,6 +287,26 @@ CREATE TABLE IF NOT EXISTS `school_staffsalary` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `school_studentadmission`
+--
+
+DROP TABLE IF EXISTS `school_studentadmission`;
+CREATE TABLE IF NOT EXISTS `school_studentadmission` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `Stud_id` int(10) NOT NULL,
+  `Actual_fee` int(10) NOT NULL,
+  `Paying_amt` int(10) NOT NULL,
+  `Pending_due` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `stud_id link admission` (`Stud_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `school_studentattendance`
 --
 
@@ -309,8 +332,9 @@ DROP TABLE IF EXISTS `school_studentfee`;
 CREATE TABLE IF NOT EXISTS `school_studentfee` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Stud_ID` int(10) NOT NULL,
-  `Actual_fee` varchar(10) NOT NULL,
-  `Paying_amt` varchar(10) NOT NULL,
+  `Actual_fee` int(10) NOT NULL,
+  `Paying_amt` int(10) NOT NULL,
+  `Balance` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
@@ -352,6 +376,12 @@ ALTER TABLE `school_staffattendance`
 ALTER TABLE `school_staffsalary`
   ADD CONSTRAINT `acc no` FOREIGN KEY (`Staff_Account_No`) REFERENCES `school_addstaff` (`Staff_Account_No`),
   ADD CONSTRAINT `staff salary` FOREIGN KEY (`User_Name`) REFERENCES `school_staffattendance` (`User_Name`);
+
+--
+-- Constraints for table `school_studentadmission`
+--
+ALTER TABLE `school_studentadmission`
+  ADD CONSTRAINT `stud_id link admission` FOREIGN KEY (`Stud_id`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --
 -- Constraints for table `school_studentfee`
