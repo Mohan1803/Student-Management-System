@@ -50,16 +50,42 @@
             <div class="container pt-3 my-5 bg-white">
              
                
-<center>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Name: <%= locals.result[0].Full_Name %></h5></li>
-    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Father Name: <%= locals.result[0].Father_name %></h5></li>
-    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Mother Name: <%= locals.result[0].Mother_name %></h5></li>
-    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Aadhar Number: <%= locals.result[0].Stud_Aadhar_No %></h5></li>
-    <li class="list-group-item"><h5 style="font-family: 'Times New Roman', Times, serif;">Phone Number: <%= locals.result[0].Emergency_Contact_No %></h5></li>
-  </ul>
-            
-          </center>
+
+  
+  <table class="w-50 p-3 container d-flex align-items-center justify-content-center table table-light ">
+    <tr>
+      <td class="text-decoration-underline fw-bold">NAME</td>
+      <td>
+        <%= locals.result[0].Full_Name %>
+      </td>
+  </tr>
+  <tr>
+    <td class="text-decoration-underline fw-bold">FATHER NAME</td>
+    <td>
+      <%= locals.result[0].Father_name %>
+    </td>
+</tr>
+<tr>
+  <td class="text-decoration-underline fw-bold">MOTHER NAME</td>
+  <td>
+    <%= locals.result[0].Mother_name %>
+  </td>
+</tr>
+
+<tr>
+  <td class="text-decoration-underline fw-bold">AADHAR NUMBER</td>
+  <td>
+    <%= locals.result[0].Stud_Aadhar_No %> 
+   </td>
+</tr>
+<tr>
+  <td class="text-decoration-underline fw-bold">PHONE NUMBER</td>
+  <td>
+    <%= locals.result[0].Emergency_Contact_No %>
+  </td>
+</tr>
+      </table>
+         
                 </div>
 
 

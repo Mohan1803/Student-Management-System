@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 04, 2022 at 12:27 PM
+-- Generation Time: Jan 05, 2022 at 12:53 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `id` (`ID`),
   KEY `student_id link` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addstudent`
@@ -195,7 +195,8 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
 
 INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, 1, 'First Name', 'Gowtham', '', 'Father Name', 'Mother Name', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2022-01-04 17:21:03', '2022-01-04 11:51:03', NULL),
-(2, 2, 'First Name', 'Baskar', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2022-01-04 17:30:58', '2022-01-04 12:00:58', NULL);
+(2, 2, 'First Name', 'Baskar', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2022-01-04 17:30:58', '2022-01-04 12:00:58', NULL),
+(3, 3, 'K', 'Gowtham', '', 'Kanagaraj', 'Rajalakshmi', '7864563443', 'Hindu', 'BC', 'tamil', '882749172575', 'male', '2022-01-05 16:46:30', '2022-01-05 11:16:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -235,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `section_link` (`section`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
@@ -243,7 +244,8 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
 
 INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'BMH21001', 1, '2022-01-05', 'mohannraj.s@koinnovation.com', '$2b$12$jiYj/iFVkx9nj5qPrf3C4.D0JSRbVjAclEB9/pEU72JqXEXpNR516', '2022-01-04 17:19:49', '2022-01-04 11:49:49', NULL),
-(2, 'BMH21002', 1, '2022-01-02', 'kishore@gmail.com', '$2b$12$806goHlv1k4wrcFVRGhKx.RgkXkPbMoPzgStmtBseC8eam6hF7alC', '2022-01-04 17:30:20', '2022-01-04 12:00:20', NULL);
+(2, 'BMH21002', 1, '2022-01-02', 'kishore@gmail.com', '$2b$12$806goHlv1k4wrcFVRGhKx.RgkXkPbMoPzgStmtBseC8eam6hF7alC', '2022-01-04 17:30:20', '2022-01-04 12:00:20', NULL),
+(3, 'BMH21003', 1, '2005-06-14', 'kishore@gmail.com', '$2b$12$cJA6JDCfqI0QnF/vcFT80.x8ikLwIYlJdlBtUE4YssR9vVdMcQXBO', '2022-01-05 16:42:57', '2022-01-05 11:12:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -302,7 +304,15 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `stud_id link admission` (`Stud_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_studentadmission`
+--
+
+INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 1, 20000, 5000, 15000, '2022-01-05 15:53:11', '2022-01-05 10:23:11', NULL),
+(2, 3, 20000, 5000, 15000, '2022-01-05 16:46:49', '2022-01-05 11:16:49', NULL);
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,41 @@
+ <div class="container pt-3 my-3 bg-white">
+  <% if(locals.success.length>0) { %>
+    <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+  <% if(locals.error.length>0) { %>
+    <div
+      class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+        <div class="row align-items-center">
+          <div class="col-md-10 offset-md-1">
+                  <center>
+                    <form name="myForm" action="/staff/admission-fee" method="POST">
+                      <b>
+                        <h1 style="font-family: 'Times New Roman', Times, serif;">ADMISSION</h1>
+                      </b><br>
+                          <div class="mb-3">
+                            <div class="form-floating w-75 p-2">
+                              <input type="text" class="form-control" name="studid_fee" id="studid_fee" placeholder="Student ID">
+                              <label for="studid">Student ID</label>
+                            </div>
+                          </div>
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <input type="text" class="form-control" name="paying_amt" id="paying_amt" placeholder="Paying Amount">
+                          <label for="paying_amt">Paying Amount</label>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary" type="submit">SUBMIT</button> <br><br>
+                    </form>
+                  </center>
+          </div>
+        </div>
+      </div>

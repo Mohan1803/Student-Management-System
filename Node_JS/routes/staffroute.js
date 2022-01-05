@@ -103,7 +103,7 @@ staffRoute.get("/staffinfo", (req, res) => {
         }
       });
     } else {
-      req.flash("error", "Please login to continue.");
+      req.flash("error", "TimesUp Please login to continue.");
       return res.redirect("/staff/stafflogin");
     }
   } catch (err) {
@@ -128,13 +128,12 @@ staffRoute.get("/viewstudent", (req, res) => {
   school_addstudent.Middle_Name,
   school_addstudent.Father_name,
   school_addstudent.Mother_name,
-  school_addstudent.DOB,
+  school_initialaddstudent.DOB,
   school_addstudent.Emergency_Contact_No,
   school_addsection.section,
   school_addclass.Class
    FROM
-    school_initialaddstudent INNER JOIN school_addstudent
-     ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
+    school_initialaddstudent INNER JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
      INNER JOIN school_addsection ON school_initialaddstudent.section=school_addsection.ID
      INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id`;
   con.query(viewstud, (err, student) => {
@@ -690,24 +689,58 @@ staffRoute.post("/addstaff", async (req, res) => {
 
 //Collect Fee
 
-staffRoute.get("/collectfee", (req, res) => {
+staffRoute.get("/admission-fee", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
 
   let success = req.flash("success");
   res.locals.success = success;
 
-  return res.render("payfeebystaff");
+  return res.render("studadmission");
 });
 
-staffRoute.post("/collectfee", (req, res) => {
+staffRoute.post("/admission-fee", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
-
   let success = req.flash("success");
   res.locals.success = success;
 
-  //insert values in school_studentadmission table from ajax call
+  try {
+    const payingamt = req.body.paying_amt;
+    const studentid = req.body.studentid;
+    const actualfee = req.body.actualfee_hide;
+    // check in admission
+    var dupStuAdmi = `SELECT * FROM school_studentadmission WHERE Stud_id='${studentid}'`;
+    con.query(dupStuAdmi, (err, duplicate) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.render("servererror");
+      } else if (duplicate.length != 0) {
+        req.flash(
+          "error",
+          "Student Already Enrolled Please Collect Due in Due collection page"
+        );
+        return res.redirect("/staff/admission-fee");
+      } else {
+        var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Paying_amt, Pending_due) VALUES ('${studentid}','${actualfee}','${payingamt}', '${actualfee}' - '${payingamt}' )`;
+        con.query(fee, (err, result) => {
+          if (err) {
+            console.log(err);
+            req.flash("error", "Server Crashed");
+            return res.render("servererror");
+          } else {
+            req.flash("success", "Fee Collected Successfully");
+            return res.redirect("/staff/admission-fee");
+          }
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
 });
 
 module.exports = staffRoute;
