@@ -77,8 +77,35 @@ studentRoute.get("/student-profile", (req, res) => {
         req.flash("error", "Server Crashed");
         res.render("servererror");
       } else if (result.length == 1) {
-        res.locals.result = result;
-        return res.render("studinfo");
+        const Id = result[0].ID;
+        var studProfile = `SELECT 
+        school_initialaddstudent.Stud_ID,
+        school_initialaddstudent.email_id,
+        school_initialaddstudent.section,
+        school_addstudent.First_Name,
+        school_addstudent.Middle_Name,
+        school_addstudent.Last_Name,
+        school_addstudent.Father_name,
+        school_addstudent.Mother_name,
+        school_initialaddstudent.DOB,
+        school_addstudent.Emergency_Contact_No,
+        school_addstudent.Stud_Aadhar_No,
+        school_addsection.section,
+        school_addclass.Class
+         FROM
+          school_initialaddstudent INNER JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
+           INNER JOIN school_addsection ON school_initialaddstudent.section=school_addsection.ID
+           INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id WHERE school_initialaddstudent.ID='${Id}'`;
+        con.query(studProfile, (err, profile) => {
+          if (err) {
+            console.log(err);
+            req.flash("error", "Server Crashed");
+            return res.render("servererror");
+          } else {
+            res.locals.profile = profile;
+            return res.render("studinfo");
+          }
+        });
       } else {
         return res.redirect("/student/create-student-profile");
       }
@@ -86,7 +113,7 @@ studentRoute.get("/student-profile", (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error", "Server Crashed");
-    res.render("servererror");
+    return res.render("servererror");
   }
 });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 05, 2022 at 12:53 PM
+-- Generation Time: Jan 07, 2022 at 12:05 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
 --
 
 INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'BMH21001', 1, '2022-01-05', 'mohannraj.s@koinnovation.com', '$2b$12$jiYj/iFVkx9nj5qPrf3C4.D0JSRbVjAclEB9/pEU72JqXEXpNR516', '2022-01-04 17:19:49', '2022-01-04 11:49:49', NULL),
+(1, 'BMH21001', 1, '2022-01-05', 'mohannraj.s@koinnovation.com', '$2b$12$kiftUrbb01sfo5k5g7iNReNAIDZ9ghRzy88xJT8lsgDiTxjW4.L2W', '2022-01-04 17:19:49', '2022-01-04 11:49:49', NULL),
 (2, 'BMH21002', 1, '2022-01-02', 'kishore@gmail.com', '$2b$12$806goHlv1k4wrcFVRGhKx.RgkXkPbMoPzgStmtBseC8eam6hF7alC', '2022-01-04 17:30:20', '2022-01-04 12:00:20', NULL),
 (3, 'BMH21003', 1, '2005-06-14', 'kishore@gmail.com', '$2b$12$cJA6JDCfqI0QnF/vcFT80.x8ikLwIYlJdlBtUE4YssR9vVdMcQXBO', '2022-01-05 16:42:57', '2022-01-05 11:12:57', NULL);
 
@@ -304,15 +304,15 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `stud_id link admission` (`Stud_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studentadmission`
 --
 
 INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 20000, 5000, 15000, '2022-01-05 15:53:11', '2022-01-05 10:23:11', NULL),
-(2, 3, 20000, 5000, 15000, '2022-01-05 16:46:49', '2022-01-05 11:16:49', NULL);
+(1, 1, 20000, 5000, 15000, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
+(2, 2, 20000, 9000, 11000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -335,16 +335,18 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `school_studentfee`
+-- Table structure for table `school_student_due_collection`
 --
 
-DROP TABLE IF EXISTS `school_studentfee`;
-CREATE TABLE IF NOT EXISTS `school_studentfee` (
+DROP TABLE IF EXISTS `school_student_due_collection`;
+CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Stud_ID` int(10) NOT NULL,
   `Actual_fee` int(10) NOT NULL,
   `Paying_amt` int(10) NOT NULL,
+  `Payment_mode` varchar(255) NOT NULL,
   `Balance` int(10) NOT NULL,
+  `fee_paid_sofar` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
@@ -394,9 +396,9 @@ ALTER TABLE `school_studentadmission`
   ADD CONSTRAINT `stud_id link admission` FOREIGN KEY (`Stud_id`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --
--- Constraints for table `school_studentfee`
+-- Constraints for table `school_student_due_collection`
 --
-ALTER TABLE `school_studentfee`
+ALTER TABLE `school_student_due_collection`
   ADD CONSTRAINT `stud_id link` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
 COMMIT;
 

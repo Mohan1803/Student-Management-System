@@ -6,12 +6,32 @@ const flash = require("connect-flash");
 const con = require("../config/db");
 
 apiRoute.post("/get-student-data", (req, res) => {
-  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID INNER JOIN school_addsection AS sas ON sias.section = sas.ID INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.student_id}'`;
+  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee FROM school_initialaddstudent AS sias 
+  INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
+  INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
+  INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.student_id}'`;
   con.query(fee, (err, result) => {
     if (err) {
       res.json({ msg: "error", err });
     } else if (result.length == 1) {
       res.json({ msg: "success", result: result });
+    } else {
+      res.json({ msg: "Student Not Found", err });
+    }
+  });
+});
+
+apiRoute.post("/get-student-data-due", (req, res) => {
+  var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
+  INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
+  INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
+  INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID
+  INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.studid_due}'`;
+  con.query(due, (err, dueresult) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else if (dueresult.length == 1) {
+      res.json({ msg: "success", dueresult: dueresult });
     } else {
       res.json({ msg: "Student Not Found", err });
     }

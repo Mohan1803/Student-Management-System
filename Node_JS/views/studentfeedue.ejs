@@ -1,0 +1,53 @@
+<div class="container pt-3 my-3 bg-white">
+<% if(locals.success.length>0) { %>
+  <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+      role="alert">
+      <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
+<% if(locals.error.length>0) { %>
+  <div
+    class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+    role="alert">
+    <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
+      <div class="row align-items-center">
+        <div class="col-md-10 offset-md-1">
+                <center>
+                  <form name="myForm" action="/staff/student-due-collection" method="POST">
+                    <b>
+                      <h1 style="font-family: 'Times New Roman', Times, serif;">DUE COLLECTION</h1>
+                    </b><br>
+                        <div class="mb-3">
+                          <div class="form-floating w-75 p-2">
+                            <input type="text" class="form-control" name="studid_due" id="studid_due" placeholder="Student ID">
+                            <label for="studid">Student ID</label>
+                          </div>
+                        </div>
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <input type="text" class="form-control" name="paying_amt_due" id="paying_amt_due" placeholder="Paying Amount">
+                        <label for="paying_amt">Paying Amount</label>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <div class="form-floating w-75 p-2">
+                        <select class="form-select" aria-label="Default select example" id="payment_mode_due" name="payment_mode_due">
+                          <option selected>Select</option>
+                          <option value="Cash">Cash</option>
+                          <option value="Cheque">Cheque</option>
+                          <option value="Demand Draft(DD)">Demand Draft(DD)</option>
+                        </select>
+                        <label for="payment_mode_due">Payment Mode</label>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">SUBMIT</button> <br><br>
+                  </form>
+                </center>
+        </div>
+      </div>
+    </div>

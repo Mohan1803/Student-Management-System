@@ -707,8 +707,9 @@ staffRoute.post("/admission-fee", (req, res) => {
 
   try {
     const payingamt = req.body.paying_amt;
-    const studentid = req.body.studentid;
+    const studentid = req.body.studentid_fee;
     const actualfee = req.body.actualfee_hide;
+
     // check in admission
     var dupStuAdmi = `SELECT * FROM school_studentadmission WHERE Stud_id='${studentid}'`;
     con.query(dupStuAdmi, (err, duplicate) => {
@@ -721,6 +722,9 @@ staffRoute.post("/admission-fee", (req, res) => {
           "error",
           "Student Already Enrolled Please Collect Due in Due collection page"
         );
+        return res.redirect("/staff/admission-fee");
+      } else if (payingamt > actualfee) {
+        req.flash("error", "You Can't Collect More Than Actual Fee");
         return res.redirect("/staff/admission-fee");
       } else {
         var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Paying_amt, Pending_due) VALUES ('${studentid}','${actualfee}','${payingamt}', '${actualfee}' - '${payingamt}' )`;
@@ -743,4 +747,14 @@ staffRoute.post("/admission-fee", (req, res) => {
   }
 });
 
+//Collecting Due Module
+staffRoute.get("/student-due-collection", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+
+  let success = req.flash("success");
+  res.locals.success = success;
+
+  return res.render("studentfeedue");
+});
 module.exports = staffRoute;
