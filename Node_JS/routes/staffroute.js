@@ -709,7 +709,10 @@ staffRoute.post("/admission-fee", (req, res) => {
     const payingamt = req.body.paying_amt;
     const studentid = req.body.studentid_fee;
     const actualfee = req.body.actualfee_hide;
-
+    if (actualfee < payingamt) {
+      console.log(payingamt);
+      console.log(actualfee);
+    }
     // check in admission
     var dupStuAdmi = `SELECT * FROM school_studentadmission WHERE Stud_id='${studentid}'`;
     con.query(dupStuAdmi, (err, duplicate) => {
@@ -723,21 +726,23 @@ staffRoute.post("/admission-fee", (req, res) => {
           "Student Already Enrolled Please Collect Due in Due collection page"
         );
         return res.redirect("/staff/admission-fee");
-      } else if (payingamt > actualfee) {
-        req.flash("error", "You Can't Collect More Than Actual Fee");
-        return res.redirect("/staff/admission-fee");
       } else {
-        var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Paying_amt, Pending_due) VALUES ('${studentid}','${actualfee}','${payingamt}', '${actualfee}' - '${payingamt}' )`;
-        con.query(fee, (err, result) => {
-          if (err) {
-            console.log(err);
-            req.flash("error", "Server Crashed");
-            return res.render("servererror");
-          } else {
-            req.flash("success", "Fee Collected Successfully");
-            return res.redirect("/staff/admission-fee");
-          }
-        });
+        if (payingamt > actualfee) {
+          req.flash("error", "You Can't Collect More Than Actual Fee");
+          return res.redirect("/staff/admission-fee");
+        } else {
+          var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${actualfee}' - '${payingamt}' )`;
+          con.query(fee, (err, result) => {
+            if (err) {
+              console.log(err);
+              req.flash("error", "Server Crashed");
+              return res.render("servererror");
+            } else {
+              req.flash("success", "Fee Collected Successfully");
+              return res.redirect("/staff/admission-fee");
+            }
+          });
+        }
       }
     });
   } catch (err) {
@@ -751,10 +756,59 @@ staffRoute.post("/admission-fee", (req, res) => {
 staffRoute.get("/student-due-collection", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  return res.render("studentfeedue");
+});
 
+staffRoute.post("/student-due-collection", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
 
-  return res.render("studentfeedue");
+  try {
+    const payingamt = req.body.paying_amt_due;
+    const payment_mode = req.body.payment_mode_due;
+    const studentid = req.body.studentid_due;
+    const actualfee = req.body.actualfee_hide_due;
+
+    var find_stud = `SELECT * FROM school_studentadmission WHERE Stud_id = '${studentid}'`;
+    con.query(find_stud, (err, found) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.render("servererror");
+      } else if (found.length != 0) {
+        var insert_due = `INSERT INTO school_student_due_collection (Stud_ID, Actual_fee, Paying_amt, Payment_mode) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${payment_mode}')`;
+        con.query(insert_due, (err, inserted) => {
+          if (err) {
+            console.log(err);
+            req.flash("error", "Server Crashed");
+            return res.render("servererror");
+          } else {
+            var update_admission = `UPDATE school_studentadmission SET Initial_Paying_amt = Initial_Paying_amt + ${payingamt} , Pending_due = Pending_due - ${payingamt} WHERE Stud_id = '${studentid}'`;
+            con.query(update_admission, (err, updated) => {
+              if (err) {
+                console.log(err);
+                req.flash("error", "Server Crashed");
+                return res.render("servererror");
+              } else {
+                req.flash("success", "Due Collected Successfully");
+                return res.redirect("/staff/student-due-collection");
+              }
+            });
+          }
+        });
+      } else {
+        req.flash("error", "Admission Was Not Done For This Student");
+        return res.redirect("/staff/admission-fee");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
 });
 module.exports = staffRoute;

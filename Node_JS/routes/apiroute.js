@@ -22,7 +22,7 @@ apiRoute.post("/get-student-data", (req, res) => {
 });
 
 apiRoute.post("/get-student-data-due", (req, res) => {
-  var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
+  var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Initial_Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
   INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
   INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID

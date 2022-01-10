@@ -14,6 +14,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <% } %>
+    <!-- <% if(locals.duplicate == 0) { %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <% } %> -->
         <div class="row align-items-center">
           <div class="col-md-10 offset-md-1">
                   <center>
@@ -27,12 +31,7 @@
                               <label for="studid">Student ID</label>
                             </div>
                           </div>
-                      <div class="mb-3">
-                        <div class="form-floating w-75 p-2">
-                          <input type="text" class="form-control" name="paying_amt" id="paying_amt" placeholder="Paying Amount">
-                          <label for="paying_amt">Paying Amount</label>
-                        </div>
-                      </div>
+                   
                       <button class="btn btn-primary" type="submit">SUBMIT</button> <br><br>
                     </form>
                   </center>

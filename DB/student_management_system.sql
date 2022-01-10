@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 07, 2022 at 12:05 PM
+-- Generation Time: Jan 10, 2022 at 12:19 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -297,22 +297,23 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_id` int(10) NOT NULL,
   `Actual_fee` int(10) NOT NULL,
-  `Paying_amt` int(10) NOT NULL,
+  `Initial_Paying_amt` int(10) NOT NULL,
   `Pending_due` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `stud_id link admission` (`Stud_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studentadmission`
 --
 
-INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 20000, 5000, 15000, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
-(2, 2, 20000, 9000, 11000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL);
+INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Initial_Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 1, 20000, 20000, 0, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
+(2, 2, 20000, 9000, 11000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL),
+(3, 3, 20000, 11000, 9000, '2022-01-10 17:01:35', '2022-01-10 11:31:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -340,19 +341,24 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
 
 DROP TABLE IF EXISTS `school_student_due_collection`;
 CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_ID` int(10) NOT NULL,
   `Actual_fee` int(10) NOT NULL,
   `Paying_amt` int(10) NOT NULL,
   `Payment_mode` varchar(255) NOT NULL,
-  `Balance` int(10) NOT NULL,
-  `fee_paid_sofar` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Stud_ID` (`Stud_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_student_due_collection`
+--
+
+INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Paying_amt`, `Payment_mode`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL);
 
 --
 -- Constraints for dumped tables
