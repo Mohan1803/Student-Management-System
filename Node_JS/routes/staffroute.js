@@ -709,10 +709,7 @@ staffRoute.post("/admission-fee", (req, res) => {
     const payingamt = req.body.paying_amt;
     const studentid = req.body.studentid_fee;
     const actualfee = req.body.actualfee_hide;
-    if (actualfee < payingamt) {
-      console.log(payingamt);
-      console.log(actualfee);
-    }
+
     // check in admission
     var dupStuAdmi = `SELECT * FROM school_studentadmission WHERE Stud_id='${studentid}'`;
     con.query(dupStuAdmi, (err, duplicate) => {
@@ -723,9 +720,9 @@ staffRoute.post("/admission-fee", (req, res) => {
       } else if (duplicate.length != 0) {
         req.flash(
           "error",
-          "Student Already Enrolled Please Collect Due in Due collection page"
+          "Student Already Enrolled Please Collect Due in This Page"
         );
-        return res.redirect("/staff/admission-fee");
+        return res.redirect("/staff/student-due-collection");
       } else {
         if (payingamt > actualfee) {
           req.flash("error", "You Can't Collect More Than Actual Fee");
@@ -772,7 +769,10 @@ staffRoute.post("/student-due-collection", (req, res) => {
     const payment_mode = req.body.payment_mode_due;
     const studentid = req.body.studentid_due;
     const actualfee = req.body.actualfee_hide_due;
-
+    if (payingamt == 0) {
+      req.flash("error", "Please Enter Valid Details In The Fields");
+      return res.redirect("/staff/student-due-collection");
+    }
     var find_stud = `SELECT * FROM school_studentadmission WHERE Stud_id = '${studentid}'`;
     con.query(find_stud, (err, found) => {
       if (err) {
@@ -805,6 +805,83 @@ staffRoute.post("/student-due-collection", (req, res) => {
         return res.redirect("/staff/admission-fee");
       }
     });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+//Adding Subjects
+staffRoute.get("/addsubject", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    var subject = `SELECT * FROM school_addsubjects `;
+    con.query(subject, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("addsubject");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+staffRoute.post("/addsubject", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    const subjectName = req.body.sub_name;
+    const actualMark = req.body.actualmark;
+    const passMark = req.body.passmark;
+    if (subjectName == 0 || actualMark == 0 || passMark == 0) {
+      req.flash("error", "Please Enter Some Values In The Fields");
+      return res.redirect("/staff/addsubject");
+    } else {
+      var duplicate_subject = `SELECT * FROM school_addsubjects WHERE subject_name = '${subjectName}'`;
+      con.query(duplicate_subject, (err, duplicate) => {
+        if (err) {
+          console.log(err);
+          req.flash("error", "Server Crashed");
+          return res.render("servererror");
+        } else if (duplicate.length != 0) {
+          req.flash(
+            "error",
+            "The Subject " +
+              subjectName +
+              " Is Already Present Try With Another Name"
+          );
+          return res.redirect("/staff/addsubject");
+        } else {
+          var insertSubject = `INSERT INTO school_addsubjects (subject_name, actual_mark, pass_mark) VALUES ('${subjectName}', '${actualMark}', '${passMark}')`;
+          con.query(insertSubject, (err, inserted) => {
+            if (err) {
+              console.log(err);
+              req.flash("error", "Server Crashed");
+              return res.render("servererror");
+            } else {
+              req.flash(
+                "success",
+                "Subject " + subjectName + " Added Successfully"
+              );
+              return res.redirect("/staff/addsubject");
+            }
+          });
+        }
+      });
+    }
   } catch (err) {
     console.log(err);
     req.flash("error", "Server Crashed");

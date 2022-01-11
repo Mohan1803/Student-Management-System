@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 10, 2022 at 12:19 PM
+-- Generation Time: Jan 11, 2022 at 11:42 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `school_addclass` (
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addclass`
@@ -54,7 +54,9 @@ INSERT INTO `school_addclass` (`ID`, `Class`, `Actual_fee`, `Created_at`, `Updat
 (9, '4', 12000, '2022-01-04 15:37:53', '2022-01-04 10:07:53', NULL),
 (10, '3', 11000, '2022-01-04 15:38:15', '2022-01-04 10:08:15', NULL),
 (11, '2', 10000, '2022-01-04 15:38:21', '2022-01-04 10:08:21', NULL),
-(12, '1', 9000, '2022-01-04 15:38:25', '2022-01-04 10:08:25', NULL);
+(12, '1', 9000, '2022-01-04 15:38:25', '2022-01-04 10:08:25', NULL),
+(13, 'UKG', 8000, '2022-01-11 15:21:55', '2022-01-11 09:51:55', NULL),
+(14, 'LKG', 7000, '2022-01-11 15:22:00', '2022-01-11 09:52:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `school_addsection` (
   `daleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `class_id link` (`class_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addsection`
@@ -108,7 +110,9 @@ INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `creat
 (26, 11, 'A', 60, '2022-01-04 15:41:57', '2022-01-04 10:11:57', NULL),
 (27, 11, 'B', 60, '2022-01-04 15:42:02', '2022-01-04 10:12:02', NULL),
 (28, 12, 'A', 70, '2022-01-04 15:42:10', '2022-01-04 10:12:10', NULL),
-(29, 12, 'B', 70, '2022-01-04 15:42:16', '2022-01-04 10:12:16', NULL);
+(29, 12, 'B', 70, '2022-01-04 15:42:16', '2022-01-04 10:12:16', NULL),
+(30, 13, 'A', 70, '2022-01-11 15:23:16', '2022-01-11 09:53:16', NULL),
+(31, 14, 'A', 70, '2022-01-11 15:23:32', '2022-01-11 09:53:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -207,7 +211,6 @@ INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `
 DROP TABLE IF EXISTS `school_addsubjects`;
 CREATE TABLE IF NOT EXISTS `school_addsubjects` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `subject_id` int(10) NOT NULL,
   `subject_name` varchar(255) NOT NULL,
   `actual_mark` int(10) NOT NULL,
   `pass_mark` int(10) NOT NULL,
@@ -215,7 +218,29 @@ CREATE TABLE IF NOT EXISTS `school_addsubjects` (
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_addsubjects`
+--
+
+INSERT INTO `school_addsubjects` (`ID`, `subject_name`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Tamil', 100, 35, '2022-01-11 15:04:56', '2022-01-11 09:34:56', NULL),
+(2, 'English', 100, 35, '2022-01-11 15:05:07', '2022-01-11 09:35:07', NULL),
+(3, 'Maths', 100, 35, '2022-01-11 15:06:02', '2022-01-11 09:36:02', NULL),
+(4, 'Science', 100, 35, '2022-01-11 15:06:16', '2022-01-11 09:36:16', NULL),
+(5, 'Social Science', 100, 35, '2022-01-11 15:06:30', '2022-01-11 09:36:30', NULL),
+(6, 'Botany', 100, 35, '2022-01-11 15:06:46', '2022-01-11 09:36:46', NULL),
+(7, 'Zoology', 100, 35, '2022-01-11 15:06:57', '2022-01-11 09:36:57', NULL),
+(8, 'History', 100, 35, '2022-01-11 15:07:12', '2022-01-11 09:37:12', NULL),
+(9, 'Geography', 100, 35, '2022-01-11 15:07:22', '2022-01-11 09:37:22', NULL),
+(10, 'General Knowledge', 100, 35, '2022-01-11 15:07:42', '2022-01-11 09:37:42', NULL),
+(11, 'Moral Science', 100, 35, '2022-01-11 15:07:56', '2022-01-11 09:37:56', NULL),
+(12, 'Computer Science', 200, 70, '2022-01-11 15:08:34', '2022-01-11 09:38:34', NULL),
+(13, 'Biology', 200, 70, '2022-01-11 15:08:49', '2022-01-11 09:38:49', NULL),
+(14, 'Mathematics', 200, 70, '2022-01-11 15:09:08', '2022-01-11 09:39:08', NULL),
+(15, 'Accounts', 200, 70, '2022-01-11 15:15:41', '2022-01-11 09:45:41', NULL),
+(16, 'Statistics', 200, 70, '2022-01-11 15:16:53', '2022-01-11 09:46:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -255,16 +280,14 @@ INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `emai
 
 DROP TABLE IF EXISTS `school_staffattendance`;
 CREATE TABLE IF NOT EXISTS `school_staffattendance` (
+  `ID` int(10) NOT NULL,
   `Staff_ID` varchar(255) NOT NULL,
   `Adate` date NOT NULL,
   `Astatus` varchar(255) NOT NULL,
-  `User_Name` varchar(255) NOT NULL,
-  `Academic_Year` varchar(255) NOT NULL,
   `Created_at` datetime NOT NULL,
   `Updated_at` timestamp NOT NULL,
   `Deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`Staff_ID`),
-  KEY `User_Name` (`User_Name`)
+  PRIMARY KEY (`Staff_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -275,15 +298,13 @@ CREATE TABLE IF NOT EXISTS `school_staffattendance` (
 
 DROP TABLE IF EXISTS `school_staffsalary`;
 CREATE TABLE IF NOT EXISTS `school_staffsalary` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Staff_id` varchar(255) NOT NULL,
-  `User_Name` varchar(255) NOT NULL,
   `Staff_Account_No` varchar(20) NOT NULL,
   `Created_at` datetime NOT NULL,
   `Updated_at` timestamp NOT NULL,
   `Deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`Staff_id`),
-  KEY `acc no` (`Staff_Account_No`),
-  KEY `staff salary` (`User_Name`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -313,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
 INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Initial_Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, 1, 20000, 20000, 0, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
 (2, 2, 20000, 9000, 11000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL),
-(3, 3, 20000, 11000, 9000, '2022-01-10 17:01:35', '2022-01-10 11:31:35', NULL);
+(3, 3, 20000, 17000, 3000, '2022-01-10 17:01:35', '2022-01-10 11:31:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -330,7 +351,8 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
   `Created_at` datetime NOT NULL,
   `Updated_at` timestamp NOT NULL,
   `Deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `stud_id link attendance` (`Stud_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -351,14 +373,15 @@ CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Stud_ID` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_student_due_collection`
 --
 
 INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Paying_amt`, `Payment_mode`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL);
+(1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL),
+(2, 3, 20000, 6000, 'Cheque', '2022-01-11 12:18:00', '2022-01-11 06:48:00', NULL);
 
 --
 -- Constraints for dumped tables
@@ -383,23 +406,16 @@ ALTER TABLE `school_initialaddstudent`
   ADD CONSTRAINT `section_link` FOREIGN KEY (`section`) REFERENCES `school_addsection` (`ID`);
 
 --
--- Constraints for table `school_staffattendance`
---
-ALTER TABLE `school_staffattendance`
-  ADD CONSTRAINT `Staff_ID` FOREIGN KEY (`Staff_ID`) REFERENCES `school_addstaff` (`Staff_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `school_staffsalary`
---
-ALTER TABLE `school_staffsalary`
-  ADD CONSTRAINT `acc no` FOREIGN KEY (`Staff_Account_No`) REFERENCES `school_addstaff` (`Staff_Account_No`),
-  ADD CONSTRAINT `staff salary` FOREIGN KEY (`User_Name`) REFERENCES `school_staffattendance` (`User_Name`);
-
---
 -- Constraints for table `school_studentadmission`
 --
 ALTER TABLE `school_studentadmission`
   ADD CONSTRAINT `stud_id link admission` FOREIGN KEY (`Stud_id`) REFERENCES `school_initialaddstudent` (`ID`);
+
+--
+-- Constraints for table `school_studentattendance`
+--
+ALTER TABLE `school_studentattendance`
+  ADD CONSTRAINT `stud_id link attendance` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --
 -- Constraints for table `school_student_due_collection`

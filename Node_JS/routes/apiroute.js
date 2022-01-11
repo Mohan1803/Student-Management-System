@@ -6,9 +6,10 @@ const flash = require("connect-flash");
 const con = require("../config/db");
 
 apiRoute.post("/get-student-data", (req, res) => {
-  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee FROM school_initialaddstudent AS sias 
+  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Pending_due FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
   INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
+  INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID
   INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.student_id}'`;
   con.query(fee, (err, result) => {
     if (err) {

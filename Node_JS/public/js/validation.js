@@ -57,9 +57,9 @@ $(document).ready(function () {
             "' disabled><label for='section'>Section</label> </div> </div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value='" +
             data.result[0].Middle_Name +
             "' disabled><label for='name'>Name</label></div></div><div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='due' id='due' placeholder='Due Amount' value='" +
-            data.result[0].Actual_fee +
+            data.result[0].Pending_due +
             "' disabled><input type='hidden' class='form-control' name='due_hide' id='due_hide' placeholder='Due Amount' value='" +
-            data.result[0].Actual_fee +
+            data.result[0].Pending_due +
             "'><label for='due'>Due Amount</label></div></div></div>  <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno' id='phno' placeholder='Phone Number' value='" +
             data.result[0].Emergency_Contact_No +
             "' disabled><label for='phno'>Phone Number</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value='" +
@@ -68,7 +68,7 @@ $(document).ready(function () {
             data.result[0].Actual_fee +
             "' disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value='" +
             data.result[0].Actual_fee +
-            "'> <label for='actualfee'>Actual Fee</label>  </div </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max='" +
+            "'> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max='" +
             data.result[0].Actual_fee +
             "' class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>"
           );
@@ -105,7 +105,9 @@ $(document).ready(function () {
             data.dueresult[0].Middle_Name +
             "' disabled><label for='name'>Name</label></div></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='due' id='due' placeholder='Fees Paid Sofar' value='" +
             data.dueresult[0].Initial_Paying_amt +
-            "' disabled><label for='due'>Fees Paid Sofar</label></div></div></div> <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno_due' id='phno_due' placeholder='Phone Number' value='" +
+            "' disabled><label for='due'>Fees Paid Sofar</label></div></div><div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max='" +
+            data.dueresult[0].Pending_due +
+            "' class='form-control' name='paying_amt_due' id='paying_amt_due' placeholder='Paying Amount'> <label for='paying_amt_due'>Paying Amount</label></div> </div></div> <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno_due' id='phno_due' placeholder='Phone Number' value='" +
             data.dueresult[0].Emergency_Contact_No +
             "' disabled><label for='phno'>Phone Number</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email_due' id='Email_due' placeholder='Email ID' value='" +
             data.dueresult[0].email_id +
@@ -117,9 +119,7 @@ $(document).ready(function () {
             data.dueresult[0].Pending_due +
             "' disabled><input type='hidden' class='form-control' name='due_hide' id='due_hide' placeholder='Pending Due Amount' value='" +
             data.dueresult[0].Pending_due +
-            "'><label for='due'>Pending Due Amount</label></div></div>  </div></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max='" +
-            data.dueresult[0].Pending_due +
-            "' class='form-control' name='paying_amt_due' id='paying_amt_due' placeholder='Paying Amount'> <label for='paying_amt_due'>Paying Amount</label></div> </div>"
+            "'><label for='due'>Pending Due Amount</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><select class='form-select' aria-label='Default select example' id='payment_mode_due' name='payment_mode_due'><option selected>Select</option><option value='Cash'>Cash</option><option value='Cheque'>Cheque</option><option value='Demand Draft(DD)''>Demand Draft(DD)</option> </select><label for='payment_mode_due'>Payment Mode</label></div></div> </div></div></div>  "
           );
         });
       },
