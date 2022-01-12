@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 11, 2022 at 11:42 AM
+-- Generation Time: Jan 12, 2022 at 12:34 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -122,7 +122,7 @@ INSERT INTO `school_addsection` (`ID`, `class_id`, `section`, `capacity`, `creat
 
 DROP TABLE IF EXISTS `school_addstaff`;
 CREATE TABLE IF NOT EXISTS `school_addstaff` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Staff_id` varchar(255) NOT NULL,
   `Role` varchar(255) NOT NULL,
   `First_Name` varchar(255) NOT NULL,
@@ -383,6 +383,34 @@ INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Pay
 (1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL),
 (2, 3, 20000, 6000, 'Cheque', '2022-01-11 12:18:00', '2022-01-11 06:48:00', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_subjectclass_mapping`
+--
+
+DROP TABLE IF EXISTS `school_subjectclass_mapping`;
+CREATE TABLE IF NOT EXISTS `school_subjectclass_mapping` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `Staff_ID` int(10) NOT NULL,
+  `Class_id` int(10) NOT NULL,
+  `Subject_id` int(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Staff_ID link mapping` (`Staff_ID`),
+  KEY `subject link` (`Subject_id`),
+  KEY `class_id link mapping` (`Class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_subjectclass_mapping`
+--
+
+INSERT INTO `school_subjectclass_mapping` (`ID`, `Staff_ID`, `Class_id`, `Subject_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 4, 3, 5, '2022-01-12 18:03:50', '2022-01-12 12:33:50', NULL);
+
 --
 -- Constraints for dumped tables
 --
@@ -422,6 +450,14 @@ ALTER TABLE `school_studentattendance`
 --
 ALTER TABLE `school_student_due_collection`
   ADD CONSTRAINT `stud_id link` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
+
+--
+-- Constraints for table `school_subjectclass_mapping`
+--
+ALTER TABLE `school_subjectclass_mapping`
+  ADD CONSTRAINT `Staff_ID link mapping` FOREIGN KEY (`Staff_ID`) REFERENCES `school_addstaff` (`ID`),
+  ADD CONSTRAINT `class_id link mapping` FOREIGN KEY (`Class_id`) REFERENCES `school_addclass` (`ID`),
+  ADD CONSTRAINT `subject link` FOREIGN KEY (`Subject_id`) REFERENCES `school_addsubjects` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

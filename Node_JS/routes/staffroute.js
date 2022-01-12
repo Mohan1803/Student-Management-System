@@ -888,4 +888,69 @@ staffRoute.post("/addsubject", (req, res) => {
     return res.render("servererror");
   }
 });
+
+// Mapping Subject Staff and Class
+staffRoute.get("/mapping-staff-subject-class", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  try {
+    var Class = `SELECT * from school_addclass; 
+     SELECT * from school_addsubjects;
+     SELECT sac.Class, sasub.subject_name, sast.Staff_id, sast.ID, sast.Middle_Name, school_subjectclass_mapping.Staff_ID, school_subjectclass_mapping.Class_id, school_subjectclass_mapping.Subject_id FROM school_subjectclass_mapping 
+    INNER JOIN school_addstaff AS sast ON sast.ID = school_subjectclass_mapping.Staff_ID 
+    INNER JOIN school_addsubjects AS sasub ON sasub.ID = school_subjectclass_mapping.Subject_id
+    INNER JOIN school_addclass AS sac ON sac.ID = school_subjectclass_mapping.Class_id; 
+     SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name FROM school_addstaff`;
+    con.query(Class, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("mapping");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+staffRoute.post("/mapping-staff-subject-class", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  try {
+    const staff_id = req.body.staff_id_map;
+    const Class = req.body.class_map;
+    const subject = req.body.subject_map;
+
+    var insert_map = `INSERT INTO school_subjectclass_mapping (Staff_ID, Class_id, Subject_id) VALUES ('${staff_id}', '${Class}', '${subject}')`;
+    con.query(insert_map, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else {
+        req.flash("success", "Subject & Class Mapped To Staff Successfully");
+        return res.redirect("/staff/mapping-staff-subject-class");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
 module.exports = staffRoute;

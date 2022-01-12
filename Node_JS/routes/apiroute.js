@@ -5,6 +5,8 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const con = require("../config/db");
 
+// For Admission(fee) Module
+
 apiRoute.post("/get-student-data", (req, res) => {
   var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Pending_due FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
@@ -21,6 +23,8 @@ apiRoute.post("/get-student-data", (req, res) => {
     }
   });
 });
+
+//For Due Module
 
 apiRoute.post("/get-student-data-due", (req, res) => {
   var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Initial_Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 

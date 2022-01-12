@@ -33,7 +33,8 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 
-// student data fetch
+// For Admission(fee) Module
+
 $(document).ready(function () {
   $("#studid_fee").on("change", function () {
     var student_id = $(this).val();
@@ -80,6 +81,8 @@ $(document).ready(function () {
     });
   });
 });
+
+//For Due Module
 
 $(document).ready(function () {
   $("#studid_due").on("change", function () {
