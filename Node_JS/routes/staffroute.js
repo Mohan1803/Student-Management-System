@@ -899,12 +899,16 @@ staffRoute.get("/mapping-staff-subject-class", (req, res) => {
   res.locals.success = success;
 
   try {
-    var Class = `SELECT * from school_addclass; 
+    var Class = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id; 
+
      SELECT * from school_addsubjects;
-     SELECT sac.Class, sasub.subject_name, sast.Staff_id, sast.ID, sast.Middle_Name, school_subjectclass_mapping.Staff_ID, school_subjectclass_mapping.Class_id, school_subjectclass_mapping.Subject_id FROM school_subjectclass_mapping 
+
+     SELECT sasub.subject_name, sast.Staff_id, sast.ID, sast.Middle_Name, sas.class_id, sac.Class, sas.section, school_subjectclass_mapping.Staff_ID, school_subjectclass_mapping.Section_id, school_subjectclass_mapping.Subject_id FROM school_subjectclass_mapping 
     INNER JOIN school_addstaff AS sast ON sast.ID = school_subjectclass_mapping.Staff_ID 
     INNER JOIN school_addsubjects AS sasub ON sasub.ID = school_subjectclass_mapping.Subject_id
-    INNER JOIN school_addclass AS sac ON sac.ID = school_subjectclass_mapping.Class_id; 
+    INNER JOIN school_addsection AS sas ON sas.ID = school_subjectclass_mapping.Section_id
+    INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id;
+    
      SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name FROM school_addstaff`;
     con.query(Class, (err, result) => {
       if (err) {
@@ -933,10 +937,10 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
 
   try {
     const staff_id = req.body.staff_id_map;
-    const Class = req.body.class_map;
+    const section = req.body.section_map;
     const subject = req.body.subject_map;
 
-    var insert_map = `INSERT INTO school_subjectclass_mapping (Staff_ID, Class_id, Subject_id) VALUES ('${staff_id}', '${Class}', '${subject}')`;
+    var insert_map = `INSERT INTO school_subjectclass_mapping (Staff_ID, Section_id, Subject_id) VALUES ('${staff_id}', '${section}', '${subject}')`;
     con.query(insert_map, (err, result) => {
       if (err) {
         console.log(err);
@@ -945,6 +949,74 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
       } else {
         req.flash("success", "Subject & Class Mapped To Staff Successfully");
         return res.redirect("/staff/mapping-staff-subject-class");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+//Schedule Plan
+
+staffRoute.get("/schedule-plan", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  try {
+    var schedule = `SELECT * FROM school_scheduleplan`;
+    con.query(schedule, (err, plan) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else {
+        res.locals.plan = plan;
+        return res.render("scheduleplan");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.render("servererror");
+  }
+});
+
+staffRoute.post("/schedule-plan", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  try {
+    const scheduleName = req.body.schedule_name;
+    const no_ofPeriods = req.body.no_of_periods;
+    var dup = `SELECT * FROM school_scheduleplan WHERE schedule_name = '${scheduleName}'`;
+    con.query(dup, (err, duplicate) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("servererror");
+      } else if (duplicate.length != 0) {
+        req.flash("error", "Duplicate Schedule Name");
+        return res.redirect("/staff/schedule-plan");
+      } else {
+        var insert = `INSERT INTO school_scheduleplan (schedule_name, no_of_periods) VALUES ('${scheduleName}', '${no_ofPeriods}')`;
+        con.query(insert, (err, inserted) => {
+          if (err) {
+            console.log(err);
+            req.flash("error", "Server Crashed");
+            return res.redirect("servererror");
+          } else {
+            req.flash("success", "Schedule Plan Created Successfully");
+            return res.redirect("/staff/schedule-plan");
+          }
+        });
       }
     });
   } catch (e) {

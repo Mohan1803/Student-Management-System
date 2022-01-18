@@ -53,14 +53,14 @@
 
   <div class="mb-3">
     <div class="form-floating w-75 p-2">
-      <select class="form-select" aria-label="Default select example" id="class_map" name="class_map">
+      <select class="form-select" aria-label="Default select example" id="section_map" name="section_map">
         <% if (locals.result[0]) { %>
           <% for ( let i=0; i < locals.result[0].length; i++){ %>
-              <option value="<%= locals.result[0][i].ID %>"><%= locals.result[0][i].Class %> %></option>
+              <option value="<%= locals.result[0][i].ID %>"><%= locals.result[0][i].Class %> - <%= locals.result[0][i].section %></option>
           
      <% } }  %>
       </select>
-      <label for="class_map">Class</label>
+      <label for="section_map">Class & Section</label>
     </div>
   </div>
 
@@ -94,7 +94,7 @@
         <th scope="col">S.No</th>
         <th scope="col">Staff ID</th>
         <th scope="col">Staff Name</th>
-        <th scope="col">Class</th>
+        <th scope="col">Class & Section</th>
         <th scope="col">Subject</th>
       </tr>
       </thead>
@@ -105,7 +105,7 @@
                   <th scope="row"><%= (i+1) %>.</th>
                   <td><%= result[2][i].Staff_id %></td>
                   <td><%= result[2][i].Middle_Name %></td>
-                  <td><%= result[2][i].Class %></td>
+                  <td><%= result[2][i].Class %> - <%= result[2][i].section %></td>
                   <td><%= result[2][i].subject_name %></td>
                 </tr>
           <%  }  

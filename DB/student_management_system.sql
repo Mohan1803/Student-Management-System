@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 12, 2022 at 12:34 PM
+-- Generation Time: Jan 18, 2022 at 10:33 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -275,6 +275,32 @@ INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `emai
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `school_scheduleplan`
+--
+
+DROP TABLE IF EXISTS `school_scheduleplan`;
+CREATE TABLE IF NOT EXISTS `school_scheduleplan` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `schedule_name` varchar(255) NOT NULL,
+  `no_of_periods` int(10) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `daleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_scheduleplan`
+--
+
+INSERT INTO `school_scheduleplan` (`ID`, `schedule_name`, `no_of_periods`, `created_at`, `updated_at`, `daleted_at`) VALUES
+(1, 'Week Days', 8, '2022-01-18 14:47:04', '2022-01-18 09:17:04', NULL),
+(2, 'Half Day', 4, '2022-01-18 14:48:28', '2022-01-18 09:18:28', NULL),
+(3, 'Function', 0, '2022-01-18 14:53:38', '2022-01-18 09:23:38', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `school_staffattendance`
 --
 
@@ -393,7 +419,7 @@ DROP TABLE IF EXISTS `school_subjectclass_mapping`;
 CREATE TABLE IF NOT EXISTS `school_subjectclass_mapping` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Staff_ID` int(10) NOT NULL,
-  `Class_id` int(10) NOT NULL,
+  `Section_id` int(10) NOT NULL,
   `Subject_id` int(10) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -401,15 +427,36 @@ CREATE TABLE IF NOT EXISTS `school_subjectclass_mapping` (
   PRIMARY KEY (`ID`),
   KEY `Staff_ID link mapping` (`Staff_ID`),
   KEY `subject link` (`Subject_id`),
-  KEY `class_id link mapping` (`Class_id`)
+  KEY `section_id link mapping` (`Section_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_subjectclass_mapping`
 --
 
-INSERT INTO `school_subjectclass_mapping` (`ID`, `Staff_ID`, `Class_id`, `Subject_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 4, 3, 5, '2022-01-12 18:03:50', '2022-01-12 12:33:50', NULL);
+INSERT INTO `school_subjectclass_mapping` (`ID`, `Staff_ID`, `Section_id`, `Subject_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 2, 5, 3, '2022-01-13 14:42:38', '2022-01-13 09:12:38', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_weekschedule`
+--
+
+DROP TABLE IF EXISTS `school_weekschedule`;
+CREATE TABLE IF NOT EXISTS `school_weekschedule` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `day` varchar(255) NOT NULL,
+  `section_id` int(10) NOT NULL,
+  `schedule_id` int(10) NOT NULL,
+  `period_no` int(10) NOT NULL,
+  `subject_id` int(10) NOT NULL,
+  `staff_id` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Constraints for dumped tables
@@ -456,7 +503,7 @@ ALTER TABLE `school_student_due_collection`
 --
 ALTER TABLE `school_subjectclass_mapping`
   ADD CONSTRAINT `Staff_ID link mapping` FOREIGN KEY (`Staff_ID`) REFERENCES `school_addstaff` (`ID`),
-  ADD CONSTRAINT `class_id link mapping` FOREIGN KEY (`Class_id`) REFERENCES `school_addclass` (`ID`),
+  ADD CONSTRAINT `section_id link mapping` FOREIGN KEY (`Section_id`) REFERENCES `school_addsection` (`ID`),
   ADD CONSTRAINT `subject link` FOREIGN KEY (`Subject_id`) REFERENCES `school_addsubjects` (`ID`);
 COMMIT;
 

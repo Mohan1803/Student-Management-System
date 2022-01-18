@@ -1,0 +1,96 @@
+<% if(locals.success.length>0) { %>
+    <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+  <% if(locals.error.length>0) { %>
+    <div
+      class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+
+    
+   
+
+ 
+    <div class="container-fluid">
+        <div class="row mt-5">
+        <div class="col-lg-4 col-xl-4 col-sm-12">
+
+<div class="sticky-top bg-light pt-5">
+
+<!-- Form Code -->
+<form name="myForm" action="/staff/schedule-plan" method="POST">
+
+<h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Schedule Plan</h2>
+
+
+<div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <input type="text" class="form-control" name="schedule_name" id="schedule_name" placeholder="Name Of The Schedule">
+      <label for="schedule_name">Name Of The Schedule</label>
+    </div>
+  </div>
+
+  
+  <div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <input type="number" class="form-control" name="no_of_periods" id="no_of_periods" placeholder="No Of Periods">
+      <label for="no_of_periods">No Of Periods</label>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<center>
+<input type="submit" class="btn btn-primary align-center" value="Add Schedule Plan" />
+
+<a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
+
+</center>
+</div>
+</div>
+
+<div class="col-xl-8 col-lg-8 col-sm-12 overflow-auto border">
+
+    
+    <table class="table table-light text-center">
+      <thead>
+        <tr>
+        <th scope="col">S.No</th>
+        <th scope="col">Schedule Name</th>
+        <th scope="col">No Of Periods</th>
+        
+      </tr>
+      </thead>
+      <tbody>
+          <% if(plan) {        
+              for(var i = 0; i < plan.length; i++) { %>
+                <tr>
+                  <th scope="row"><%= (i+1) %>.</th>
+                  <td><%= plan[i].schedule_name %></td>
+                  <td><%= plan[i].no_of_periods %></td>
+                </tr>
+          <%  }  
+        } else { %>
+            <tr>
+              <td colspan="12" class="text-center">No Records.</td>
+             </tr>
+      <% } %>
+             </tbody>
+        </table>
+     </div>
+    
+    </div>
+</div>
