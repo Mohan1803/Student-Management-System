@@ -1,0 +1,71 @@
+              <% if(locals.success.length>0) { %>
+                <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    <%= success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+            
+              <% if(locals.error.length>0) { %>
+                <div
+                  class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+                  role="alert">
+                  <%= error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
+  
+  
+                  <center>
+  
+                    <form name="myForm" action="/staff/week-schedule" method="POST">
+  
+                      <b>
+                        <h1 style="font-family: 'Times New Roman', Times, serif;">Add Week Schedule</h1>
+                      </b><br>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <select class="form-select" aria-label="Default select example" id="section" name="section">
+                            <% if (locals.result[0]) { %>
+                              <% for ( let i=0; i < locals.result[0].length; i++){ %>
+                                  <option value="<%= locals.result[0][i].ID %>"><%= locals.result[0][i].Class %> - <%= locals.result[0][i].section %></option>
+                              
+                         <% } }  %>
+                          </select>
+                          <label for="class">Class & Section</label>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <select class="form-select" aria-label="Default select example" id="day" name="day">
+                            <option selected>Select</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                          </select>
+                          <label for="day">Choose A Day</label>
+                        </div>
+                      </div>
+  
+                      <div class="mb-3">
+                        <div class="form-floating w-75 p-2">
+                          <select class="form-select" aria-label="Default select example" id="schedule_template" name="schedule_template">
+                            <% if (locals.result[0]) { %>
+                              <% for ( let i=0; i < locals.result[1].length; i++){ %>
+                                  <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].schedule_name %> - <%= locals.result[1][i].no_of_periods %> Periods</option>
+                              
+                         <% } }  %>
+                          </select>
+                          <label for="schedule_template">Choose A Schedule</label>
+                        </div>
+                      </div>
+
+                      <button class="btn btn-primary" type="submit">Submit</button> <br><br>
+
+                    </form>
+                  </center>

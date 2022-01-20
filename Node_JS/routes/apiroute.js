@@ -16,7 +16,7 @@ apiRoute.post("/get-student-data", (req, res) => {
   con.query(fee, (err, result) => {
     if (err) {
       res.json({ msg: "error", err });
-    } else if (result.length == 1) {
+    } else if (result.length != 0) {
       res.json({ msg: "success", result: result });
     } else {
       res.json({ msg: "Student Not Found", err });
@@ -35,10 +35,25 @@ apiRoute.post("/get-student-data-due", (req, res) => {
   con.query(due, (err, dueresult) => {
     if (err) {
       res.json({ msg: "error", err });
-    } else if (dueresult.length == 1) {
+    } else if (dueresult.length != 0) {
       res.json({ msg: "success", dueresult: dueresult });
     } else {
       res.json({ msg: "Student Not Found", err });
+    }
+  });
+});
+
+//For Week Schedule Module
+
+apiRoute.post("/get-schedule", (req, res) => {
+  var schedule = `SELECT * FROM school_scheduleplan`;
+  con.query(schedule, (err, result) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else if (result.length != 0) {
+      res.json({ msg: "success", result: result });
+    } else {
+      res.json({ msg: "No Schedule Found", err });
     }
   });
 });

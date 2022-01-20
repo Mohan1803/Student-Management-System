@@ -132,3 +132,5 @@ $(document).ready(function () {
     });
   });
 });
+
+//For Week Schedule Module
