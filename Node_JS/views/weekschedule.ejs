@@ -27,6 +27,7 @@
                       <div class="mb-3">
                         <div class="form-floating w-75 p-2">
                           <select class="form-select" aria-label="Default select example" id="section" name="section">
+                            <option value="">Select Class & Section</option>
                             <% if (locals.result[0]) { %>
                               <% for ( let i=0; i < locals.result[0].length; i++){ %>
                                   <option value="<%= locals.result[0][i].ID %>"><%= locals.result[0][i].Class %> - <%= locals.result[0][i].section %></option>
@@ -52,9 +53,10 @@
                         </div>
                       </div>
   
-                      <div class="mb-3">
+                      <div class="mb-3" id= "dummy">
                         <div class="form-floating w-75 p-2">
                           <select class="form-select" aria-label="Default select example" id="schedule_template" name="schedule_template">
+                            <option value="">Select Schedule Template</option>
                             <% if (locals.result[0]) { %>
                               <% for ( let i=0; i < locals.result[1].length; i++){ %>
                                   <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].schedule_name %> - <%= locals.result[1][i].no_of_periods %> Periods</option>
@@ -64,7 +66,7 @@
                           <label for="schedule_template">Choose A Schedule</label>
                         </div>
                       </div>
-
+<div class="form-floating w-75 p-2" id="schedule_plan"></div>
                       <button class="btn btn-primary" type="submit">Submit</button> <br><br>
 
                     </form>

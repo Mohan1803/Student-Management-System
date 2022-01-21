@@ -1035,7 +1035,8 @@ staffRoute.get("/week-schedule", (req, res) => {
   success = req.flash("success");
   res.locals.success = success;
   try {
-    var Class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id; SELECT * FROM school_scheduleplan`;
+    var Class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id; 
+    SELECT * FROM school_scheduleplan`;
     con.query(Class_section, (err, result) => {
       if (err) {
         console.log(err);

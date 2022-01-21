@@ -45,17 +45,32 @@ apiRoute.post("/get-student-data-due", (req, res) => {
 
 //For Week Schedule Module
 
-apiRoute.post("/get-schedule", (req, res) => {
-  var schedule = `SELECT * FROM school_scheduleplan`;
-  con.query(schedule, (err, result) => {
-    if (err) {
-      res.json({ msg: "error", err });
-    } else if (result.length != 0) {
-      res.json({ msg: "success", result: result });
-    } else {
-      res.json({ msg: "No Schedule Found", err });
-    }
+// Checking duplicate schedules
+apiRoute.post("/get-weekschedule", (req, res) => {
+  var dupweekschedule = `SELECT EXISTS (SELECT * FROM school_weekschedule WHERE day = '${req.body.day}' AND section_id = '${req.body.class_section}') AS count`;
+  con.query(dupweekschedule, (err, found) => {
+    if (err) res.json({ msg: "error", err });
+    res.json({ msg: "success", found: found[0].count });
   });
 });
 
+// Getting No Of Periods from scheduleplan table
+apiRoute.post("/get-noofperiods-from-scheduleplan", (req, res) => {
+  var no_of_periods = `SELECT * FROM school_scheduleplan WHERE id='${req.body.schedule_temp}';
+   SELECT sscm.Subject_id, sadsub.ID, sadsub.subject_name, sscm.Section_id, sscm.Staff_ID, sadst.Middle_Name FROM school_subjectclass_mapping AS sscm 
+   INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sscm.Subject_id 
+   INNER JOIN school_addstaff AS sadst ON sadst.ID = sscm.Staff_ID
+   INNER JOIN school_addsection AS sas ON sas.ID = sscm.Section_id
+    WHERE sscm.Section_id = '${req.body.class_section}'`;
+  con.query(no_of_periods, (err, periodNo) => {
+    if (err) res.json({ msg: "error", err });
+    else {
+      res.json({
+        msg: "success",
+        periods: periodNo[0],
+        subjects: periodNo[1],
+      });
+    }
+  });
+});
 module.exports = apiRoute;

@@ -134,3 +134,108 @@ $(document).ready(function () {
 });
 
 //For Week Schedule Module
+
+// Checking Duplicate Schedules
+$(document).ready(function () {
+  $("#day, #section").on("change", function () {
+    var section = $("#section").val();
+    var day = $("#day").val();
+    $.ajax({
+      url: "/api/get-weekschedule",
+      type: "POST",
+      data: {
+        section: section,
+        day: day,
+      },
+      dataType: "JSON",
+      success: function (data) {
+        //checking whether duplicate schedule is found or not
+        if (data.found > 0) {
+          $("#day").after(function () {
+            $("#schedule_template").attr("disabled", "disabled");
+            $("#schedule_warning").remove();
+            return `<p id='schedule_warning' class='m-2 alert alert-danger'>Schedule of this Class Section for the day is already added. </p>`;
+          });
+        } else {
+          $("#day").after(function () {
+            $("#schedule_template").removeAttr("disabled");
+            $("#schedule_warning").remove();
+          });
+        }
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  });
+});
+
+// Getting No Of Periods from scheduleplan table & display subject and staff fields
+$(document).ready(function () {
+  $("#schedule_template").on("change", function () {
+    var schedule_temp = $("#schedule_template").val();
+    var class_section = $("#section").val();
+    $.ajax({
+      url: "/api/get-noofperiods-from-scheduleplan",
+      type: "POST",
+      data: {
+        schedule_temp: schedule_temp,
+        class_section: class_section,
+      },
+      dataType: "Json",
+      success: function (data) {
+        $("#dummy").after(function () {
+          var counter = 1;
+          var period = data.periods[0].no_of_periods;
+          var array = [];
+          if (period == 0) {
+            $("#subject_staff_display").remove();
+          } else {
+            for (var i = 1; i <= period; i++) {
+              array.push(i);
+              $("#schedule_plan").html(
+                "<p> <b> Select Subject & Staff </b> </p> <hr/>  <div id='subject_staff_display' ></div>"
+              );
+            }
+            $.each(array, (key, value) => {
+              $("#subject_staff_display").append(
+                `<input type='hidden' name='period_no_${value}' value='${value}'></input>
+                <div id='schedule_main_${value}' class='m-1 row g-3'>
+                <div class='col'>
+                <label for='period_${value}_sub'>Period ${value}- Subject</label>
+                <select data-id='${counter}' id='subject_option period_${value}_sub' class='period_${value}_sub form-control subject_option' name='period_${value}_sub' required>
+                <option value=''>Choose a Subject</option>
+                </select>
+                </div>
+                <div class='col'>
+                <label for='period_${value}_staff'>Period ${value} - Staff</label>
+                <input disabled id='period_${value}_staff subject_staff' type='text' class='${counter} subject_staff period_${value}_staff form-control' placeholder='Choose Staff' name='period_${value}_staff'>
+                <input id='period_${value}_staff_hidden subject_staff_hidden' type='hidden' class='${counter}_hidden subject_staff_hidden period_${value}_staff form-control' name='period_${value}_staff_hidden'>
+                </div>
+                </div>`
+              );
+              counter++;
+            });
+
+            var subject_name = [];
+            for (var i = 0; i < data.subjects.length; i++) {
+              subject_name.push(data.subjects[i].subject_name);
+            }
+            $.each(subject_name, (key, value) => {
+              $(".subject_option").append(
+                "<option value='" +
+                  data.subjects[key].ID +
+                  "'>" +
+                  data.subjects[key].subject_name +
+                  "</option>"
+              );
+            });
+          }
+        });
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  });
+});
