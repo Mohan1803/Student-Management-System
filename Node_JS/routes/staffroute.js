@@ -325,7 +325,7 @@ staffRoute.post("/addclass", async (req, res) => {
   res.locals.success = success;
 
   try {
-    const Class = req.body.class;
+    const Class = section_id;
     const Actual_fee = req.body.actualfee;
 
     if (Class == 0 || Actual_fee == 0) {
@@ -400,7 +400,7 @@ staffRoute.post("/addsection", (req, res) => {
   res.locals.success = success;
   let session = req.session;
   try {
-    const Class = req.body.class;
+    const Class = section_id;
     const Section = req.body.section;
     const Capacity = req.body.capacity;
     if (Section == 0 || Capacity == 0) {
@@ -994,7 +994,7 @@ staffRoute.post("/schedule-plan", (req, res) => {
   success = req.flash("success");
   res.locals.success = success;
   try {
-    const scheduleName = req.body.schedule_name;
+    const scheduleName = schedule_id;
     const no_ofPeriods = req.body.no_of_periods;
     var dup = `SELECT * FROM school_scheduleplan WHERE schedule_name = '${scheduleName}'`;
     con.query(dup, (err, duplicate) => {
@@ -1052,5 +1052,86 @@ staffRoute.get("/week-schedule", (req, res) => {
     req.flash("error", "Server Crashed");
     return res.redirect("/servererror");
   }
+});
+
+staffRoute.post("/week-schedule", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  const day = req.body.day;
+  const section_id = req.body.section;
+  const schedule_id = req.body.schedule_template;
+
+  var dupschedule = `SELECT EXISTS (SELECT * FROM school_weekschedule WHERE day='${day}' AND section_id = '${section_id}') AS count`;
+  con.query(dupschedule, (err, duplicate) => {
+    if (err) {
+      console.log(err);
+      req.flash("error", "Server Crashed");
+      return res.redirect("/servererror");
+    } else if (duplicate[0].count == 1) {
+      req.flash(
+        "error",
+        "Schedule of this Class Section for the " + day + " is exist."
+      );
+      return res.redirect("/staff/week-schedule");
+    } else {
+      let p1_no = req.body.period_no_1 || "0";
+      let p2_no = req.body.period_no_2 || "0";
+      let p3_no = req.body.period_no_3 || "0";
+      let p4_no = req.body.period_no_4 || "0";
+      let p5_no = req.body.period_no_5 || "0";
+      let p6_no = req.body.period_no_6 || "0";
+      let p7_no = req.body.period_no_7 || "0";
+      let p8_no = req.body.period_no_8 || "0";
+      let p1_sub = req.body.period_1_sub || "0";
+      let p1_staff = req.body.period_1_staff_hidden || "0";
+      let p2_sub = req.body.period_2_sub || "0";
+      let p2_staff = req.body.period_2_staff_hidden || "0";
+      let p3_sub = req.body.period_3_sub || "0";
+      let p3_staff = req.body.period_3_staff_hidden || "0";
+      let p4_sub = req.body.period_4_sub || "0";
+      let p4_staff = req.body.period_4_staff_hidden || "0";
+      let p5_sub = req.body.period_5_sub || "0";
+      let p5_staff = req.body.period_5_staff_hidden || "0";
+      let p6_sub = req.body.period_6_sub || "0";
+      let p6_staff = req.body.period_6_staff_hidden || "0";
+      let p7_sub = req.body.period_7_sub || "0";
+      let p7_staff = req.body.period_7_staff_hidden || "0";
+      let p8_sub = req.body.period_8_sub || "0";
+      let p8_staff = req.body.period_8_staff_hidden || "0";
+
+      var insertWeekSchedule = `INSERT INTO school_weekschedule (day, section_id, schedule_id, period_no, subject_id, staff_id) VALUES 
+      ('${day}', '${section_id}', '${schedule_id}', '${p1_no}', '${p1_sub}', '${p1_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p2_no}', '${p2_sub}', '${p2_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p3_no}', '${p3_sub}', '${p3_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p4_no}', '${p4_sub}', '${p4_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p5_no}', '${p5_sub}', '${p5_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p6_no}', '${p6_sub}', '${p6_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p7_no}', '${p7_sub}', '${p7_staff}'), 
+      ('${day}', '${section_id}', '${schedule_id}', '${p8_no}', '${p8_sub}', '${p8_staff}')`;
+      con.query(insertWeekSchedule, (err, inserted) => {
+        if (err) {
+          console.log(err);
+          req.flash("error", "Server Crashed");
+          return res.redirect("/servererror");
+        } else {
+          req.flash(
+            "success",
+            "Week Schedule For " + day + " Was Created Successfully"
+          );
+          // delete 0 values from table - soft delete
+          var nullData = `UPDATE school_weekschedule SET Deleted_at = CURRENT_TIMESTAMP WHERE period_no='0'`;
+          con.query(nullData, (err) => {
+            if (err) throw err;
+            return res.redirect("/staff/week-schedule");
+          });
+        }
+      });
+    }
+  });
 });
 module.exports = staffRoute;

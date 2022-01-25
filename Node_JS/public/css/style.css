@@ -56,3 +56,7 @@ input.valid, textarea.valid{
 	.sidenav {padding-top: 15px;}
 	.sidenav a {font-size: 18px;}
   }
+
+  #subject_staff{
+      font-family: 'Times New Roman', Times, serif;
+  }

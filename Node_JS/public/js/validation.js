@@ -194,7 +194,7 @@ $(document).ready(function () {
             for (var i = 1; i <= period; i++) {
               array.push(i);
               $("#schedule_plan").html(
-                "<p> <b> Select Subject & Staff </b> </p> <hr/>  <div id='subject_staff_display' ></div>"
+                "<h4 id='subject_staff'> <b> SELECT SUBJECT & STAFF </b> </h4> <hr/>  <div id='subject_staff_display' ></div>"
               );
             }
             $.each(array, (key, value) => {
@@ -239,3 +239,32 @@ $(document).ready(function () {
     });
   });
 });
+
+//Getting Staffs According to the subject, class & section
+
+$(document).on(
+  "change",
+  ".period_1_sub, .period_2_sub, .period_3_sub, .period_4_sub,.period_5_sub, .period_6_sub, .period_7_sub, .period_8_sub",
+  function () {
+    var counter_id = $(this).attr("data-id");
+    var subject_id = $(this).val();
+    var class_section = $("#section").val();
+
+    $.ajax({
+      url: "/api/getting-staff",
+      type: "POST",
+      data: {
+        subject_id: subject_id,
+        class_section: class_section,
+      },
+      dataType: "JSON",
+      success: function (data) {
+        $("." + counter_id).val(data.staff[0].Middle_Name);
+        $("." + counter_id + "_hidden").val(data.staff[0].Staff_ID);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+);

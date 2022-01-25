@@ -74,3 +74,19 @@ apiRoute.post("/get-noofperiods-from-scheduleplan", (req, res) => {
   });
 });
 module.exports = apiRoute;
+
+//Getting Staffs According to the subject, class & section
+
+apiRoute.post("/getting-staff", (req, res) => {
+  var Staffs = `SELECT sadst.ID, sadst.Staff_id, sadst.Middle_Name, sscm.Staff_ID, sscm.Subject_id, sscm.Section_id FROM school_addstaff AS sadst INNER JOIN school_subjectclass_mapping AS sscm ON sadst.ID = sscm.Staff_ID 
+  INNER JOIN school_addsubjects ON sscm.Subject_id = school_addsubjects.ID WHERE sscm.Section_id = '${req.body.class_section}' AND sscm.Subject_id = '${req.body.subject_id}'`;
+
+  con.query(Staffs, (err, staffname) => {
+    if (err) res.json({ msg: "error", err });
+    else if (Staffs.length != 0) {
+      res.json({ msg: "success", staff: staffname });
+    } else {
+      res.json({ msg: "error", err });
+    }
+  });
+});
