@@ -4,7 +4,7 @@
      <!-- sidebar's button   -->
 
      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-      <h4 style="font-family: 'Times New Roman', Times, serif;" class="text-white">Hi Mr. <%= locals.result[0].Full_Name %></h4>
+      <h4 style="font-family: 'Times New Roman', Times, serif;" class="text-white">Hi Mr. <%= locals.result[0][0].Full_Name %></h4>
      
         
     
@@ -19,7 +19,7 @@
     
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <% if(locals.result[0].Role == 'admin') { %>
+      <% if(locals.result[0][0].Role == 'admin') { %>
         <a href="/staff/view-staff">View All Staff Details
                         </a>
         <a href="/staff/addstaff">Add New Staff
@@ -46,7 +46,7 @@
                         </a>
             <% } %>
             
-       <% if(locals.result[0].Role == 'staff') { %>
+       <% if(locals.result[0][0].Role == 'staff') { %>
        <a href="/staff/viewstudent">View All Student Details
                         </a>
             
@@ -92,96 +92,159 @@
         <% } %>
 
         <div>
-          
-                
+            <% if(locals.result[0][0].Role == 'staff') { %>  
+                <!-- Button trigger modal -->
+                <center>
+             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                 Click Here To View Your Time Table
+             </button></center> <% } %>
 
             <table
                 class="w-50 p-3 container d-flex align-items-center justify-content-center table table-dark table-hover">
                 <tr>
                     <td class="text-decoration-underline fw-bold">STAFF ID</td>
                     <td>
-                        <%= locals.result[0].Staff_id %>
+                        <%= locals.result[0][0].Staff_id %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">ROLE</td>
                     <td>
-                        <%= locals.result[0].Role %>
+                        <%= locals.result[0][0].Role %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">NAME</td>
                     <td>
-                        <%= locals.result[0].Full_Name %>
+                        <%= locals.result[0][0].Full_Name %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">DOB</td>
                     <td>
-                        <%= locals.result[0].DOB %>
+                        <%= locals.result[0][0].DOB %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">MARTIAL STATUS</td>
                     <td>
-                        <%= locals.result[0].Martial_Status %>
+                        <%= locals.result[0][0].Martial_Status %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">JOINING DATE</td>
                     <td>
-                        <%= locals.result[0].Joining_Date %>
+                        <%= locals.result[0][0].Joining_Date %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">QUALIFCATION</td>
                     <td>
-                        <%= locals.result[0].Qualification %>
+                        <%= locals.result[0][0].Qualification %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">AADHAR NUMBER</td>
                     <td>
-                        <%= locals.result[0].Aadhar_No %>
+                        <%= locals.result[0][0].Aadhar_No %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">STAFF TYPE</td>
                     <td>
-                        <%= locals.result[0].Staff_type %>
+                        <%= locals.result[0][0].Staff_type %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">ACCOUNT NO</td>
                     <td>
-                        <%= locals.result[0].Staff_Account_No %>
+                        <%= locals.result[0][0].Staff_Account_No %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">BLOOD GROUP</td>
                     <td>
-                        <%= locals.result[0].Blood_Group %>
+                        <%= locals.result[0][0].Blood_Group %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">EMAIL ID</td>
                     <td>
-                        <%= locals.result[0].Email_ID %>
+                        <%= locals.result[0][0].Email_ID %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">PHONE NO</td>
                     <td>
-                        <%= locals.result[0].Phone_Number %>
+                        <%= locals.result[0][0].Phone_Number %>
                     </td>
                 </tr>
                 <tr>
                     <td class="text-decoration-underline fw-bold">PRE INSTITUTE NAME</td>
                     <td>
-                        <%= locals.result[0].Pre_Institute_Name %>
+                        <%= locals.result[0][0].Pre_Institute_Name %>
                     </td>
                 </tr>
 
             </table>
 
         </div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Your Time Table</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <!-- Table Code  -->
+<table class="table table-light text-center">
+    <thead>
+      <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">DAY</th>
+      <th scope="col">CLASS & SECTION</th>
+      <th scope="col">PERIOD NO</th>
+      <th scope="col">SUBJECT</th>
+      <!-- <th scope="col">ATTENDANCE</th> -->
+    </tr>
+    </thead>
+    <tbody>
+        <% if(result) {        
+            for(var i = 0; i < result[1].length; i++) { %>
+              <tr>
+                <th scope="row"><%= (i+1) %>.</th>
+                <td><%= result[1][i].day %></td>
+                <td><%= result[1][i].Class %> - <%= result[1][i].section %></td>
+                <td><%= result[1][i].period_no %></td>
+                <td><%= result[1][i].subject_name %></td>
+                <!-- <td>
+                    <button
+                      data-id="<%= result[1][i] %>"
+                      type="button"
+                      class="viewbutton btn btn-info View"
+                      data-bs-toggle="modal"
+                    >
+                      <i class="far fa-eye"></i>
+                    </button>
+                  </td> -->
+              </tr>
+        <%  }  
+          } else { %>
+                  <tr>
+                    <td colspan="12" class="text-center">No Records Found.</td>
+                   </tr>
+            <% } %>
+        </tbody>
+      </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

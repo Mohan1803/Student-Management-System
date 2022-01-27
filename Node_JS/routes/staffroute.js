@@ -43,7 +43,7 @@ staffRoute.post("/stafflogin", (req, res) => {
         console.log(err);
         req.flash("error", "Server Crashed");
         return res.redirect("/servererror");
-      } else if (result.length == 1) {
+      } else if (result.length != 0) {
         const pwd = result[0].Password;
         const matchPass = bcrypt.compareSync(PWD, pwd);
 
@@ -51,8 +51,8 @@ staffRoute.post("/stafflogin", (req, res) => {
           let session = req.session;
 
           session.Staff_id = result[0].Staff_id;
+          session.ID = result[0].ID;
           session.role = result[0].Role;
-
           session.logged_in = true;
           req.flash("welcome", `Hi ${session.Staff_id}`);
           return res.redirect("/staff/staffinfo");
@@ -87,19 +87,19 @@ staffRoute.get("/staffinfo", (req, res) => {
   try {
     let session = req.session;
     if (session.Staff_id) {
-      var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${session.Staff_id}' AND Role='${session.role}'`;
+      var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${session.Staff_id}' AND Role='${session.role}';
+      SELECT sadsub.subject_name, sas.section, sac.Class, sws.period_no, sws.day FROM school_weekschedule AS sws INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sws.subject_id
+      INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sws.staff_id = '${session.ID}'`;
       con.query(sql, function (err, result) {
         if (err) {
           console.log(err);
           req.flash("error", "Server Crashed");
           return res.redirect("/servererror");
-        } else if (result.length == 1) {
+        } else {
           res.locals.result = result;
           req.flash("success", "Welcome Back..!");
           return res.render("staffinfo");
-        } else {
-          req.flash("error", "Authentication failed.");
-          return res.redirect("/staff/stafflogin");
         }
       });
     } else {
@@ -191,7 +191,6 @@ staffRoute.get("/stafflogout", (req, res) => {
     if (session.id) {
       req.session.destroy();
       res.clearCookie("account");
-      console.log("logged out");
       return res.redirect("/staff/stafflogin");
     }
   } catch (err) {
