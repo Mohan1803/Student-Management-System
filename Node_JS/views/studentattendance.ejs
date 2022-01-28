@@ -1,0 +1,106 @@
+<% if(locals.success.length>0) { %>
+    <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+  <% if(locals.error.length>0) { %>
+    <div
+      class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+
+    
+   
+
+ 
+
+<div class="container-fluid">
+<div class="row mt-5">
+<div class="col-lg-4 col-xl-4 col-sm-12">
+<div class="sticky-top bg-light pt-5">
+
+<!-- Form Code -->
+<form name="myForm" action="/staff/stud-attendance" method="POST">
+
+<h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Student Attendance</h2>
+
+
+
+
+
+<div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <input type="text" class="form-control" name="attendance_date" id="attendance_date" placeholder="Date" disabled>
+      <label for="attendance_date">Date</label>
+    </div>
+  </div>
+
+
+  <div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <select class="form-control" aria-label="Default select example" name="attendance_periodno" id="attendance_periodno" >
+        <option value="<%= attenresult[0][0].period_no %>" selected><%= attenresult[0][0].period_no %></option>
+      </select>
+      <label for="attendance_periodno">Period No</label>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <input type="text" class="form-control" name="attendance_classsection" id="attendance_classsection" placeholder="Class & Section" value="<%= attenresult[0][0].Class %> - <%= attenresult[0][0].section %>" disabled>
+      <input type="hidden" class="form-control" name="attendance_classsection_hide" id="attendance_classsection_hide">
+      <label for="attendance_classsection">Class & Section</label>
+    </div>
+  </div>
+
+  <% if (attenresult[1].length > 0) { %>
+  <div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <select  class="form-control js-example-basic-multiple" id="attendance_absent"  name="attendance_absent[]" multiple="multiple">
+        <option value="">Select Students:</option>
+         <% for (let i=0; i < attenresult[1].length; i++) { %>
+            <option value="<%= locals.attenresult[1][i].ID %>"><%= attenresult[1][i].Stud_ID %> - <%= attenresult[1][i].Middle_Name %></option>
+          <% }  %>
+      </select>
+      <label for="attendance_absent">Absent</label>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="form-floating  w-100 p-2">
+      <label for="attendance_present">Present</label>
+      <select  class="form-control js-example-basic-multiple" id="attendance_present"  name="attendance_present[]" multiple="multiple"></select>
+    </div>
+  </div>
+
+ 
+
+<center>
+<input type="submit" class="btn btn-primary align-center" value="submit" />
+<% } else { %>
+    <p>No students enrolled to this class & section.</p>
+  <% } %>
+<a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
+
+</center>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+    n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+document.getElementById("attendance_date").value = d + "/" + m + "/" + y;
+</script>

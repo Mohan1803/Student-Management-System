@@ -88,7 +88,7 @@ staffRoute.get("/staffinfo", (req, res) => {
     let session = req.session;
     if (session.Staff_id) {
       var sql = `SELECT *,CONCAT(First_Name,' ',Middle_Name,' ',Last_Name)as Full_Name from school_addstaff where Staff_id='${session.Staff_id}' AND Role='${session.role}';
-      SELECT sadsub.subject_name, sas.section, sac.Class, sws.period_no, sws.day FROM school_weekschedule AS sws INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sws.subject_id
+      SELECT sadsub.subject_name, sas.section, sac.Class, sws.period_no, sws.section_id, sws.staff_id, sws.ID, sws.day FROM school_weekschedule AS sws INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sws.subject_id
       INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
       INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sws.staff_id = '${session.ID}'`;
       con.query(sql, function (err, result) {
@@ -1132,5 +1132,38 @@ staffRoute.post("/week-schedule", (req, res) => {
       });
     }
   });
+});
+
+staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    let section_id = req.params.section_id;
+    let staff_id = req.params.staff_id;
+    let schedule_id = req.params.id;
+    if (staff_id == session.ID)
+      var studattendance = `SELECT sws.period_no, sws.section_id, sas.section, sac.Class FROM school_weekschedule AS sws INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.Class_id WHERE sas.ID = '${section_id}' AND sws.ID = '${schedule_id}';
+      SELECT sias.Stud_ID, sadst.Middle_Name FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadst ON sadst.Stud_ID = sias.ID WHERE sias.section = '${section_id}'`;
+    con.query(studattendance, (err, attenresult) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("/servererror");
+      } else {
+        res.locals.attenresult = attenresult;
+        return res.render("studentattendance");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    req.flash("error", "Server Crashed");
+    return res.redirect("/servererror");
+  }
 });
 module.exports = staffRoute;

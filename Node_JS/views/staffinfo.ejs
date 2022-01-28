@@ -210,7 +210,7 @@
       <th scope="col">CLASS & SECTION</th>
       <th scope="col">PERIOD NO</th>
       <th scope="col">SUBJECT</th>
-      <!-- <th scope="col">ATTENDANCE</th> -->
+      <th scope="col">ATTENDANCE</th>
     </tr>
     </thead>
     <tbody>
@@ -222,16 +222,18 @@
                 <td><%= result[1][i].Class %> - <%= result[1][i].section %></td>
                 <td><%= result[1][i].period_no %></td>
                 <td><%= result[1][i].subject_name %></td>
-                <!-- <td>
-                    <button
-                      data-id="<%= result[1][i] %>"
-                      type="button"
-                      class="viewbutton btn btn-info View"
-                      data-bs-toggle="modal"
-                    >
-                      <i class="far fa-eye"></i>
-                    </button>
-                  </td> -->
+                <td>
+                    <a
+                      class="btn btn-info View"
+                      href="/staff/stud-attendance/<%= result[1][i].section_id %>/<%= result[1][i].staff_id %>/<%= result[1][i].ID %>"
+                      >
+                      <i i class="fa fa-plus" aria-hidden="true"></i></a>
+                    <a
+                      class="btn btn-warning edit"
+                      href="/staff/stud-attendance/<%= result[1][i].section_id %>/<%= result[1][i].staff_id %>/<%= result[1][i].ID %>"
+                      >
+                      <i class="fa fa-edit"></i></a>
+                  </td>
               </tr>
         <%  }  
           } else { %>

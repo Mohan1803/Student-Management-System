@@ -268,3 +268,5 @@ $(document).on(
     });
   }
 );
+
+//Student Attendance
