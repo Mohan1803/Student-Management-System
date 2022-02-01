@@ -45,7 +45,7 @@
 
   <div class="mb-3">
     <div class="form-floating  w-100 p-2">
-      <select class="form-control" aria-label="Default select example" name="attendance_periodno" id="attendance_periodno" >
+      <select class="form-control" aria-label="Default select example" name="attendance_periodno" id="attendance_periodno" disabled>
         <option value="<%= attenresult[0][0].period_no %>" selected><%= attenresult[0][0].period_no %></option>
       </select>
       <label for="attendance_periodno">Period No</label>
@@ -55,52 +55,51 @@
   <div class="mb-3">
     <div class="form-floating  w-100 p-2">
       <input type="text" class="form-control" name="attendance_classsection" id="attendance_classsection" placeholder="Class & Section" value="<%= attenresult[0][0].Class %> - <%= attenresult[0][0].section %>" disabled>
-      <input type="hidden" class="form-control" name="attendance_classsection_hide" id="attendance_classsection_hide">
+      <input type="hidden" class="form-control" name="attendance_classsection_hide" id="attendance_classsection_hide" value="<%= locals.attenresult[0][0].ID %>">
       <label for="attendance_classsection">Class & Section</label>
     </div>
   </div>
 
   <% if (attenresult[1].length > 0) { %>
   <div class="mb-3">
-    <div class="form-floating  w-100 p-2">
-      <select  class="form-control js-example-basic-multiple" id="attendance_absent"  name="attendance_absent[]" multiple="multiple">
-        <option value="">Select Students:</option>
+    <label for="attendance_absent">Absent</label>
+     <div class="form-floating  w-100 p-2">
+    <select id="attendance_absent" class="js-example-basic-multiple js-example-responsive form-control" name="attendance_absent[]" multiple="multiple">
+        <option value="" disabled>Select Students:</option>
          <% for (let i=0; i < attenresult[1].length; i++) { %>
             <option value="<%= locals.attenresult[1][i].ID %>"><%= attenresult[1][i].Stud_ID %> - <%= attenresult[1][i].Middle_Name %></option>
-          <% }  %>
-      </select>
-      <label for="attendance_absent">Absent</label>
-    </div>
+          <% } %>
+    </select>
+ </div>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-3" id="attendance_present_div">
+    <label for="attendance_present">Present</label>
     <div class="form-floating  w-100 p-2">
-      <label for="attendance_present">Present</label>
-      <select  class="form-control js-example-basic-multiple" id="attendance_present"  name="attendance_present[]" multiple="multiple"></select>
+      <select  class="form-control js-example-basic-multiple" id="attendance_present"  name="attendance_present[]" multiple="multiple" > <option value="" disabled>Select Students:</option>
+        <% for (let i=0; i < attenresult[1].length; i++) { %>
+           <option selected value="<%= locals.attenresult[1][i].ID %>"><%= attenresult[1][i].Stud_ID %> - <%= attenresult[1][i].Middle_Name %></option>
+         <% } %></select>
     </div>
   </div>
-
- 
 
 <center>
 <input type="submit" class="btn btn-primary align-center" value="submit" />
-<% } else { %>
-    <p>No students enrolled to this class & section.</p>
+<%} else { %>
+    <p>No Student Enrolled To This Class & Section.</p>
   <% } %>
 <a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
 
 </center>
 </div>
 </div>
-
 </div>
 </div>
-
 
 <script>
-    n =  new Date();
-y = n.getFullYear();
-m = n.getMonth() + 1;
-d = n.getDate();
-document.getElementById("attendance_date").value = d + "/" + m + "/" + y;
+    n = new Date();
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    document.getElementById("attendance_date").value = y + "-" + m + "-" + d;
 </script>

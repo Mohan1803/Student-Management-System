@@ -269,4 +269,25 @@ $(document).on(
   }
 );
 
-//Student Attendance
+//Select2
+$(document).ready(function () {
+  $(".js-example-basic-multiple").select2();
+});
+
+//Attendance Module : Student Attendance
+
+$(document).ready(function () {
+  // $("#attendance_present_div").hide();
+  $("#attendance_absent").on("change", function () {
+    var absentees = $("#attendance_absent").val(); // [5, 7, 8]
+    console.log(absentees);
+
+    $("#attendance_absent").find("option").removeAttr("disabled");
+
+    $.each(absentees, (key, value) => {
+      $("#attendance_present")
+        .find("option[value='" + value + "']")
+        .remove();
+    });
+  });
+});

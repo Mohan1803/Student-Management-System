@@ -2,23 +2,9 @@
     <div class="row p-5 mt-5">
        
                 
-    
-            <% if(locals.error.length>0) { %>
-                <div
-                  class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
-                  role="alert">
-                  <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <% } %>
+        <form name="myForm" action="/staff/servererror" method="POST">
+
+           <h5><center>The Page You Are Looking For Is Unavailable!!!</center></h5>
+        </form>
     </div>
 </div>
-
-<style>
-    .h1{
-        text-align: center;
-        font-size: 75px;
-        color: red;
-        font-family: 'Times New Roman', Times, serif;
-    }
-</style>

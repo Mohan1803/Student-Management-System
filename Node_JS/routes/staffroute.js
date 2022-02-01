@@ -41,8 +41,8 @@ staffRoute.post("/stafflogin", (req, res) => {
     con.query(check, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else if (result.length != 0) {
         const pwd = result[0].Password;
         const matchPass = bcrypt.compareSync(PWD, pwd);
@@ -67,8 +67,8 @@ staffRoute.post("/stafflogin", (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -94,8 +94,8 @@ staffRoute.get("/staffinfo", (req, res) => {
       con.query(sql, function (err, result) {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else {
           res.locals.result = result;
           req.flash("success", "Welcome Back..!");
@@ -108,9 +108,17 @@ staffRoute.get("/staffinfo", (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
+});
+
+//Server Error
+staffRoute.get("/servererror", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  return res.render("servererror");
 });
 
 //Get view student
@@ -139,8 +147,7 @@ staffRoute.get("/viewstudent", (req, res) => {
   con.query(viewstud, (err, student) => {
     if (err) {
       console.log(err);
-      req.flash("error", "Server Crashed");
-      return res.redirect("/servererror");
+      return res.redirect("/staff/servererror");
     } else {
       res.locals.student = student;
       return res.render("viewstudent");
@@ -195,8 +202,8 @@ staffRoute.get("/stafflogout", (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -236,8 +243,8 @@ staffRoute.post("/staffchangepwd", (req, res) => {
       con.query(sql, function (err, result) {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else if (result.length == 1) {
           const pwd = result[0].Password;
           const matchpass = bcrypt.compareSync(pwd1, pwd);
@@ -259,8 +266,8 @@ staffRoute.post("/staffchangepwd", (req, res) => {
               con.query(change, (err, result) => {
                 if (err) {
                   console.log(err);
-                  req.flash("error", "Server Crashed");
-                  return res.redirect("/servererror");
+
+                  return res.redirect("/staff/servererror");
                 } else {
                   req.flash("success", "Password Changed Successfully");
                   res.redirect("/staff/staffinfo");
@@ -282,8 +289,8 @@ staffRoute.post("/staffchangepwd", (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 //Adding New Class
@@ -301,8 +308,8 @@ staffRoute.get("/addclass", (req, res) => {
     con.query(Class, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.result = result;
         return res.render("addclass");
@@ -310,8 +317,8 @@ staffRoute.get("/addclass", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -354,8 +361,8 @@ staffRoute.post("/addclass", async (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -375,8 +382,8 @@ staffRoute.get("/addsection", (req, res) => {
     con.query(stud, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         // console.log(result);
         res.locals.result = result;
@@ -385,8 +392,8 @@ staffRoute.get("/addsection", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -410,8 +417,8 @@ staffRoute.post("/addsection", (req, res) => {
       con.query(dup, (err, result) => {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else if (result.length == 1) {
           req.flash(
             "error",
@@ -419,12 +426,12 @@ staffRoute.post("/addsection", (req, res) => {
           );
           res.redirect("/staff/addsection");
         } else {
-          var sec = `INSERT INTO school_addsection (class_id,section,capacity)values('${Class}','${Section}','${Capacity}')`;
+          var sec = `INSERT INTO school_addsection (class_id,section,capacity) values('${Class}','${Section}','${Capacity}')`;
           con.query(sec, (err, result) => {
             if (err) {
               console.log(err);
-              req.flash("error", "Server Crashed");
-              return res.redirect("/servererror");
+
+              return res.redirect("/staff/servererror");
             } else {
               req.flash("success", "Section Added Successfully");
               return res.redirect("/staff/addsection");
@@ -435,8 +442,8 @@ staffRoute.post("/addsection", (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -454,9 +461,8 @@ staffRoute.get("/addnewstudent", (req, res) => {
     con.query(stud, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
 
-        return res.redirect("/servererror");
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.result = result;
         return res.render("addnewstudent");
@@ -464,8 +470,8 @@ staffRoute.get("/addnewstudent", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -529,8 +535,8 @@ staffRoute.post("/addnewstudent", (req, res) => {
       con.query(sql, (err, result) => {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else if (result.length == 1) {
           req.flash("error", "Student ID Already Taken");
           return res.redirect("/staff/addnewstudent");
@@ -539,8 +545,8 @@ staffRoute.post("/addnewstudent", (req, res) => {
           con.query(newstud, function (err) {
             if (err) {
               console.log(err);
-              req.flash("error", "Server Crashed");
-              return res.redirect("/servererror");
+
+              return res.redirect("/staff/servererror");
             } else {
               const mail = sendMail({
                 from: process.env.MAIL_USERNAME,
@@ -643,8 +649,8 @@ staffRoute.post("/addstaff", async (req, res) => {
       con.query(dupstaff, (err, result) => {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else if (result[0].count == 1) {
           req.flash(
             "error",
@@ -668,8 +674,8 @@ staffRoute.post("/addstaff", async (req, res) => {
                 })
                 .catch((err) => {
                   console.log(err);
-                  req.flash("error", "Server Crashed");
-                  return res.redirect("/servererror");
+
+                  return res.redirect("/staff/servererror");
                 });
               console.log("Staff Record Inserted");
               req.flash("success", "Staff Added Successffully");
@@ -681,8 +687,8 @@ staffRoute.post("/addstaff", async (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -714,8 +720,8 @@ staffRoute.post("/admission-fee", (req, res) => {
     con.query(dupStuAdmi, (err, duplicate) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else if (duplicate.length != 0) {
         req.flash(
           "error",
@@ -731,8 +737,8 @@ staffRoute.post("/admission-fee", (req, res) => {
           con.query(fee, (err, result) => {
             if (err) {
               console.log(err);
-              req.flash("error", "Server Crashed");
-              return res.redirect("/servererror");
+
+              return res.redirect("/staff/servererror");
             } else {
               req.flash("success", "Fee Collected Successfully");
               return res.redirect("/staff/admission-fee");
@@ -743,8 +749,8 @@ staffRoute.post("/admission-fee", (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -776,22 +782,22 @@ staffRoute.post("/student-due-collection", (req, res) => {
     con.query(find_stud, (err, found) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else if (found.length != 0) {
         var insert_due = `INSERT INTO school_student_due_collection (Stud_ID, Actual_fee, Paying_amt, Payment_mode) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${payment_mode}')`;
         con.query(insert_due, (err, inserted) => {
           if (err) {
             console.log(err);
-            req.flash("error", "Server Crashed");
-            return res.redirect("/servererror");
+
+            return res.redirect("/staff/servererror");
           } else {
             var update_admission = `UPDATE school_studentadmission SET Initial_Paying_amt = Initial_Paying_amt + ${payingamt} , Pending_due = Pending_due - ${payingamt} WHERE Stud_id = '${studentid}'`;
             con.query(update_admission, (err, updated) => {
               if (err) {
                 console.log(err);
-                req.flash("error", "Server Crashed");
-                return res.redirect("/servererror");
+
+                return res.redirect("/staff/servererror");
               } else {
                 req.flash("success", "Due Collected Successfully");
                 return res.redirect("/staff/student-due-collection");
@@ -806,8 +812,8 @@ staffRoute.post("/student-due-collection", (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -822,8 +828,8 @@ staffRoute.get("/addsubject", (req, res) => {
     con.query(subject, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.result = result;
         return res.render("addsubject");
@@ -831,8 +837,8 @@ staffRoute.get("/addsubject", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -853,8 +859,8 @@ staffRoute.post("/addsubject", (req, res) => {
       con.query(duplicate_subject, (err, duplicate) => {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else if (duplicate.length != 0) {
           req.flash(
             "error",
@@ -868,8 +874,8 @@ staffRoute.post("/addsubject", (req, res) => {
           con.query(insertSubject, (err, inserted) => {
             if (err) {
               console.log(err);
-              req.flash("error", "Server Crashed");
-              return res.redirect("/servererror");
+
+              return res.redirect("/staff/servererror");
             } else {
               req.flash(
                 "success",
@@ -883,8 +889,8 @@ staffRoute.post("/addsubject", (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -912,8 +918,8 @@ staffRoute.get("/mapping-staff-subject-class", (req, res) => {
     con.query(Class, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.result = result;
         return res.render("mapping");
@@ -921,8 +927,8 @@ staffRoute.get("/mapping-staff-subject-class", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -943,8 +949,8 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
     con.query(insert_map, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         req.flash("success", "Subject & Class Mapped To Staff Successfully");
         return res.redirect("/staff/mapping-staff-subject-class");
@@ -952,8 +958,8 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -971,8 +977,8 @@ staffRoute.get("/schedule-plan", (req, res) => {
     con.query(schedule, (err, plan) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.plan = plan;
         return res.render("scheduleplan");
@@ -980,8 +986,8 @@ staffRoute.get("/schedule-plan", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -999,8 +1005,8 @@ staffRoute.post("/schedule-plan", (req, res) => {
     con.query(dup, (err, duplicate) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else if (duplicate.length != 0) {
         req.flash("error", "Duplicate Schedule Name");
         return res.redirect("/staff/schedule-plan");
@@ -1009,8 +1015,8 @@ staffRoute.post("/schedule-plan", (req, res) => {
         con.query(insert, (err, inserted) => {
           if (err) {
             console.log(err);
-            req.flash("error", "Server Crashed");
-            return res.redirect("/servererror");
+
+            return res.redirect("/staff/servererror");
           } else {
             req.flash("success", "Schedule Plan Created Successfully");
             return res.redirect("/staff/schedule-plan");
@@ -1020,8 +1026,8 @@ staffRoute.post("/schedule-plan", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -1039,8 +1045,8 @@ staffRoute.get("/week-schedule", (req, res) => {
     con.query(Class_section, (err, result) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.result = result;
         return res.render("weekschedule");
@@ -1048,8 +1054,8 @@ staffRoute.get("/week-schedule", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+
+    return res.redirect("/staff/servererror");
   }
 });
 
@@ -1069,8 +1075,8 @@ staffRoute.post("/week-schedule", (req, res) => {
   con.query(dupschedule, (err, duplicate) => {
     if (err) {
       console.log(err);
-      req.flash("error", "Server Crashed");
-      return res.redirect("/servererror");
+
+      return res.redirect("/staff/servererror");
     } else if (duplicate[0].count == 1) {
       req.flash(
         "error",
@@ -1115,8 +1121,8 @@ staffRoute.post("/week-schedule", (req, res) => {
       con.query(insertWeekSchedule, (err, inserted) => {
         if (err) {
           console.log(err);
-          req.flash("error", "Server Crashed");
-          return res.redirect("/servererror");
+
+          return res.redirect("/staff/servererror");
         } else {
           req.flash(
             "success",
@@ -1134,6 +1140,7 @@ staffRoute.post("/week-schedule", (req, res) => {
   });
 });
 
+//Attendance Module : Student Attendance
 staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
   let error = "";
   error = req.flash("error");
@@ -1147,14 +1154,13 @@ staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
     let staff_id = req.params.staff_id;
     let schedule_id = req.params.id;
     if (staff_id == session.ID)
-      var studattendance = `SELECT sws.period_no, sws.section_id, sas.section, sac.Class FROM school_weekschedule AS sws INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
+      var studattendance = `SELECT sws.period_no, sws.section_id, sas.ID, sas.section, sac.Class FROM school_weekschedule AS sws INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
       INNER JOIN school_addclass AS sac ON sac.ID = sas.Class_id WHERE sas.ID = '${section_id}' AND sws.ID = '${schedule_id}';
-      SELECT sias.Stud_ID, sadst.Middle_Name FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadst ON sadst.Stud_ID = sias.ID WHERE sias.section = '${section_id}'`;
+      SELECT sias.Stud_ID, sias.ID, sadst.Middle_Name FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadst ON sadst.Stud_ID = sias.ID WHERE sias.section = '${section_id}'`;
     con.query(studattendance, (err, attenresult) => {
       if (err) {
         console.log(err);
-        req.flash("error", "Server Crashed");
-        return res.redirect("/servererror");
+        return res.redirect("/staff/servererror");
       } else {
         res.locals.attenresult = attenresult;
         return res.render("studentattendance");
@@ -1162,8 +1168,67 @@ staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    req.flash("error", "Server Crashed");
-    return res.redirect("/servererror");
+    return res.redirect("/staff/servererror");
+  }
+});
+
+staffRoute.post("/stud-attendance", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+
+  const date = req.body.attendance_date;
+  const absent = req.body.attendance_absent;
+  const present = req.body.attendance_present;
+  try {
+    var dupAttendance = `SELECT * FROM school_studentattendance WHERE class_section = '${req.body.attendance_classsection_hide}' AND period_no = '${req.body.attendance_periodno}' AND date = CURDATE()`;
+    con.query(dupAttendance, (err, duplicate) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else if (duplicate.length != 0) {
+        req.flash("error", "Attendance For This Class Period Marked Already");
+        return res.redirect("/staff/stud-attendance");
+      } else {
+        var absentDataEntry = "";
+        var presentDataEntry = "";
+
+        if (typeof absent !== "undefined") {
+          for (let i = 0; i < absent.length; i++) {
+            var absent_loop = `('${absent[i]}', '${req.body.attendance_classsection_hide}', '${req.body.attendance_periodno}', '${date}', 'Absent', '${session.ID}'),`;
+            absentDataEntry = absentDataEntry + absent_loop;
+          }
+        } else {
+          absentDataEntry = "";
+        }
+
+        if (typeof present_today !== "undefined") {
+          // for loop to construct a query - Present students
+          for (let i = 0; i < present_today.length; i++) {
+            var present_loop = `('${present[i]}', '${req.body.attendance_classsection_hide}', '${req.body.attendance_periodno}', '${date}', 'Present', '${session.ID}'),`;
+
+            presentDataEntry = presentDataEntry + present_loop;
+          }
+        } else {
+          presentDataEntry = "";
+        }
+        var finalQuery = (absentDataEntry + presentDataEntry).slice(0, -1);
+        // inserting attendance
+        var insertAttendance = `INSERT INTO school_studentattendance (Stud_ID, class_section, period_no, date, status, marked_by) VALUES ${finalQuery}`;
+        con.query(insertAttendance, (err, inserted) => {
+          if (err) throw err;
+          req.flash("success", "Attendance Added Successfully.");
+          return res.redirect("/staff/stud-attendance");
+        });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
   }
 });
 module.exports = staffRoute;
