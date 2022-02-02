@@ -93,11 +93,9 @@
 
         <div>
             <% if(locals.result[0][0].Role == 'staff') { %>  
-                <!-- Button trigger modal -->
                 <center>
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                 Click Here To View Your Time Table
-             </button></center> <% } %>
+             <a href="/staff/staff-timetable" class="btn btn-outline-primary btn-sm" role="button">Click Here To View Your Time Table</a>
+            </center> <% } %>
 
             <table
                 class="w-50 p-3 container d-flex align-items-center justify-content-center table table-dark table-hover">
@@ -192,61 +190,3 @@
 
 
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Your Time Table</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        <!-- Table Code  -->
-<table class="table table-light text-center">
-    <thead>
-      <tr>
-      <th scope="col">S.No</th>
-      <th scope="col">DAY</th>
-      <th scope="col">CLASS & SECTION</th>
-      <th scope="col">PERIOD NO</th>
-      <th scope="col">SUBJECT</th>
-      <th scope="col">ATTENDANCE</th>
-    </tr>
-    </thead>
-    <tbody>
-        <% if(result) {        
-            for(var i = 0; i < result[1].length; i++) { %>
-              <tr>
-                <th scope="row"><%= (i+1) %>.</th>
-                <td><%= result[1][i].day %></td>
-                <td><%= result[1][i].Class %> - <%= result[1][i].section %></td>
-                <td><%= result[1][i].period_no %></td>
-                <td><%= result[1][i].subject_name %></td>
-                <td>
-                    <a
-                      class="btn btn-info View"
-                      href="/staff/stud-attendance/<%= result[1][i].section_id %>/<%= result[1][i].staff_id %>/<%= result[1][i].ID %>"
-                      >
-                      <i i class="fa fa-plus" aria-hidden="true"></i></a>
-                    <!-- <a
-                      class="btn btn-warning edit"
-                      href="/staff/stud-attendance/<%= result[1][i].section_id %>/<%= result[1][i].staff_id %>/<%= result[1][i].ID %>"
-                      >
-                      <i class="fa fa-edit"></i></a> -->
-                  </td>
-              </tr>
-        <%  }  
-          } else { %>
-                  <tr>
-                    <td colspan="12" class="text-center">No Records Found.</td>
-                   </tr>
-            <% } %>
-        </tbody>
-      </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>

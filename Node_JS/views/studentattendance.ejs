@@ -38,6 +38,7 @@
 <div class="mb-3">
     <div class="form-floating  w-100 p-2">
       <input type="text" class="form-control" name="attendance_date" id="attendance_date" placeholder="Date" disabled>
+      <input type="hidden" class="form-control" name="attendance_date_hide" id="attendance_date_hide" placeholder="Date">
       <label for="attendance_date">Date</label>
     </div>
   </div>
@@ -45,7 +46,7 @@
 
   <div class="mb-3">
     <div class="form-floating  w-100 p-2">
-      <select class="form-control" aria-label="Default select example" name="attendance_periodno" id="attendance_periodno" disabled>
+      <select class="form-control" aria-label="Default select example" name="attendance_periodno" id="attendance_periodno">
         <option value="<%= attenresult[0][0].period_no %>" selected><%= attenresult[0][0].period_no %></option>
       </select>
       <label for="attendance_periodno">Period No</label>
@@ -76,7 +77,8 @@
   <div class="mb-3" id="attendance_present_div">
     <label for="attendance_present">Present</label>
     <div class="form-floating  w-100 p-2">
-      <select  class="form-control js-example-basic-multiple" id="attendance_present"  name="attendance_present[]" multiple="multiple" > <option value="" disabled>Select Students:</option>
+      <select  class="form-control js-example-basic-multiple js-example-responsive" id="attendance_present"  name="attendance_present[]" multiple="multiple" > 
+        <option value="" disabled>Select Students:</option>
         <% for (let i=0; i < attenresult[1].length; i++) { %>
            <option selected value="<%= locals.attenresult[1][i].ID %>"><%= attenresult[1][i].Stud_ID %> - <%= attenresult[1][i].Middle_Name %></option>
          <% } %></select>
@@ -93,6 +95,41 @@
 </center>
 </div>
 </div>
+
+<div class="col-xl-8 col-lg-8 col-sm-12 overflow-auto border">
+  <center>
+<h1 style="font-family: 'Times New Roman', Times, serif;"> Attendance Records </h1>
+</center><br>
+  <!-- Table Code  -->
+  <table class="table table-light text-center">
+    <thead>
+      <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">DATE</th>
+      <th scope="col">CLASS & SECTION</th>
+      <th scope="col">PERIOD NO</th>
+      <th scope="col">STUDENTS</th>
+    </tr>
+    </thead>
+    <tbody>
+        <% if(attenresult[2]) {        
+            for(var i = 0; i < attenresult[2].length; i++) { %>
+              <tr>
+                <th scope="row"><%= (i+1) %>.</th>
+                <td><%= attenresult[2][i].Date %></td>
+                <td><%= attenresult[2][i].Class %> - <%= attenresult[2][i].section %></td>
+                <td><%= attenresult[2][i].period_no %></td>
+                <td><b> <%= attenresult[2][i].status %> - </b> <%= attenresult[2][i].Stud_ID %></td>
+              </tr>
+        <%  }  
+          } else { %>
+                  <tr>
+                    <td colspan="12" class="text-center">No Records Found.</td>
+                   </tr>
+            <% } %>
+        </tbody>
+      </table>
+   </div>
 </div>
 </div>
 
@@ -102,4 +139,5 @@
     m = n.getMonth() + 1;
     d = n.getDate();
     document.getElementById("attendance_date").value = y + "-" + m + "-" + d;
+    document.getElementById("attendance_date_hide").value = y + "-" + m + "-" + d;
 </script>

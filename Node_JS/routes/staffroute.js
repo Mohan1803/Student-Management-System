@@ -1140,6 +1140,43 @@ staffRoute.post("/week-schedule", (req, res) => {
   });
 });
 
+//Getting Staff Timetable page
+staffRoute.get("/staff-timetable", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    let session = req.session;
+    if (session.Staff_id) {
+      var sql = `SELECT sadsub.subject_name, sas.section, sac.Class, sws.period_no, sws.section_id, sws.staff_id, sws.ID, sws.day FROM school_weekschedule AS sws INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sws.subject_id
+      INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sws.staff_id = '${session.ID}'`;
+      con.query(sql, function (err, result) {
+        if (err) {
+          console.log(err);
+
+          return res.redirect("/staff/servererror");
+        } else {
+          res.locals.result = result;
+          req.flash("success", "Welcome Back..!");
+          return res.render("stafftimetable");
+        }
+      });
+    } else {
+      req.flash("error", "TimesUp Please login to continue.");
+      return res.redirect("/staff/stafflogin");
+    }
+  } catch (err) {
+    console.log(err);
+
+    return res.redirect("/staff/servererror");
+  }
+});
+
 //Attendance Module : Student Attendance
 staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
   let error = "";
@@ -1153,19 +1190,29 @@ staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
     let section_id = req.params.section_id;
     let staff_id = req.params.staff_id;
     let schedule_id = req.params.id;
-    if (staff_id == session.ID)
+    session.logged_in = true;
+    if (staff_id == session.ID) {
       var studattendance = `SELECT sws.period_no, sws.section_id, sas.ID, sas.section, sac.Class FROM school_weekschedule AS sws INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
       INNER JOIN school_addclass AS sac ON sac.ID = sas.Class_id WHERE sas.ID = '${section_id}' AND sws.ID = '${schedule_id}';
-      SELECT sias.Stud_ID, sias.ID, sadst.Middle_Name FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadst ON sadst.Stud_ID = sias.ID WHERE sias.section = '${section_id}'`;
-    con.query(studattendance, (err, attenresult) => {
-      if (err) {
-        console.log(err);
-        return res.redirect("/staff/servererror");
-      } else {
-        res.locals.attenresult = attenresult;
-        return res.render("studentattendance");
-      }
-    });
+
+      SELECT sias.Stud_ID, sias.ID, sadst.Middle_Name FROM school_initialaddstudent AS sias INNER JOIN school_addstudent AS sadst ON sadst.Stud_ID = sias.ID WHERE sias.section = '${section_id}';
+
+      SELECT DATE_FORMAT(sstat.date,'%d-%M-%Y') AS Date, sstat.period_no, sstat.status, sias.Stud_ID, sac.Class, sas.section FROM school_studentattendance AS sstat INNER JOIN school_initialaddstudent AS sias ON sstat.Stud_ID = sias.ID
+      INNER JOIN school_addsection AS sas ON sas.ID = sstat.class_section
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE marked_by = '${session.ID}'`;
+      con.query(studattendance, (err, attenresult) => {
+        if (err) {
+          console.log(err);
+          return res.redirect("/staff/servererror");
+        } else {
+          res.locals.attenresult = attenresult;
+          return res.render("studentattendance");
+        }
+      });
+    } else {
+      req.flash("error", "Time Out Please Login Again");
+      return res.redirect("/staff/stafflogin");
+    }
   } catch (e) {
     console.log(e);
     return res.redirect("/staff/servererror");
@@ -1181,35 +1228,35 @@ staffRoute.post("/stud-attendance", (req, res) => {
   res.locals.success = success;
   let session = req.session;
 
-  const date = req.body.attendance_date;
+  const date = req.body.attendance_date_hide;
   const absent = req.body.attendance_absent;
   const present = req.body.attendance_present;
+  const period_no = req.body.attendance_periodno;
   try {
-    var dupAttendance = `SELECT * FROM school_studentattendance WHERE class_section = '${req.body.attendance_classsection_hide}' AND period_no = '${req.body.attendance_periodno}' AND date = CURDATE()`;
+    var dupAttendance = `SELECT * FROM school_studentattendance WHERE class_section = '${req.body.attendance_classsection_hide}' AND period_no = '${period_no}' AND date = CURDATE()`;
     con.query(dupAttendance, (err, duplicate) => {
       if (err) {
         console.log(err);
         return res.redirect("/staff/servererror");
       } else if (duplicate.length != 0) {
         req.flash("error", "Attendance For This Class Period Marked Already");
-        return res.redirect("/staff/stud-attendance");
+        return res.redirect("/staff/staff-timetable");
       } else {
         var absentDataEntry = "";
         var presentDataEntry = "";
 
         if (typeof absent !== "undefined") {
           for (let i = 0; i < absent.length; i++) {
-            var absent_loop = `('${absent[i]}', '${req.body.attendance_classsection_hide}', '${req.body.attendance_periodno}', '${date}', 'Absent', '${session.ID}'),`;
+            var absent_loop = `('${absent[i]}', '${req.body.attendance_classsection_hide}', '${period_no}', '${date}', 'Absent', '${session.ID}'),`;
             absentDataEntry = absentDataEntry + absent_loop;
           }
         } else {
           absentDataEntry = "";
         }
 
-        if (typeof present_today !== "undefined") {
-          // for loop to construct a query - Present students
-          for (let i = 0; i < present_today.length; i++) {
-            var present_loop = `('${present[i]}', '${req.body.attendance_classsection_hide}', '${req.body.attendance_periodno}', '${date}', 'Present', '${session.ID}'),`;
+        if (typeof present !== "undefined") {
+          for (let i = 0; i < present.length; i++) {
+            var present_loop = `('${present[i]}', '${req.body.attendance_classsection_hide}', '${period_no}', '${date}', 'Present', '${session.ID}'),`;
 
             presentDataEntry = presentDataEntry + present_loop;
           }
@@ -1217,12 +1264,12 @@ staffRoute.post("/stud-attendance", (req, res) => {
           presentDataEntry = "";
         }
         var finalQuery = (absentDataEntry + presentDataEntry).slice(0, -1);
-        // inserting attendance
+
         var insertAttendance = `INSERT INTO school_studentattendance (Stud_ID, class_section, period_no, date, status, marked_by) VALUES ${finalQuery}`;
         con.query(insertAttendance, (err, inserted) => {
           if (err) throw err;
           req.flash("success", "Attendance Added Successfully.");
-          return res.redirect("/staff/stud-attendance");
+          return res.redirect("/staff/staff-timetable");
         });
       }
     });

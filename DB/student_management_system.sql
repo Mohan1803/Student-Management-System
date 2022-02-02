@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jan 18, 2022 at 10:33 AM
+-- Generation Time: Feb 02, 2022 at 11:28 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -370,16 +370,36 @@ INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Initial_P
 
 DROP TABLE IF EXISTS `school_studentattendance`;
 CREATE TABLE IF NOT EXISTS `school_studentattendance` (
-  `ID` int(10) NOT NULL,
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_ID` int(10) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `class_section` int(10) NOT NULL,
+  `period_no` int(10) NOT NULL,
+  `date` date NOT NULL,
   `status` varchar(20) NOT NULL,
-  `Created_at` datetime NOT NULL,
-  `Updated_at` timestamp NOT NULL,
+  `marked_by` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `stud_id link attendance` (`Stud_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `stud_id link attendance` (`Stud_ID`),
+  KEY `section_id link attendance` (`class_section`),
+  KEY `staff_id link to marked_by attendance` (`marked_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_studentattendance`
+--
+
+INSERT INTO `school_studentattendance` (`ID`, `Stud_ID`, `class_section`, `period_no`, `date`, `status`, `marked_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 2, 1, 4, '2022-02-02', 'Absent', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
+(2, 1, 1, 4, '2022-02-02', 'Present', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
+(3, 3, 1, 4, '2022-02-02', 'Present', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
+(4, 1, 1, 3, '2022-02-02', 'Absent', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
+(5, 2, 1, 3, '2022-02-02', 'Present', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
+(6, 3, 1, 3, '2022-02-02', 'Present', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
+(7, 2, 1, 1, '2022-02-02', 'Absent', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
+(8, 1, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
+(9, 3, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -428,14 +448,24 @@ CREATE TABLE IF NOT EXISTS `school_subjectclass_mapping` (
   KEY `Staff_ID link mapping` (`Staff_ID`),
   KEY `subject link` (`Subject_id`),
   KEY `section_id link mapping` (`Section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_subjectclass_mapping`
 --
 
 INSERT INTO `school_subjectclass_mapping` (`ID`, `Staff_ID`, `Section_id`, `Subject_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 2, 5, 3, '2022-01-13 14:42:38', '2022-01-13 09:12:38', NULL);
+(1, 2, 1, 1, '2022-01-27 14:52:54', '2022-01-27 09:22:54', NULL),
+(2, 3, 1, 2, '2022-01-27 14:53:01', '2022-01-27 09:23:01', NULL),
+(3, 4, 1, 14, '2022-01-27 14:53:07', '2022-01-27 09:23:07', NULL),
+(4, 5, 1, 12, '2022-01-27 14:53:14', '2022-01-27 09:23:14', NULL),
+(5, 2, 1, 8, '2022-01-27 14:53:23', '2022-01-27 09:23:23', NULL),
+(6, 2, 5, 1, '2022-01-27 14:53:33', '2022-01-27 09:23:33', NULL),
+(7, 3, 5, 2, '2022-01-27 14:53:45', '2022-01-27 09:23:45', NULL),
+(8, 4, 5, 3, '2022-01-27 14:53:54', '2022-01-27 09:23:54', NULL),
+(9, 5, 5, 4, '2022-01-27 14:54:02', '2022-01-27 09:24:02', NULL),
+(10, 2, 5, 8, '2022-01-27 14:54:13', '2022-01-27 09:24:13', NULL),
+(11, 3, 12, 1, '2022-01-28 16:35:32', '2022-01-28 11:05:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -449,14 +479,40 @@ CREATE TABLE IF NOT EXISTS `school_weekschedule` (
   `day` varchar(255) NOT NULL,
   `section_id` int(10) NOT NULL,
   `schedule_id` int(10) NOT NULL,
-  `period_no` int(10) NOT NULL,
-  `subject_id` int(10) NOT NULL,
-  `staff_id` int(10) NOT NULL,
+  `period_no` int(10) DEFAULT NULL,
+  `subject_id` int(10) DEFAULT NULL,
+  `staff_id` int(10) DEFAULT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ID`),
+  KEY `section_id link week schedule` (`section_id`),
+  KEY `schedule id link week schedule` (`schedule_id`),
+  KEY `subject id link week schedule` (`subject_id`),
+  KEY `staff id link week schedule` (`staff_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_weekschedule`
+--
+
+INSERT INTO `school_weekschedule` (`ID`, `day`, `section_id`, `schedule_id`, `period_no`, `subject_id`, `staff_id`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Monday', 1, 1, 1, 1, 2, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(2, 'Monday', 1, 1, 2, 1, 2, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(3, 'Monday', 1, 1, 3, 2, 3, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(4, 'Monday', 1, 1, 4, 2, 3, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(5, 'Monday', 1, 1, 5, 12, 5, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(6, 'Monday', 1, 1, 6, 12, 5, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(7, 'Monday', 1, 1, 7, 14, 4, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(8, 'Monday', 1, 1, 8, 8, 2, '2022-01-27 14:54:54', '2022-01-27 09:24:54', NULL),
+(9, 'Wednesday', 5, 1, 1, 2, 3, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(10, 'Wednesday', 5, 1, 2, 4, 5, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(11, 'Wednesday', 5, 1, 3, 3, 4, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(12, 'Wednesday', 5, 1, 4, 8, 2, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(13, 'Wednesday', 5, 1, 5, 4, 5, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(14, 'Wednesday', 5, 1, 6, 1, 2, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(15, 'Wednesday', 5, 1, 7, 3, 4, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL),
+(16, 'Wednesday', 5, 1, 8, 2, 3, '2022-01-27 14:55:22', '2022-01-27 09:25:22', NULL);
 
 --
 -- Constraints for dumped tables
@@ -490,6 +546,8 @@ ALTER TABLE `school_studentadmission`
 -- Constraints for table `school_studentattendance`
 --
 ALTER TABLE `school_studentattendance`
+  ADD CONSTRAINT `section_id link attendance` FOREIGN KEY (`class_section`) REFERENCES `school_addsection` (`ID`),
+  ADD CONSTRAINT `staff_id link to marked_by attendance` FOREIGN KEY (`marked_by`) REFERENCES `school_addstaff` (`ID`),
   ADD CONSTRAINT `stud_id link attendance` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --
@@ -505,6 +563,13 @@ ALTER TABLE `school_subjectclass_mapping`
   ADD CONSTRAINT `Staff_ID link mapping` FOREIGN KEY (`Staff_ID`) REFERENCES `school_addstaff` (`ID`),
   ADD CONSTRAINT `section_id link mapping` FOREIGN KEY (`Section_id`) REFERENCES `school_addsection` (`ID`),
   ADD CONSTRAINT `subject link` FOREIGN KEY (`Subject_id`) REFERENCES `school_addsubjects` (`ID`);
+
+--
+-- Constraints for table `school_weekschedule`
+--
+ALTER TABLE `school_weekschedule`
+  ADD CONSTRAINT `schedule id link week schedule` FOREIGN KEY (`schedule_id`) REFERENCES `school_scheduleplan` (`ID`),
+  ADD CONSTRAINT `section_id link week schedule` FOREIGN KEY (`section_id`) REFERENCES `school_addsection` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

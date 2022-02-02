@@ -275,9 +275,8 @@ $(document).ready(function () {
 });
 
 //Attendance Module : Student Attendance
-
 $(document).ready(function () {
-  // $("#attendance_present_div").hide();
+  $("#attendance_present_div").hide();
   $("#attendance_absent").on("change", function () {
     var absentees = $("#attendance_absent").val(); // [5, 7, 8]
     console.log(absentees);
