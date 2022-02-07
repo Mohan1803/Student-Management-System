@@ -42,18 +42,7 @@
       <label for="sub_name">Subject Name</label>
     </div>
   </div>
-<div class="mb-3">
-    <div class="form-floating  w-100 p-2">
-      <input type="number" class="form-control" name="actualmark" id="actualmark" placeholder="Actual Mark">
-      <label for="actualmark">Actual Mark</label>
-    </div>
-  </div>
-  <div class="mb-3">
-    <div class="form-floating  w-100 p-2">
-      <input type="number" class="form-control" name="passmark" id="passmark" placeholder="Pass Mark">
-      <label for="passmark">Pass Mark</label>
-    </div>
-  </div>
+
 <center>
 <input type="submit" class="btn btn-primary align-center" value="submit" />
 
@@ -64,15 +53,15 @@
 </div>
 
 <div class="col-xl-8 col-lg-8 col-sm-12 overflow-auto border">
-
+  <center>
+    <h1 style="font-family: 'Times New Roman', Times, serif;"> SUBJECTS </h1>
+    </center><br>
   <!-- Table Code  -->
   <table class="table table-light text-center">
     <thead>
       <tr>
       <th scope="col">S.No</th>
       <th scope="col">Subject Name</th>
-      <th scope="col">Actual Mark</th>
-      <th scope="col">Pass Mark</th>
     </tr>
     </thead>
     <tbody>
@@ -81,8 +70,6 @@
               <tr>
                 <th scope="row"><%= (i+1) %>.</th>
                 <td><%= result[i].subject_name %></td>
-                <td><%= result[i].actual_mark %></td>
-                <td><%= result[i].pass_mark %></td>
               </tr>
         <%  }  
           } else { %>

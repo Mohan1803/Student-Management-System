@@ -870,7 +870,7 @@ staffRoute.post("/addsubject", (req, res) => {
           );
           return res.redirect("/staff/addsubject");
         } else {
-          var insertSubject = `INSERT INTO school_addsubjects (subject_name, actual_mark, pass_mark) VALUES ('${subjectName}', '${actualMark}', '${passMark}')`;
+          var insertSubject = `INSERT INTO school_addsubjects (subject_name) VALUES ('${subjectName}')`;
           con.query(insertSubject, (err, inserted) => {
             if (err) {
               console.log(err);
@@ -1199,7 +1199,7 @@ staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
 
       SELECT DATE_FORMAT(sstat.date,'%d-%M-%Y') AS Date, sstat.period_no, sstat.status, sias.Stud_ID, sac.Class, sas.section FROM school_studentattendance AS sstat INNER JOIN school_initialaddstudent AS sias ON sstat.Stud_ID = sias.ID
       INNER JOIN school_addsection AS sas ON sas.ID = sstat.class_section
-      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE marked_by = '${session.ID}'`;
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE marked_by = '${session.ID}' ORDER BY Date`;
       con.query(studattendance, (err, attenresult) => {
         if (err) {
           console.log(err);
@@ -1278,4 +1278,16 @@ staffRoute.post("/stud-attendance", (req, res) => {
     return res.redirect("/staff/servererror");
   }
 });
+
+//Getting Student Adding Exam Page
+staffRoute.get("/student-exam", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+  return res.render("studentexam");
+});
+
 module.exports = staffRoute;
