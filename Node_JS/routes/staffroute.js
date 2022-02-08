@@ -1287,7 +1287,16 @@ staffRoute.get("/student-exam", (req, res) => {
   let success = "";
   success = req.flash("success");
   res.locals.success = success;
-  return res.render("studentexam");
+  var class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
+  con.query(class_section, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else {
+      res.locals.result = result;
+      return res.render("studentexam");
+    }
+  });
 });
 
 module.exports = staffRoute;

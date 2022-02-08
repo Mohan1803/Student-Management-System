@@ -293,12 +293,12 @@ $(document).ready(function () {
 
 //Exam Module
 //Getting No Of Subjects Mapped To Particular Class
-
 $(document).ready(function () {
   $("#exam_section").on("change", function () {
     var exam_section = $("#exam_section").val();
+    console.log(exam_section);
     $.ajax({
-      url: "/api/get-noofsubjects-associated-with-classSection",
+      url: "/api/get-noofsubjects-associated-with-class",
       type: "POST",
       data: {
         exam_section: exam_section,
@@ -315,11 +315,11 @@ $(document).ready(function () {
             for (var i = 1; i <= period; i++) {
               array.push(i);
               $("#schedule_plan").html(
-                "<h4 id='subject_staff'> <b> SELECT SUBJECT & STAFF </b> </h4> <hr/>  <div id='subject_staff_display' ></div>"
+                "<h4 id='exam_subject'> <b> SELECT SUBJECT, ADD MARKS & DATE </b> </h4> <hr/>  <div id='exam_subject_display' ></div>"
               );
             }
             $.each(array, (key, value) => {
-              $("#subject_staff_display").append(
+              $("#exam_subject_display").append(
                 `<input type='hidden' name='period_no_${value}' value='${value}'></input>
                 <div id='schedule_main_${value}' class='m-1 row g-3'>
                 <div class='col'>

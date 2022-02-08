@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 02, 2022 at 11:28 AM
+-- Generation Time: Feb 08, 2022 at 11:27 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -57,6 +57,28 @@ INSERT INTO `school_addclass` (`ID`, `Class`, `Actual_fee`, `Created_at`, `Updat
 (12, '1', 9000, '2022-01-04 15:38:25', '2022-01-04 10:08:25', NULL),
 (13, 'UKG', 8000, '2022-01-11 15:21:55', '2022-01-11 09:51:55', NULL),
 (14, 'LKG', 7000, '2022-01-11 15:22:00', '2022-01-11 09:52:00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `school_addexam`
+--
+
+DROP TABLE IF EXISTS `school_addexam`;
+CREATE TABLE IF NOT EXISTS `school_addexam` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `exam_name` varchar(255) NOT NULL,
+  `section_id` int(10) NOT NULL,
+  `Subject_id` int(10) NOT NULL,
+  `actual_mark` int(10) NOT NULL,
+  `pass_mark` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `section_link exam` (`section_id`),
+  KEY `subject link exam` (`Subject_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -212,8 +234,6 @@ DROP TABLE IF EXISTS `school_addsubjects`;
 CREATE TABLE IF NOT EXISTS `school_addsubjects` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(255) NOT NULL,
-  `actual_mark` int(10) NOT NULL,
-  `pass_mark` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
@@ -224,23 +244,23 @@ CREATE TABLE IF NOT EXISTS `school_addsubjects` (
 -- Dumping data for table `school_addsubjects`
 --
 
-INSERT INTO `school_addsubjects` (`ID`, `subject_name`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Tamil', 100, 35, '2022-01-11 15:04:56', '2022-01-11 09:34:56', NULL),
-(2, 'English', 100, 35, '2022-01-11 15:05:07', '2022-01-11 09:35:07', NULL),
-(3, 'Maths', 100, 35, '2022-01-11 15:06:02', '2022-01-11 09:36:02', NULL),
-(4, 'Science', 100, 35, '2022-01-11 15:06:16', '2022-01-11 09:36:16', NULL),
-(5, 'Social Science', 100, 35, '2022-01-11 15:06:30', '2022-01-11 09:36:30', NULL),
-(6, 'Botany', 100, 35, '2022-01-11 15:06:46', '2022-01-11 09:36:46', NULL),
-(7, 'Zoology', 100, 35, '2022-01-11 15:06:57', '2022-01-11 09:36:57', NULL),
-(8, 'History', 100, 35, '2022-01-11 15:07:12', '2022-01-11 09:37:12', NULL),
-(9, 'Geography', 100, 35, '2022-01-11 15:07:22', '2022-01-11 09:37:22', NULL),
-(10, 'General Knowledge', 100, 35, '2022-01-11 15:07:42', '2022-01-11 09:37:42', NULL),
-(11, 'Moral Science', 100, 35, '2022-01-11 15:07:56', '2022-01-11 09:37:56', NULL),
-(12, 'Computer Science', 200, 70, '2022-01-11 15:08:34', '2022-01-11 09:38:34', NULL),
-(13, 'Biology', 200, 70, '2022-01-11 15:08:49', '2022-01-11 09:38:49', NULL),
-(14, 'Mathematics', 200, 70, '2022-01-11 15:09:08', '2022-01-11 09:39:08', NULL),
-(15, 'Accounts', 200, 70, '2022-01-11 15:15:41', '2022-01-11 09:45:41', NULL),
-(16, 'Statistics', 200, 70, '2022-01-11 15:16:53', '2022-01-11 09:46:53', NULL);
+INSERT INTO `school_addsubjects` (`ID`, `subject_name`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Tamil', '2022-01-11 15:04:56', '2022-01-11 09:34:56', NULL),
+(2, 'English', '2022-01-11 15:05:07', '2022-01-11 09:35:07', NULL),
+(3, 'Maths', '2022-01-11 15:06:02', '2022-01-11 09:36:02', NULL),
+(4, 'Science', '2022-01-11 15:06:16', '2022-01-11 09:36:16', NULL),
+(5, 'Social Science', '2022-01-11 15:06:30', '2022-01-11 09:36:30', NULL),
+(6, 'Botany', '2022-01-11 15:06:46', '2022-01-11 09:36:46', NULL),
+(7, 'Zoology', '2022-01-11 15:06:57', '2022-01-11 09:36:57', NULL),
+(8, 'History', '2022-01-11 15:07:12', '2022-01-11 09:37:12', NULL),
+(9, 'Geography', '2022-01-11 15:07:22', '2022-01-11 09:37:22', NULL),
+(10, 'General Knowledge', '2022-01-11 15:07:42', '2022-01-11 09:37:42', NULL),
+(11, 'Moral Science', '2022-01-11 15:07:56', '2022-01-11 09:37:56', NULL),
+(12, 'Computer Science', '2022-01-11 15:08:34', '2022-01-11 09:38:34', NULL),
+(13, 'Biology', '2022-01-11 15:08:49', '2022-01-11 09:38:49', NULL),
+(14, 'Mathematics', '2022-01-11 15:09:08', '2022-01-11 09:39:08', NULL),
+(15, 'Accounts', '2022-01-11 15:15:41', '2022-01-11 09:45:41', NULL),
+(16, 'Statistics', '2022-01-11 15:16:53', '2022-01-11 09:46:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -384,7 +404,7 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
   KEY `stud_id link attendance` (`Stud_ID`),
   KEY `section_id link attendance` (`class_section`),
   KEY `staff_id link to marked_by attendance` (`marked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studentattendance`
@@ -399,7 +419,13 @@ INSERT INTO `school_studentattendance` (`ID`, `Stud_ID`, `class_section`, `perio
 (6, 3, 1, 3, '2022-02-02', 'Present', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
 (7, 2, 1, 1, '2022-02-02', 'Absent', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
 (8, 1, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
-(9, 3, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL);
+(9, 3, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
+(10, 2, 1, 3, '2022-02-03', 'Absent', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
+(11, 1, 1, 3, '2022-02-03', 'Present', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
+(12, 3, 1, 3, '2022-02-03', 'Present', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
+(13, 2, 1, 4, '2022-02-03', 'Absent', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
+(14, 1, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
+(15, 3, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -517,6 +543,13 @@ INSERT INTO `school_weekschedule` (`ID`, `day`, `section_id`, `schedule_id`, `pe
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `school_addexam`
+--
+ALTER TABLE `school_addexam`
+  ADD CONSTRAINT `section_link exam` FOREIGN KEY (`section_id`) REFERENCES `school_addsection` (`ID`),
+  ADD CONSTRAINT `subject link exam` FOREIGN KEY (`Subject_id`) REFERENCES `school_addsubjects` (`ID`);
 
 --
 -- Constraints for table `school_addsection`

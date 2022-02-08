@@ -28,12 +28,19 @@
                               </div>
                             </div>
                         
+
                             <div class="mb-3">
-                                <div class="form-floating w-75 p-2">
-                                  <input type="text" class="form-control" name="exam_section" id="exam_section" placeholder="Class & Section">
-                                  <label for="exam_section">Class & Section</label>
-                                </div>
+                              <div class="form-floating w-75 p-2">
+                                <select class="form-select" aria-label="Default select example" id="exam_section" name="exam_section">
+                                  <% if (locals.result) { %>
+                                    <% for ( let i=0; i < locals.result.length; i++){ %>
+                                        <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %> - <%= locals.result[i].section %></option>
+                               <% } }  %>
+                                </select>
+                                <label for="exam_section">Class & Section</label>
                               </div>
+                            </div>
+                            
     
                        
                         <button class="btn btn-primary" type="submit">SUBMIT</button> <br><br>
