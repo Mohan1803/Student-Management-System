@@ -1299,4 +1299,88 @@ staffRoute.get("/student-exam", (req, res) => {
   });
 });
 
+staffRoute.post("/student-exam", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  const exam_name = req.body.exam_name;
+  const section_id = req.body.exam_section;
+
+  const subject_id_1 = req.body.exam_1_sub || "0";
+  const subject_id_2 = req.body.exam_2_sub || "0";
+  const subject_id_3 = req.body.exam_3_sub || "0";
+  const subject_id_4 = req.body.exam_4_sub || "0";
+  const subject_id_5 = req.body.exam_5_sub || "0";
+  const subject_id_6 = req.body.exam_6_sub || "0";
+  const subject_id_7 = req.body.exam_7_sub || "0";
+  const subject_id_8 = req.body.exam_8_sub || "0";
+  const subject_id_9 = req.body.exam_9_sub || "0";
+  const subject_id_10 = req.body.exam_10_sub || "0";
+
+  const date_1 = req.body.exam_1_date || "0001-01-01";
+  const date_2 = req.body.exam_2_date || "0001-01-01";
+  const date_3 = req.body.exam_3_date || "0001-01-01";
+  const date_4 = req.body.exam_4_date || "0001-01-01";
+  const date_5 = req.body.exam_5_date || "0001-01-01";
+  const date_6 = req.body.exam_6_date || "0001-01-01";
+  const date_7 = req.body.exam_7_date || "0001-01-01";
+  const date_8 = req.body.exam_8_date || "0001-01-01";
+  const date_9 = req.body.exam_9_date || "0001-01-01";
+  const date_10 = req.body.exam_10_date || "0001-01-01";
+
+  const actual_mark_1 = req.body.exam_1_actualmark || "0";
+  const actual_mark_2 = req.body.exam_2_actualmark || "0";
+  const actual_mark_3 = req.body.exam_3_actualmark || "0";
+  const actual_mark_4 = req.body.exam_4_actualmark || "0";
+  const actual_mark_5 = req.body.exam_5_actualmark || "0";
+  const actual_mark_6 = req.body.exam_6_actualmark || "0";
+  const actual_mark_7 = req.body.exam_7_actualmark || "0";
+  const actual_mark_8 = req.body.exam_8_actualmark || "0";
+  const actual_mark_9 = req.body.exam_9_actualmark || "0";
+  const actual_mark_10 = req.body.exam_10_actualmark || "0";
+
+  const pass_mark_1 = req.body.exam_1_passmark || "0";
+  const pass_mark_2 = req.body.exam_2_passmark || "0";
+  const pass_mark_3 = req.body.exam_3_passmark || "0";
+  const pass_mark_4 = req.body.exam_4_passmark || "0";
+  const pass_mark_5 = req.body.exam_5_passmark || "0";
+  const pass_mark_6 = req.body.exam_6_passmark || "0";
+  const pass_mark_7 = req.body.exam_7_passmark || "0";
+  const pass_mark_8 = req.body.exam_8_passmark || "0";
+  const pass_mark_9 = req.body.exam_9_passmark || "0";
+  const pass_mark_10 = req.body.exam_10_passmark || "0";
+
+  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}' AND date = '${date_1}' AND date = '${date_2}' AND date = ${date_3}  AND date = ${date_4} AND date = ${date_5} AND date = ${date_6} AND date = ${date_7} AND date = ${date_8} AND date = ${date_9} AND date = ${date_10} AND Subject_id = '${subject_id_1}' AND Subject_id = '${subject_id_2}' AND Subject_id = '${subject_id_3}' AND Subject_id = '${subject_id_4}' AND Subject_id = '${subject_id_5}' AND Subject_id = '${subject_id_6}' AND Subject_id = '${subject_id_7}' AND Subject_id = '${subject_id_8}' AND Subject_id = '${subject_id_9}' AND Subject_id = '${subject_id_10}' AND Deleted_at = "NULL"`;
+  con.query(dup, (err, dupExam) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else if (dupExam.length != 0) {
+      req.flash("error", "Exam Already Assigned For This Class On This Date");
+      return res.redirect("/staff/student-exam");
+    } else {
+      var exam_insert = `INSERT INTO school_addexam (exam_name, date, section_id, Subject_id, actual_mark, pass_mark) VALUES 
+    ('${exam_name}', '${date_1}', '${section_id}', '${subject_id_1}', '${actual_mark_1}', '${pass_mark_1}'), ('${exam_name}', '${date_2}', '${section_id}', '${subject_id_2}', '${actual_mark_2}', '${pass_mark_2}'),('${exam_name}', '${date_3}', '${section_id}', '${subject_id_3}', '${actual_mark_3}', '${pass_mark_3}'),('${exam_name}', '${date_4}', '${section_id}', '${subject_id_4}', '${actual_mark_4}', '${pass_mark_4}'),('${exam_name}', '${date_5}', '${section_id}', '${subject_id_5}', '${actual_mark_5}', '${pass_mark_5}'),('${exam_name}', '${date_6}', '${section_id}', '${subject_id_6}', '${actual_mark_6}', '${pass_mark_6}'),('${exam_name}', '${date_7}', '${section_id}', '${subject_id_7}', '${actual_mark_7}', '${pass_mark_7}'),('${exam_name}', '${date_8}', '${section_id}', '${subject_id_8}', '${actual_mark_8}', '${pass_mark_8}'),('${exam_name}', '${date_9}', '${section_id}', '${subject_id_9}', '${actual_mark_9}', '${pass_mark_9}'),('${exam_name}', '${date_10}', '${section_id}', '${subject_id_10}', '${actual_mark_10}', '${pass_mark_10}')`;
+      con.query(exam_insert, (err, inserted) => {
+        if (err) {
+          console.log(err);
+          return res.redirect("/staff/servererror");
+        } else {
+          req.flash("success", "Exam Added Successfully");
+          // delete 0 values from table - soft delete
+          var nullData = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE Subject_id='0'`;
+          con.query(nullData, (err) => {
+            if (err) throw err;
+            return res.redirect("/staff/student-exam");
+          });
+        }
+      });
+    }
+  });
+});
+
 module.exports = staffRoute;

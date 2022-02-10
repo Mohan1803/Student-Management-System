@@ -296,7 +296,6 @@ $(document).ready(function () {
 $(document).ready(function () {
   $("#exam_section").on("change", function () {
     var exam_section = $("#exam_section").val();
-    console.log(exam_section);
     $.ajax({
       url: "/api/get-noofsubjects-associated-with-class",
       type: "POST",
@@ -305,49 +304,62 @@ $(document).ready(function () {
       },
       dataType: "Json",
       success: function (data) {
-        $("#dummy").after(function () {
+        $("#dummy1").after(function () {
           var counter = 1;
-          var period = data.periods[0].no_of_periods;
-          var array = [];
-          if (period == 0) {
-            $("#subject_staff_display").remove();
+          if (!data.subject.length) {
+            $("#exam_subject_display").remove();
+            $("#exam_plan").append(
+              `<h4 id='no_sub'> <b> No Subjects Were Mapped To This Class </b> </h4>`
+            );
           } else {
-            for (var i = 1; i <= period; i++) {
+            var array = [];
+            var no_of_sub = data.subject.length;
+            for (var i = 1; i <= no_of_sub; i++) {
               array.push(i);
-              $("#schedule_plan").html(
+              $("#exam_plan").html(
                 "<h4 id='exam_subject'> <b> SELECT SUBJECT, ADD MARKS & DATE </b> </h4> <hr/>  <div id='exam_subject_display' ></div>"
               );
             }
             $.each(array, (key, value) => {
               $("#exam_subject_display").append(
                 `<input type='hidden' name='period_no_${value}' value='${value}'></input>
-                <div id='schedule_main_${value}' class='m-1 row g-3'>
-                <div class='col'>
-                <label for='period_${value}_sub'>Period ${value}- Subject</label>
-                <select data-id='${counter}' id='subject_option period_${value}_sub' class='period_${value}_sub form-control subject_option' name='period_${value}_sub' required>
-                <option value=''>Choose a Subject</option>
-                </select>
-                </div>
-                <div class='col'>
-                <label for='period_${value}_staff'>Period ${value} - Staff</label>
-                <input disabled id='period_${value}_staff subject_staff' type='text' class='${counter} subject_staff period_${value}_staff form-control' placeholder='Choose Staff' name='period_${value}_staff'>
-                <input id='period_${value}_staff_hidden subject_staff_hidden' type='hidden' class='${counter}_hidden subject_staff_hidden period_${value}_staff form-control' name='period_${value}_staff_hidden'>
-                </div>
-                </div>`
+                  <div id='exam_main_${value}' class='m-1 row g-3'>
+                  <div class='col'>
+                  <label for='exam_${value}_sub'>Subject ${value}</label>
+                  <select data-id='${counter}' id='subject_option exam_${value}_sub' class='exam_${value}_sub form-control subject_option' name='exam_${value}_sub' required>
+                  <option value=''>Choose a Subject</option>
+                  </select>
+                  </div>
+                  <div class='col'>
+                  <label for='exam_${value}_date'>Date</label>
+                  <input id='exam_${value}_date' type='date' class='${counter} subject_date exam_${value}_date form-control' placeholder='Date' name='exam_${value}_date'>
+                  <input id='exam_${value}_date_hidden' type='hidden' class='${counter}_hidden subject_date exam_${value}_date form-control' name='exam_${value}_date_hidden'>
+                  </div>
+                  <div class='col'>
+                    <label for='exam_${value}_actualmark'>Actual Mark For Subject ${value}</label>
+                    <input id='exam_${value}_actualmark' type='number' class='${counter} subject_actualmark subject_${value}_actualmark form-control' placeholder='Actual Mark' name='exam_${value}_actualmark'>
+                    <input id='exam_${value}_actualmark_hidden' type='hidden' class='${counter}_hidden subject_actualmark_hidden subject_${value}_actualmark form-control' name='exam_${value}_actualmark_hidden'>
+                    </div>
+                    <div class='col'>
+                      <label for='exam_${value}_passmark'>Pass Mark</label>
+                      <input id='exam_${value}_passmark' type='number' class='${counter} subject_passmark subject_${value}_passmark form-control' placeholder='Pass Mark' name='exam_${value}_passmark'>
+                      <input id='exam_${value}_passmark_hidden' type='hidden' class='${counter}_hidden subject_passmark_hidden subject_${value}_passmark form-control' name='exam_${value}_passmark_hidden'>
+                      </div>
+                  </div><br><br>`
               );
               counter++;
             });
 
             var subject_name = [];
-            for (var i = 0; i < data.subjects.length; i++) {
-              subject_name.push(data.subjects[i].subject_name);
+            for (var i = 0; i < data.subject.length; i++) {
+              subject_name.push(data.subject[i].subject_name);
             }
             $.each(subject_name, (key, value) => {
               $(".subject_option").append(
                 "<option value='" +
-                  data.subjects[key].ID +
+                  data.subject[key].ID +
                   "'>" +
-                  data.subjects[key].subject_name +
+                  data.subject[key].subject_name +
                   "</option>"
               );
             });

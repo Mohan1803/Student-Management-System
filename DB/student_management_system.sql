@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 08, 2022 at 11:27 AM
+-- Generation Time: Feb 10, 2022 at 06:52 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -68,17 +68,54 @@ DROP TABLE IF EXISTS `school_addexam`;
 CREATE TABLE IF NOT EXISTS `school_addexam` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `exam_name` varchar(255) NOT NULL,
+  `date` date NOT NULL,
   `section_id` int(10) NOT NULL,
   `Subject_id` int(10) NOT NULL,
   `actual_mark` int(10) NOT NULL,
   `pass_mark` int(10) NOT NULL,
   `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated_at` datetime DEFAULT NULL,
+  `Updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_addexam`
+--
+
+INSERT INTO `school_addexam` (`ID`, `exam_name`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Annual Exam', '2022-02-21', 12, 1, 100, 35, '2022-02-10 12:13:51', '2022-02-10 12:13:51', NULL),
+(2, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(3, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(4, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(5, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(6, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(7, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(8, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(9, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(10, 'Annual Exam', '2001-01-01', 12, 0, 0, 0, '2022-02-10 12:13:51', '2022-02-10 12:13:51', '2022-02-10 12:21:52'),
+(11, 'Annual Exam', '2022-02-28', 1, 1, 200, 70, '2022-02-10 12:21:33', '2022-02-10 12:21:33', NULL),
+(12, 'Annual Exam', '2022-03-01', 1, 2, 200, 70, '2022-02-10 12:21:33', '2022-02-10 12:21:33', NULL),
+(13, 'Annual Exam', '2022-03-02', 1, 14, 200, 70, '2022-02-10 12:21:33', '2022-02-10 12:21:33', NULL),
+(14, 'Annual Exam', '2022-03-03', 1, 12, 200, 70, '2022-02-10 12:21:33', '2022-02-10 12:21:33', NULL),
+(15, 'Annual Exam', '2022-03-04', 1, 8, 200, 70, '2022-02-10 12:21:33', '2022-02-10 12:21:33', NULL),
+(16, 'Annual Exam', '0001-01-01', 1, 0, 0, 0, '2022-02-10 12:21:33', '2022-02-10 12:21:33', '2022-02-10 12:21:52'),
+(17, 'Annual Exam', '0001-01-01', 1, 0, 0, 0, '2022-02-10 12:21:33', '2022-02-10 12:21:33', '2022-02-10 12:21:52'),
+(18, 'Annual Exam', '0001-01-01', 1, 0, 0, 0, '2022-02-10 12:21:33', '2022-02-10 12:21:33', '2022-02-10 12:21:52'),
+(19, 'Annual Exam', '0001-01-01', 1, 0, 0, 0, '2022-02-10 12:21:33', '2022-02-10 12:21:33', '2022-02-10 12:21:52'),
+(20, 'Annual Exam', '0001-01-01', 1, 0, 0, 0, '2022-02-10 12:21:33', '2022-02-10 12:21:33', '2022-02-10 12:21:52'),
+(21, 'Annual Exam', '2022-02-21', 12, 1, 12, 1, '2022-02-10 12:21:52', '2022-02-10 12:21:52', NULL),
+(22, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(23, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(24, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(25, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(26, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(27, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(28, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(29, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52'),
+(30, 'Annual Exam', '0001-01-01', 12, 0, 0, 0, '2022-02-10 12:21:52', '2022-02-10 12:21:52', '2022-02-10 12:21:52');
 
 -- --------------------------------------------------------
 
@@ -548,8 +585,7 @@ INSERT INTO `school_weekschedule` (`ID`, `day`, `section_id`, `schedule_id`, `pe
 -- Constraints for table `school_addexam`
 --
 ALTER TABLE `school_addexam`
-  ADD CONSTRAINT `section_link exam` FOREIGN KEY (`section_id`) REFERENCES `school_addsection` (`ID`),
-  ADD CONSTRAINT `subject link exam` FOREIGN KEY (`Subject_id`) REFERENCES `school_addsubjects` (`ID`);
+  ADD CONSTRAINT `section_link exam` FOREIGN KEY (`section_id`) REFERENCES `school_addsection` (`ID`);
 
 --
 -- Constraints for table `school_addsection`

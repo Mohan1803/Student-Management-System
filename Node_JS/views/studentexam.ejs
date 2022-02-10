@@ -29,9 +29,10 @@
                             </div>
                         
 
-                            <div class="mb-3">
+                            <div class="mb-3" id="dummy1">
                               <div class="form-floating w-75 p-2">
                                 <select class="form-select" aria-label="Default select example" id="exam_section" name="exam_section">
+                                  <option selected="">Choose Class & Section</option>
                                   <% if (locals.result) { %>
                                     <% for ( let i=0; i < locals.result.length; i++){ %>
                                         <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %> - <%= locals.result[i].section %></option>
@@ -41,9 +42,11 @@
                               </div>
                             </div>
                             
-    
+    <div id="exam_plan"></div>
                        
-                        <button class="btn btn-primary" type="submit">SUBMIT</button> <br><br>
+                        <button class="btn btn-primary" type="submit">SUBMIT</button>
+                         <br><br>
+                         <a href="/staff/staffinfo" class="btn btn-outline-primary btn-sm" role="button">Back To Your Profile</a>
                       </form>
                     </center>
             </div>

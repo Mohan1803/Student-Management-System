@@ -92,13 +92,16 @@ apiRoute.post("/getting-staff", (req, res) => {
 
 //Getting No Of Subjects Mapped To Particular Class & Section
 apiRoute.post("/get-noofsubjects-associated-with-class", (req, res) => {
-  var no_of_subjects = `SELECT sscm.Subject_id, sscm.Section_id, sasub.subject_name FROM school_subjectclass_mapping AS sscm INNER JOIN school_addsubjects AS sasub ON sscm.Subject_id = sasub.ID WHERE sscm.Section_id = '${req.body.exam_section}'`;
+  var no_of_subjects = `SELECT sscm.Subject_id, sscm.Section_id, sasub.subject_name, sasub.ID FROM school_subjectclass_mapping AS sscm INNER JOIN school_addsubjects AS sasub ON sscm.Subject_id = sasub.ID WHERE sscm.Section_id = '${req.body.exam_section}'`;
   con.query(no_of_subjects, (err, subjects) => {
     if (err) res.json({ msg: "error", err });
-    else if (no_of_subjects.length != 0) {
-      res.json({ msg: "success", subject: subjects });
+    else if (subjects.length != 0) {
+      res.json({
+        msg: "success",
+        subject: subjects,
+      });
     } else {
-      res.json({ msg: "error", err });
+      res.json({ msg: "error", subject: subjects });
     }
   });
 });

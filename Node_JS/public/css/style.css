@@ -60,3 +60,6 @@ input.valid, textarea.valid{
   #subject_staff{
       font-family: 'Times New Roman', Times, serif;
   }
+  #no_sub{
+	color: red;
+  }
