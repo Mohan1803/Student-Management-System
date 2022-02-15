@@ -1354,7 +1354,7 @@ staffRoute.post("/student-exam", (req, res) => {
   const pass_mark_9 = req.body.exam_9_passmark || "0";
   const pass_mark_10 = req.body.exam_10_passmark || "0";
 
-  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}' AND date = '${date_1}' AND date = '${date_2}' AND date = ${date_3}  AND date = ${date_4} AND date = ${date_5} AND date = ${date_6} AND date = ${date_7} AND date = ${date_8} AND date = ${date_9} AND date = ${date_10} AND Subject_id = '${subject_id_1}' AND Subject_id = '${subject_id_2}' AND Subject_id = '${subject_id_3}' AND Subject_id = '${subject_id_4}' AND Subject_id = '${subject_id_5}' AND Subject_id = '${subject_id_6}' AND Subject_id = '${subject_id_7}' AND Subject_id = '${subject_id_8}' AND Subject_id = '${subject_id_9}' AND Subject_id = '${subject_id_10}' AND Deleted_at = "NULL"`;
+  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}'`;
   con.query(dup, (err, dupExam) => {
     if (err) {
       console.log(err);
@@ -1379,6 +1379,55 @@ staffRoute.post("/student-exam", (req, res) => {
           });
         }
       });
+    }
+  });
+});
+
+//Viewing Exams
+staffRoute.get("/view-exam", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
+  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
+  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
+  con.query(exam, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else {
+      res.locals.result = result;
+      return res.render("viewexam");
+    }
+  });
+});
+
+//Viewing Exam In Modal
+staffRoute.get("/view-exam-modal/:section_id", (req, res) => {
+  let error = "";
+  error = req.flash("error");
+  res.locals.error = error;
+  let success = "";
+  success = req.flash("success");
+  res.locals.success = success;
+
+  let section_id_exam = req.params.section_id;
+  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
+  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
+  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${section_id_exam}'`;
+  con.query(exam, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else {
+      res.locals.result = result;
+      return res.render("viewexam");
     }
   });
 });

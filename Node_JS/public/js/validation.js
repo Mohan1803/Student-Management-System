@@ -372,3 +372,13 @@ $(document).ready(function () {
     });
   });
 });
+
+//DataTable
+$(document).ready(function () {
+  $("#view-all-staff-table").DataTable();
+});
+
+$("#exam_1_date").flatpickr({
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+});

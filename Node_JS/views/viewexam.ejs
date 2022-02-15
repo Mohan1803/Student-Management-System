@@ -1,0 +1,130 @@
+<center>
+    <h1 style="font-family: 'Times New Roman', Times, serif;">EXAMS</h1><br>
+   
+</center>
+<% if(locals.success.length>0) { %>
+  <div class="w-50 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+      role="alert">
+      <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
+      
+
+  <% if(locals.error.length>0) { %>
+      <div
+        class=" w-50 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+        role="alert">
+        <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <% } %>
+
+      <form name="myForm" action="/staff/view-exam" method="POST">
+<table class="w-50 p-3 container table table-light text-center">
+    <thead>
+      <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">EXAM NAME</th>
+      <th scope="col">CLASS & SECTION</th>
+      <th scope="col">DATE</th>
+      <th scope="col">ACTIONS</th>
+    </tr>
+    </thead>
+    <tbody>
+        <% if(result.length !=0) {        
+            for(var i = 0; i < result.length; i++) { %>
+              <tr>
+                <th scope="row"><%= (i+1) %>.</th>
+                <td><%= result[i].exam_name %></td>
+                <td><%= result[i].Class %> - <%= result[i].section %></td>
+                <td><%= result[i].Date %></td>
+
+                <td>
+                    <a
+                      class="btn btn-info View" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                      href="/staff/view-exam-modal/<%= result[i].section_id %>"
+                      >
+                      <i i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <!-- <a
+                      class="btn btn-danger delete"
+                      href="/staff/stud-attendance/<%= result[i].section_id %>/<%= result[i].staff_id %>/<%= result[i].ID %>"
+                      >
+                      <i class="fa fa-remove"></i></a> -->
+                  </td>
+              </tr>
+        <%  }  
+          } else { %>
+                  <tr>
+                    <td colspan="12" class="text-center">No Records Found.</td>
+                   </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </form>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EXAM DETAILS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form name="myForm" action="/staff/view-exam-modal" method="POST">
+            <!-- <table class="w-50 p-3 container table table-light text-center">
+              <thead>
+                <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">EXAM NAME</th>
+                <th scope="col">CLASS & SECTION</th>
+                <th scope="col">DATE</th>
+                <th scope="col">SUBJECT</th>
+                <th scope="col">ACTUAL MARK</th>
+                <th scope="col">PASS MARK</th>
+              </tr>
+              </thead>
+              <tbody>
+                  <% if(result.length !=0) {        
+                      for(var i = 0; i < result.length; i++) { %>
+                        <tr>
+                          <th scope="row"><%= (i+1) %>.</th>
+                          <td><%= result[i].exam_name %></td>
+                          <td><%= result[i].Class %> - <%= result[i].section %></td>
+                          <td><%= result[i].Date %></td>
+                          <td><%= result[i].subject_name %></td>
+                          <td><%= result[i].actual_mark %></td>
+                          <td><%= result[i].pass_mark %></td>
+                        </tr>
+                  <%  }  
+                    } else { %>
+                            <tr>
+                              <td colspan="12" class="text-center">No Records Found.</td>
+                             </tr>
+                      <% } %>
+                  </tbody>
+                </table> -->
+                <% if(result.length !=0) {
+                  for(var i = 0; i < result.length; i++) { %>
+                <li>
+                  <ul><b>EXAM NAME:</b> <%= result[i].exam_name %></ul>
+                  <ul><b>CLASS & SECTION:</b> <%= result[i].Class %> - <%= result[i].section %></ul>
+                  <ul><b>DATE:</b> <%= result[i].Date %></ul>
+                  <ul><b>SUBJECT:</b> <%= result[i].subject_name %></ul>
+                  <ul><b>ACTUAL MARK:</b> <%= result[i].actual_mark %></ul>
+                  <ul><b>PASS MARK:</b> <%= result[i].pass_mark %></ul>
+                </li>
+                <%  }  
+                    } else { %>
+                      <h1>No Records Found</h1>
+                      <% } %>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
