@@ -1070,6 +1070,8 @@ staffRoute.post("/week-schedule", (req, res) => {
   const day = req.body.day;
   const section_id = req.body.section;
   const schedule_id = req.body.schedule_template;
+  const no_of_periods = req.body.no_of_periods;
+  let Query = "";
 
   var dupschedule = `SELECT EXISTS (SELECT * FROM school_weekschedule WHERE day='${day}' AND section_id = '${section_id}') AS count`;
   con.query(dupschedule, (err, duplicate) => {
@@ -1084,40 +1086,18 @@ staffRoute.post("/week-schedule", (req, res) => {
       );
       return res.redirect("/staff/week-schedule");
     } else {
-      let p1_no = req.body.period_no_1 || "0";
-      let p2_no = req.body.period_no_2 || "0";
-      let p3_no = req.body.period_no_3 || "0";
-      let p4_no = req.body.period_no_4 || "0";
-      let p5_no = req.body.period_no_5 || "0";
-      let p6_no = req.body.period_no_6 || "0";
-      let p7_no = req.body.period_no_7 || "0";
-      let p8_no = req.body.period_no_8 || "0";
-      let p1_sub = req.body.period_1_sub || "0";
-      let p1_staff = req.body.period_1_staff_hidden || "0";
-      let p2_sub = req.body.period_2_sub || "0";
-      let p2_staff = req.body.period_2_staff_hidden || "0";
-      let p3_sub = req.body.period_3_sub || "0";
-      let p3_staff = req.body.period_3_staff_hidden || "0";
-      let p4_sub = req.body.period_4_sub || "0";
-      let p4_staff = req.body.period_4_staff_hidden || "0";
-      let p5_sub = req.body.period_5_sub || "0";
-      let p5_staff = req.body.period_5_staff_hidden || "0";
-      let p6_sub = req.body.period_6_sub || "0";
-      let p6_staff = req.body.period_6_staff_hidden || "0";
-      let p7_sub = req.body.period_7_sub || "0";
-      let p7_staff = req.body.period_7_staff_hidden || "0";
-      let p8_sub = req.body.period_8_sub || "0";
-      let p8_staff = req.body.period_8_staff_hidden || "0";
+      for (let i = 0; i < no_of_periods; i++) {
+        Query += `('${day}', '${section_id}', '${schedule_id}', '${
+          req.body[`period_no_${i + 1}`]
+        }', '${req.body[`period_${i + 1}_sub`]}', '${
+          req.body[`period_${i + 1}_staff_hidden`]
+        }'),`;
+      }
 
-      var insertWeekSchedule = `INSERT INTO school_weekschedule (day, section_id, schedule_id, period_no, subject_id, staff_id) VALUES 
-      ('${day}', '${section_id}', '${schedule_id}', '${p1_no}', '${p1_sub}', '${p1_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p2_no}', '${p2_sub}', '${p2_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p3_no}', '${p3_sub}', '${p3_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p4_no}', '${p4_sub}', '${p4_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p5_no}', '${p5_sub}', '${p5_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p6_no}', '${p6_sub}', '${p6_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p7_no}', '${p7_sub}', '${p7_staff}'), 
-      ('${day}', '${section_id}', '${schedule_id}', '${p8_no}', '${p8_sub}', '${p8_staff}')`;
+      Query = Query.slice(0, -1);
+
+      var insertWeekSchedule = `INSERT INTO school_weekschedule (day, section_id, schedule_id, period_no, subject_id, staff_id) VALUES ${Query}`;
+
       con.query(insertWeekSchedule, (err, inserted) => {
         if (err) {
           console.log(err);
@@ -1309,51 +1289,8 @@ staffRoute.post("/student-exam", (req, res) => {
 
   const exam_name = req.body.exam_name;
   const section_id = req.body.exam_section;
-
-  const subject_id_1 = req.body.exam_1_sub || "0";
-  const subject_id_2 = req.body.exam_2_sub || "0";
-  const subject_id_3 = req.body.exam_3_sub || "0";
-  const subject_id_4 = req.body.exam_4_sub || "0";
-  const subject_id_5 = req.body.exam_5_sub || "0";
-  const subject_id_6 = req.body.exam_6_sub || "0";
-  const subject_id_7 = req.body.exam_7_sub || "0";
-  const subject_id_8 = req.body.exam_8_sub || "0";
-  const subject_id_9 = req.body.exam_9_sub || "0";
-  const subject_id_10 = req.body.exam_10_sub || "0";
-
-  const date_1 = req.body.exam_1_date || "0001-01-01";
-  const date_2 = req.body.exam_2_date || "0001-01-01";
-  const date_3 = req.body.exam_3_date || "0001-01-01";
-  const date_4 = req.body.exam_4_date || "0001-01-01";
-  const date_5 = req.body.exam_5_date || "0001-01-01";
-  const date_6 = req.body.exam_6_date || "0001-01-01";
-  const date_7 = req.body.exam_7_date || "0001-01-01";
-  const date_8 = req.body.exam_8_date || "0001-01-01";
-  const date_9 = req.body.exam_9_date || "0001-01-01";
-  const date_10 = req.body.exam_10_date || "0001-01-01";
-
-  const actual_mark_1 = req.body.exam_1_actualmark || "0";
-  const actual_mark_2 = req.body.exam_2_actualmark || "0";
-  const actual_mark_3 = req.body.exam_3_actualmark || "0";
-  const actual_mark_4 = req.body.exam_4_actualmark || "0";
-  const actual_mark_5 = req.body.exam_5_actualmark || "0";
-  const actual_mark_6 = req.body.exam_6_actualmark || "0";
-  const actual_mark_7 = req.body.exam_7_actualmark || "0";
-  const actual_mark_8 = req.body.exam_8_actualmark || "0";
-  const actual_mark_9 = req.body.exam_9_actualmark || "0";
-  const actual_mark_10 = req.body.exam_10_actualmark || "0";
-
-  const pass_mark_1 = req.body.exam_1_passmark || "0";
-  const pass_mark_2 = req.body.exam_2_passmark || "0";
-  const pass_mark_3 = req.body.exam_3_passmark || "0";
-  const pass_mark_4 = req.body.exam_4_passmark || "0";
-  const pass_mark_5 = req.body.exam_5_passmark || "0";
-  const pass_mark_6 = req.body.exam_6_passmark || "0";
-  const pass_mark_7 = req.body.exam_7_passmark || "0";
-  const pass_mark_8 = req.body.exam_8_passmark || "0";
-  const pass_mark_9 = req.body.exam_9_passmark || "0";
-  const pass_mark_10 = req.body.exam_10_passmark || "0";
-
+  const subject_count = req.body.subject_count; //2 (),(),
+  let query = "";
   var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}'`;
   con.query(dup, (err, dupExam) => {
     if (err) {
@@ -1363,8 +1300,17 @@ staffRoute.post("/student-exam", (req, res) => {
       req.flash("error", "Exam Already Assigned For This Class On This Date");
       return res.redirect("/staff/student-exam");
     } else {
-      var exam_insert = `INSERT INTO school_addexam (exam_name, date, section_id, Subject_id, actual_mark, pass_mark) VALUES 
-    ('${exam_name}', '${date_1}', '${section_id}', '${subject_id_1}', '${actual_mark_1}', '${pass_mark_1}'), ('${exam_name}', '${date_2}', '${section_id}', '${subject_id_2}', '${actual_mark_2}', '${pass_mark_2}'),('${exam_name}', '${date_3}', '${section_id}', '${subject_id_3}', '${actual_mark_3}', '${pass_mark_3}'),('${exam_name}', '${date_4}', '${section_id}', '${subject_id_4}', '${actual_mark_4}', '${pass_mark_4}'),('${exam_name}', '${date_5}', '${section_id}', '${subject_id_5}', '${actual_mark_5}', '${pass_mark_5}'),('${exam_name}', '${date_6}', '${section_id}', '${subject_id_6}', '${actual_mark_6}', '${pass_mark_6}'),('${exam_name}', '${date_7}', '${section_id}', '${subject_id_7}', '${actual_mark_7}', '${pass_mark_7}'),('${exam_name}', '${date_8}', '${section_id}', '${subject_id_8}', '${actual_mark_8}', '${pass_mark_8}'),('${exam_name}', '${date_9}', '${section_id}', '${subject_id_9}', '${actual_mark_9}', '${pass_mark_9}'),('${exam_name}', '${date_10}', '${section_id}', '${subject_id_10}', '${actual_mark_10}', '${pass_mark_10}')`;
+      for (let i = 0; i < subject_count; i++) {
+        query += `('${exam_name}', '${
+          req.body[`exam_${i + 1}_date`]
+        }', '${section_id}', '${req.body[`exam_${i + 1}_sub`]}', '${
+          req.body[`exam_${i + 1}_actualmark`]
+        }', '${req.body[`exam_${i + 1}_passmark`]}'),`;
+      }
+
+      query = query.slice(0, -1);
+      //dynamically creating query
+      var exam_insert = `INSERT INTO school_addexam (exam_name, date, section_id, Subject_id, actual_mark, pass_mark) VALUES ${query}`;
       con.query(exam_insert, (err, inserted) => {
         if (err) {
           console.log(err);
@@ -1396,31 +1342,6 @@ staffRoute.get("/view-exam", (req, res) => {
   INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
   INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
   INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
-  con.query(exam, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else {
-      res.locals.result = result;
-      return res.render("viewexam");
-    }
-  });
-});
-
-//Viewing Exam In Modal
-staffRoute.get("/view-exam-modal/:section_id", (req, res) => {
-  let error = "";
-  error = req.flash("error");
-  res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
-  res.locals.success = success;
-
-  let section_id_exam = req.params.section_id;
-  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
-  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
-  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
-  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${section_id_exam}'`;
   con.query(exam, (err, result) => {
     if (err) {
       console.log(err);

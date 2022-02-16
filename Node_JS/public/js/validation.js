@@ -194,7 +194,7 @@ $(document).ready(function () {
             for (var i = 1; i <= period; i++) {
               array.push(i);
               $("#schedule_plan").html(
-                "<h4 id='subject_staff'> <b> SELECT SUBJECT & STAFF </b> </h4> <hr/>  <div id='subject_staff_display' ></div>"
+                `<h4 id='subject_staff'> <b> SELECT SUBJECT & STAFF </b> </h4> <hr/>  <div id='subject_staff_display' ><input type= 'hidden' id='no_of_periods' name='no_of_periods' value='${period}'/></div>`
               );
             }
             $.each(array, (key, value) => {
@@ -317,7 +317,7 @@ $(document).ready(function () {
             for (var i = 1; i <= no_of_sub; i++) {
               array.push(i);
               $("#exam_plan").html(
-                "<h4 id='exam_subject'> <b> SELECT SUBJECT, ADD MARKS & DATE </b> </h4> <hr/>  <div id='exam_subject_display' ></div>"
+                `<h4 id='exam_subject'> <b> SELECT SUBJECT, ADD MARKS & DATE </b> </h4> <hr/>  <div id='exam_subject_display'><input type= 'hidden' id='subject_count' name='subject_count' value='${data.subject.length}'/></div>`
               );
             }
             $.each(array, (key, value) => {
@@ -332,7 +332,7 @@ $(document).ready(function () {
                   </div>
                   <div class='col'>
                   <label for='exam_${value}_date'>Date</label>
-                  <input id='exam_${value}_date' type='date' class='${counter} subject_date exam_${value}_date form-control' placeholder='Date' name='exam_${value}_date'>
+                  <input id='exam_${value}_date' type='text' class='${counter} subject_date exam_${value}_date form-control' placeholder='Date' name='exam_${value}_date'>
                   <input id='exam_${value}_date_hidden' type='hidden' class='${counter}_hidden subject_date exam_${value}_date form-control' name='exam_${value}_date_hidden'>
                   </div>
                   <div class='col'>
@@ -348,6 +348,10 @@ $(document).ready(function () {
                   </div><br><br>`
               );
               counter++;
+              $(`#exam_${value}_date`).flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+              });
             });
 
             var subject_name = [];
@@ -378,7 +382,33 @@ $(document).ready(function () {
   $("#view-all-staff-table").DataTable();
 });
 
-$("#exam_1_date").flatpickr({
-  enableTime: true,
-  dateFormat: "Y-m-d H:i",
+//Modal View For Created Exams
+$(document).on("click", ".view_exam_inModal", function () {
+  var section_id = $(this).attr("section_id_modal");
+  $.ajax({
+    url: "/api/get-exam-scores",
+    type: "POST",
+    data: {
+      section_id: section_id,
+    },
+    dataType: "JSON",
+    success: function (data) {
+      let view_mark = ``;
+      for (let i = 0; i < data.examList.length; i++) {
+        let view_i = `<tr>
+        <th scope="row">${i + 1}</th>
+        <td><b>${data.examList[i].exam_name}</b> (${data.examList[i].Date})</td>
+        <td>${data.examList[i].Class} - ${data.examList[i].section}</td>
+        <td>${data.examList[i].subject_name}</td></tr>`;
+        view_mark += view_i;
+      }
+
+      $(".view_exam_modal_body").html(function () {
+        return ` <div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th width='200px'>Exam Name</th><th width='200px'>Date</th><th>Class & Section</th><th>Subject Name</th></tr></thead></table></div>`;
+      });
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
 });
