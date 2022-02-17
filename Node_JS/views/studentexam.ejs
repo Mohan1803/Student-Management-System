@@ -23,11 +23,24 @@
                         </b><br>
                             <div class="mb-3">
                               <div class="form-floating w-75 p-2">
-                                <input type="text" class="form-control" name="exam_name" id="exam_name" placeholder="Name Of The Exam">
+                                <input type="text" class="form-control" name="exam_name" id="exam_name" placeholder="Name Of The Exam" required>
                                 <label for="exam_name">Name Of The Exam</label>
                               </div>
                             </div>
-                        
+
+                            <div class="mb-3">
+                            <div class="form-floating w-75 p-2">
+                              <select class="form-select" aria-label="Default select example" id="exam_master" name="exam_master">
+                                <option selected>Select</option>
+                                <option value="Mid Term">Mid Term</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Half Yearly">Half Yearly</option>
+                                <option value="Final OR Annual">Final OR Annual</option>
+                                <option value="Model Exam">Model Exam</option>
+                              </select>
+                              <label for="exam_master">Exam Master</label>
+                            </div>
+                          </div>
 
                             <div class="mb-3" id="dummy1">
                               <div class="form-floating w-75 p-2">

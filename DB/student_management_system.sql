@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 16, 2022 at 11:40 AM
+-- Generation Time: Feb 17, 2022 at 10:38 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -68,6 +68,7 @@ DROP TABLE IF EXISTS `school_addexam`;
 CREATE TABLE IF NOT EXISTS `school_addexam` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `exam_name` varchar(255) NOT NULL,
+  `exam_master` varchar(255) NOT NULL,
   `date` datetime NOT NULL,
   `section_id` int(10) NOT NULL,
   `Subject_id` int(10) NOT NULL,
@@ -79,14 +80,21 @@ CREATE TABLE IF NOT EXISTS `school_addexam` (
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addexam`
 --
 
-INSERT INTO `school_addexam` (`ID`, `exam_name`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(31, 'Annual Exam', '2022-02-23 12:00:00', 12, 1, 100, 35, '2022-02-16 13:15:43', '2022-02-16 13:15:43', NULL);
+INSERT INTO `school_addexam` (`ID`, `exam_name`, `exam_master`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Annual Exam 2022', 'Final OR Annual', '2022-02-23 12:00:00', 12, 1, 100, 35, '2022-02-17 15:18:12', '2022-02-17 15:18:12', '2022-02-17 15:43:23'),
+(2, 'Half Yearly Exam 2022', 'Half Yearly', '2022-04-06 12:00:00', 12, 1, 100, 35, '2022-02-17 15:18:48', '2022-02-17 15:18:48', '2022-02-17 15:43:46'),
+(3, 'Annual Exam 2022', 'Final OR Annual', '2022-02-23 12:00:00', 12, 1, 100, 35, '2022-02-17 15:48:48', '2022-02-17 15:48:48', NULL),
+(4, 'Half Yearly Exam 2022', 'Half Yearly', '2022-02-28 13:30:00', 1, 1, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
+(5, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-01 13:30:00', 1, 2, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
+(6, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-02 13:30:00', 1, 14, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
+(7, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-03 13:30:00', 1, 12, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
+(8, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-04 12:30:00', 1, 8, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL);
 
 -- --------------------------------------------------------
 

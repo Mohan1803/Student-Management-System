@@ -107,16 +107,31 @@ apiRoute.post("/get-noofsubjects-associated-with-class", (req, res) => {
 });
 
 //Modal View For Created Exams
-apiRoute.post("/get-exam-scores", (req, res) => {
-  var getExams = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex
+apiRoute.post("/get-exam-details", (req, res) => {
+  var getExams = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y  %H:%i') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex
  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
- INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${req.body.section_id_modal}'`;
+ INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${req.body.section_id}' AND sadex.exam_master = '${req.body.exam_master}'AND sadex.Deleted_at IS NULL`;
   con.query(getExams, (err, examList) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
       res.json({ msg: "success", examList: examList });
+    }
+  });
+});
+
+//Deleting Created Exams
+apiRoute.post("/delete-exam-details", (req, res) => {
+  var deleteExams = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y  %H:%i') AS Date, sadex.exam_master, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex
+  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
+  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${req.body.section_id}' AND sadex.exam_master = '${req.body.exam_master}'`;
+  con.query(deleteExams, (err, deleteexams) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else {
+      res.json({ msg: "success", deleteexams: deleteexams });
     }
   });
 });

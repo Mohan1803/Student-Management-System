@@ -9,25 +9,22 @@ const { OAuth2Client } = require("google-auth-library");
 
 //STAFF LOGIN GET // display form
 staffRoute.get("/stafflogin", (req, res) => {
-  let error = "";
+  let error = req.flash("error");
   error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   return res.render("stafflogin");
 });
 
 // staff login POST
 staffRoute.post("/stafflogin", (req, res) => {
-  let error = "";
+  let error = req.flash("error");
   error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
-  let welcome = "";
-  welcome = req.flash("welcome");
+  let welcome = req.flash("welcome");
   res.locals.welcome = welcome;
 
   try {
@@ -80,8 +77,7 @@ staffRoute.get("/staffinfo", (req, res) => {
   let success = req.flash("success");
   res.locals.success = success;
 
-  let welcome = "";
-  welcome = req.flash("welcome");
+  let welcome = req.flash("welcome");
   res.locals.welcome = welcome;
 
   try {
@@ -115,7 +111,7 @@ staffRoute.get("/staffinfo", (req, res) => {
 
 //Server Error
 staffRoute.get("/servererror", (req, res) => {
-  let error = "";
+  let error = req.flash("error");
   error = req.flash("error");
   res.locals.error = error;
   return res.render("servererror");
@@ -123,11 +119,9 @@ staffRoute.get("/servererror", (req, res) => {
 
 //Get view student
 staffRoute.get("/viewstudent", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   var viewstud = `SELECT 
   school_initialaddstudent.Stud_ID,
@@ -157,11 +151,9 @@ staffRoute.get("/viewstudent", (req, res) => {
 
 // get view staffs
 staffRoute.get("/view-staff", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   // check session
   let session = req.session;
@@ -187,11 +179,9 @@ staffRoute.get("/view-staff", (req, res) => {
 //Staff Logout
 
 staffRoute.get("/stafflogout", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     let session = req.session;
@@ -210,21 +200,17 @@ staffRoute.get("/stafflogout", (req, res) => {
 //Changing Staff Password
 
 staffRoute.get("/staffchangepwd", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   return res.render("staffchangepwd");
 });
 
 staffRoute.post("/staffchangepwd", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     const pwd1 = req.body.pwd1;
@@ -296,11 +282,9 @@ staffRoute.post("/staffchangepwd", (req, res) => {
 //Adding New Class
 
 staffRoute.get("/addclass", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   // get all data from school_addclass - action - edit, delte modal
   try {
@@ -323,11 +307,9 @@ staffRoute.get("/addclass", (req, res) => {
 });
 
 staffRoute.post("/addclass", async (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   try {
@@ -368,11 +350,9 @@ staffRoute.post("/addclass", async (req, res) => {
 
 //Adding Section For Created Classes
 staffRoute.get("/addsection", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   let session = req.session;
   try {
@@ -398,11 +378,9 @@ staffRoute.get("/addsection", (req, res) => {
 });
 
 staffRoute.post("/addsection", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   let session = req.session;
   try {
@@ -449,11 +427,9 @@ staffRoute.post("/addsection", (req, res) => {
 
 //Adding New Student
 staffRoute.get("/addnewstudent", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     //TO get class and section from school_addclass & school_addsection tables
@@ -476,11 +452,9 @@ staffRoute.get("/addnewstudent", (req, res) => {
 });
 
 staffRoute.post("/addnewstudent", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   try {
@@ -896,11 +870,9 @@ staffRoute.post("/addsubject", (req, res) => {
 
 // Mapping Subject Staff and Class
 staffRoute.get("/mapping-staff-subject-class", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   try {
@@ -933,11 +905,9 @@ staffRoute.get("/mapping-staff-subject-class", (req, res) => {
 });
 
 staffRoute.post("/mapping-staff-subject-class", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   try {
@@ -966,11 +936,9 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
 //Schedule Plan
 
 staffRoute.get("/schedule-plan", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     var schedule = `SELECT * FROM school_scheduleplan`;
@@ -992,11 +960,9 @@ staffRoute.get("/schedule-plan", (req, res) => {
 });
 
 staffRoute.post("/schedule-plan", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     const scheduleName = schedule_id;
@@ -1033,11 +999,9 @@ staffRoute.post("/schedule-plan", (req, res) => {
 
 //Week Schedule
 staffRoute.get("/week-schedule", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   try {
     var Class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id; 
@@ -1060,11 +1024,9 @@ staffRoute.get("/week-schedule", (req, res) => {
 });
 
 staffRoute.post("/week-schedule", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   const day = req.body.day;
@@ -1122,11 +1084,9 @@ staffRoute.post("/week-schedule", (req, res) => {
 
 //Getting Staff Timetable page
 staffRoute.get("/staff-timetable", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   let session = req.session;
   try {
@@ -1159,11 +1119,9 @@ staffRoute.get("/staff-timetable", (req, res) => {
 
 //Attendance Module : Student Attendance
 staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   let session = req.session;
   try {
@@ -1200,11 +1158,9 @@ staffRoute.get("/stud-attendance/:section_id/:staff_id/:id", (req, res) => {
 });
 
 staffRoute.post("/stud-attendance", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   let session = req.session;
 
@@ -1261,11 +1217,9 @@ staffRoute.post("/stud-attendance", (req, res) => {
 
 //Getting Student Adding Exam Page
 staffRoute.get("/student-exam", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
   var class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
   con.query(class_section, (err, result) => {
@@ -1280,18 +1234,16 @@ staffRoute.get("/student-exam", (req, res) => {
 });
 
 staffRoute.post("/student-exam", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
   const exam_name = req.body.exam_name;
   const section_id = req.body.exam_section;
   const subject_count = req.body.subject_count; //2 (),(),
   let query = "";
-  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}'`;
+  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}' AND Deleted_at IS NULL`;
   con.query(dup, (err, dupExam) => {
     if (err) {
       console.log(err);
@@ -1301,7 +1253,7 @@ staffRoute.post("/student-exam", (req, res) => {
       return res.redirect("/staff/student-exam");
     } else {
       for (let i = 0; i < subject_count; i++) {
-        query += `('${exam_name}', '${
+        query += `('${exam_name}', '${req.body.exam_master}', '${
           req.body[`exam_${i + 1}_date`]
         }', '${section_id}', '${req.body[`exam_${i + 1}_sub`]}', '${
           req.body[`exam_${i + 1}_actualmark`]
@@ -1310,7 +1262,7 @@ staffRoute.post("/student-exam", (req, res) => {
 
       query = query.slice(0, -1);
       //dynamically creating query
-      var exam_insert = `INSERT INTO school_addexam (exam_name, date, section_id, Subject_id, actual_mark, pass_mark) VALUES ${query}`;
+      var exam_insert = `INSERT INTO school_addexam (exam_name, exam_master, date, section_id, Subject_id, actual_mark, pass_mark) VALUES ${query}`;
       con.query(exam_insert, (err, inserted) => {
         if (err) {
           console.log(err);
@@ -1331,17 +1283,16 @@ staffRoute.post("/student-exam", (req, res) => {
 
 //Viewing Exams
 staffRoute.get("/view-exam", (req, res) => {
-  let error = "";
-  error = req.flash("error");
+  let error = req.flash("error");
   res.locals.error = error;
-  let success = "";
-  success = req.flash("success");
+  let success = req.flash("success");
   res.locals.success = success;
 
-  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
+  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%M-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.section_id, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
   INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
   INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
-  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id 
+  WHERE sadex.Deleted_at IS NULL GROUP BY sadex.exam_name , sadex.section_id`;
   con.query(exam, (err, result) => {
     if (err) {
       console.log(err);
@@ -1349,6 +1300,23 @@ staffRoute.get("/view-exam", (req, res) => {
     } else {
       res.locals.result = result;
       return res.render("viewexam");
+    }
+  });
+});
+
+staffRoute.get("/deleteExams/:section_id/:exam_master", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  var deleteexam = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE section_id = '${req.params.section_id}' AND exam_master = '${req.params.exam_master}'`;
+  con.query(deleteexam, (err, softdeleted) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else {
+      req.flash("success", "Exam Deleted Successfully");
+      return res.redirect("/staff/view-exam");
     }
   });
 });

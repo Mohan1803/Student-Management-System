@@ -27,7 +27,7 @@
       <th scope="col">S.No</th>
       <th scope="col">EXAM NAME</th>
       <th scope="col">CLASS & SECTION</th>
-      <th scope="col">DATE</th>
+      <th scope="col">DATE & TIME</th>
       <th scope="col">ACTIONS</th>
     </tr>
     </thead>
@@ -41,13 +41,10 @@
                 <td><%= result[i].Date %></td>
 
                 <td>
-                    <button class = "view_exam_inModal btn btn-primary" section_id_modal = "<%= result[i].section_id %>" type = "button" data-bs-toggle = "modal">
+                    <button class = "view_exam_inModal btn btn-primary" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
                       <i i class="fa fa-eye" aria-hidden="true"></i></button>
-                    <!-- <a
-                      class="btn btn-danger delete"
-                      href="/staff/stud-attendance/<%= result[i].section_id %>/<%= result[i].staff_id %>/<%= result[i].ID %>"
-                      >
-                      <i class="fa fa-remove"></i></a> -->
+                      <button class = "delete_exam_inModal btn btn-danger" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
+                      <i class="fa fa-remove"></i></a>
                   </td>
               </tr>
         <%  }  
@@ -61,8 +58,8 @@
     </form>
 
   
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal For View -->
+  <div class="modal fade" id="examViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -74,6 +71,22 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+   <!-- Modal For Delete -->
+  <div class="modal fade" id="examDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">DELETE EXAMS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="delete_exam_modal_body">
+
         </div>
       </div>
     </div>

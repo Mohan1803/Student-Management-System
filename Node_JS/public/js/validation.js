@@ -349,6 +349,8 @@ $(document).ready(function () {
               );
               counter++;
               $(`#exam_${value}_date`).flatpickr({
+                minDate: "today",
+                maxDate: new Date().fp_incr(365),
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
               });
@@ -384,28 +386,66 @@ $(document).ready(function () {
 
 //Modal View For Created Exams
 $(document).on("click", ".view_exam_inModal", function () {
-  var section_id = $(this).attr("section_id_modal");
+  var section_id = $(this).attr("data-sectionId"); // .data('sectinId')
+  var exam_master = $(this).attr("data-examMaster");
+  console.log(exam_master);
   $.ajax({
-    url: "/api/get-exam-scores",
+    url: "/api/get-exam-details",
     type: "POST",
     data: {
       section_id: section_id,
+      exam_master: exam_master,
     },
     dataType: "JSON",
     success: function (data) {
-      let view_mark = ``;
+      let view_exams = ``;
       for (let i = 0; i < data.examList.length; i++) {
         let view_i = `<tr>
         <th scope="row">${i + 1}</th>
-        <td><b>${data.examList[i].exam_name}</b> (${data.examList[i].Date})</td>
+        <td><b>${data.examList[i].exam_name}</b></td>
+        <td> ${data.examList[i].Date}</td>
         <td>${data.examList[i].Class} - ${data.examList[i].section}</td>
-        <td>${data.examList[i].subject_name}</td></tr>`;
-        view_mark += view_i;
+        <td>${data.examList[i].subject_name}</td>
+        <td>${data.examList[i].actual_mark}</td>
+        <td>${data.examList[i].pass_mark}</td>
+        <td>
+        <button class = "view_exam_inModal btn btn-warning" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
+          <i i class="fa fa-edit" aria-hidden="true"></i></button></tr><td>`;
+        view_exams += view_i;
       }
 
       $(".view_exam_modal_body").html(function () {
-        return ` <div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th width='200px'>Exam Name</th><th width='200px'>Date</th><th>Class & Section</th><th>Subject Name</th></tr></thead></table></div>`;
+        return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th width='200px'>Exam Name</th><th width='200px'>Date & Time</th><th>Class & Section</th><th>Subject Name</th><th>Actual Mark</th><th>Pass Mark</th><th>Actions</th></tr></thead><tbody>${view_exams}</tbody></table></div>`;
       });
+
+      $("#examViewModal").modal("show");
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+//Deleting Created Exams
+$(document).on("click", ".delete_exam_inModal", function () {
+  var section_id = $(this).attr("data-sectionId");
+  var exam_master = $(this).attr("data-examMaster");
+  $.ajax({
+    url: "/api/delete-exam-details",
+    type: "POST",
+    data: {
+      section_id: section_id,
+      exam_master: exam_master,
+    },
+    dataType: "JSON",
+    success: function (data) {
+      $(".delete_exam_modal_body").html(function () {
+        return `<h5 style="font-family: 'Times New Roman', Times, serif;"> Do You Want To Delete ${data.deleteexams[0].exam_name}, ${data.deleteexams[0].exam_master} For The Class ${data.deleteexams[0].Class} - ${data.deleteexams[0].section} ?</h5> <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <a type="button" class="btn btn-primary" href="/staff/deleteExams/${section_id}/${exam_master}">Yes</a>
+      </div>`;
+      });
+      $("#examDeleteModal").modal("show");
     },
     error: function (err) {
       console.log(err);
