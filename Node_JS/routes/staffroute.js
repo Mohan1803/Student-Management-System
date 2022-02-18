@@ -6,6 +6,7 @@ const flash = require("connect-flash");
 const con = require("../config/db");
 const sendMail = require("../config/mail");
 const { OAuth2Client } = require("google-auth-library");
+const { searchconsole } = require("googleapis/build/src/apis/searchconsole");
 
 //STAFF LOGIN GET // display form
 staffRoute.get("/stafflogin", (req, res) => {
@@ -1288,7 +1289,7 @@ staffRoute.get("/view-exam", (req, res) => {
   let success = req.flash("success");
   res.locals.success = success;
 
-  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%M-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.section_id, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
+  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%m-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.section_id, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
   INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
   INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
   INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id 
@@ -1304,6 +1305,7 @@ staffRoute.get("/view-exam", (req, res) => {
   });
 });
 
+//Deleting Exams
 staffRoute.get("/deleteExams/:section_id/:exam_master", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
@@ -1321,4 +1323,23 @@ staffRoute.get("/deleteExams/:section_id/:exam_master", (req, res) => {
   });
 });
 
+//Edit Exams
+staffRoute.post("/editExams/:exam_id/:exam_Master", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  console.log(req.body.edit_exam_date);
+  var editexam = `UPDATE school_addexam SET date = '${req.body.edit_exam_date}' WHERE ID = '${req.params.exam_id}' AND exam_master = '${req.params.exam_Master}'`;
+  console.log(editexam);
+  con.query(editexam, (err, edit) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/staff/servererror");
+    } else {
+      req.flash("success", "Exam Edited Successfully");
+      return res.redirect("/staff/view-exam");
+    }
+  });
+});
 module.exports = staffRoute;

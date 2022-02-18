@@ -388,7 +388,6 @@ $(document).ready(function () {
 $(document).on("click", ".view_exam_inModal", function () {
   var section_id = $(this).attr("data-sectionId"); // .data('sectinId')
   var exam_master = $(this).attr("data-examMaster");
-  console.log(exam_master);
   $.ajax({
     url: "/api/get-exam-details",
     type: "POST",
@@ -409,16 +408,71 @@ $(document).on("click", ".view_exam_inModal", function () {
         <td>${data.examList[i].actual_mark}</td>
         <td>${data.examList[i].pass_mark}</td>
         <td>
-        <button class = "view_exam_inModal btn btn-warning" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
-          <i i class="fa fa-edit" aria-hidden="true"></i></button></tr><td>`;
+        <button class = "edit_exam_inModal btn btn-warning" data-examId = ${
+          data.examList[i].ID
+        } data-exam-master = ${
+          data.examList[i].exam_master
+        } type = "button" data-bs-toggle = "modal">
+          <i i class="fa fa-edit" aria-hidden="true"></i></button><td></tr>`;
         view_exams += view_i;
       }
 
       $(".view_exam_modal_body").html(function () {
-        return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th width='200px'>Exam Name</th><th width='200px'>Date & Time</th><th>Class & Section</th><th>Subject Name</th><th>Actual Mark</th><th>Pass Mark</th><th>Actions</th></tr></thead><tbody>${view_exams}</tbody></table></div>`;
+        return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th width='200px'>Exam Name</th><th width='200px'>Date & Time</th><th>Class & Section</th><th>Subject Name</th><th>Actual Mark</th><th>Pass Mark</th><th>Actions</th></tr></thead><tbody>${view_exams}</tbody></table></div>
+
+        <div class="modal fade" id="examEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EDIT EXAMS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="edit_exam_modal_body">
+
+        </div>
+      </div>
+    </div>
+  </div>`;
       });
 
       $("#examViewModal").modal("show");
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+//Edit Created Exams
+$(document).on("click", ".edit_exam_inModal", function () {
+  var exam_id = $(this).attr("data-examId");
+  var exam_Master = $(this).attr("data-exam-master");
+  $.ajax({
+    url: "/api/edit-exam-details",
+    type: "POST",
+    data: {
+      exam_id: exam_id,
+      exam_Master: exam_Master,
+    },
+    dataType: "JSON",
+    success: function (data) {
+      $(".edit_exam_modal_body").html(function () {
+        return `<h5 style="font-family: 'Times New Roman', Times, serif;">  You Can Only Change The Date & Time For The Exam</h5><label for='edit_exam_date'>Date</label>
+        <form action='/staff/editExams/${exam_id}/${exam_Master}' method=POST>
+        <input id='edit_exam_date' type='text' placeholder='Date' name='edit_exam_date' value="${data.editeexams[0].Date}"/>  
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+        <button type="submit" class="btn btn-primary align-center" value="submit">Save Changes</button>
+    </form>
+      </div>`;
+      });
+      $(`#edit_exam_date`).flatpickr({
+        minDate: "today",
+        maxDate: new Date().fp_incr(365),
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+      });
+      $("#examEditModal").modal("show");
     },
     error: function (err) {
       console.log(err);

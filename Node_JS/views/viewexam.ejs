@@ -43,8 +43,9 @@
                 <td>
                     <button class = "view_exam_inModal btn btn-primary" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
                       <i i class="fa fa-eye" aria-hidden="true"></i></button>
+                      
                       <button class = "delete_exam_inModal btn btn-danger" data-sectionId = "<%= result[i].section_id %>" data-examMaster = "<%= result[i].exam_master %>" type = "button" data-bs-toggle = "modal">
-                      <i class="fa fa-remove"></i></a>
+                      <i class="fa fa-remove" aria-hidden="true"></i></button>
                   </td>
               </tr>
         <%  }  

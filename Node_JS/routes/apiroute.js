@@ -108,7 +108,7 @@ apiRoute.post("/get-noofsubjects-associated-with-class", (req, res) => {
 
 //Modal View For Created Exams
 apiRoute.post("/get-exam-details", (req, res) => {
-  var getExams = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y  %H:%i') AS Date, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex
+  var getExams = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name,  DATE_FORMAT(sadex.date,'%d-%M-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex
  INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
  INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sadex.section_id = '${req.body.section_id}' AND sadex.exam_master = '${req.body.exam_master}'AND sadex.Deleted_at IS NULL`;
@@ -132,6 +132,18 @@ apiRoute.post("/delete-exam-details", (req, res) => {
       res.json({ msg: "error", err });
     } else {
       res.json({ msg: "success", deleteexams: deleteexams });
+    }
+  });
+});
+
+//Edit Created Exams
+apiRoute.post("/edit-exam-details", (req, res) => {
+  var editExams = `SELECT *, DATE_FORMAT(date,"%Y-%m-%d %H:%i") AS Date FROM school_addexam WHERE ID = '${req.body.exam_id}' AND exam_master = '${req.body.exam_Master}'`;
+  con.query(editExams, (err, editeexams) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else {
+      res.json({ msg: "success", editeexams: editeexams });
     }
   });
 });
