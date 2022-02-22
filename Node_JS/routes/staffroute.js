@@ -757,21 +757,18 @@ staffRoute.post("/student-due-collection", (req, res) => {
     con.query(find_stud, (err, found) => {
       if (err) {
         console.log(err);
-
         return res.redirect("/staff/servererror");
       } else if (found.length != 0) {
         var insert_due = `INSERT INTO school_student_due_collection (Stud_ID, Actual_fee, Paying_amt, Payment_mode) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${payment_mode}')`;
         con.query(insert_due, (err, inserted) => {
           if (err) {
             console.log(err);
-
             return res.redirect("/staff/servererror");
           } else {
             var update_admission = `UPDATE school_studentadmission SET Initial_Paying_amt = Initial_Paying_amt + ${payingamt} , Pending_due = Pending_due - ${payingamt} WHERE Stud_id = '${studentid}'`;
             con.query(update_admission, (err, updated) => {
               if (err) {
                 console.log(err);
-
                 return res.redirect("/staff/servererror");
               } else {
                 req.flash("success", "Due Collected Successfully");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 17, 2022 at 10:38 AM
+-- Generation Time: Feb 22, 2022 at 11:02 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -80,21 +80,14 @@ CREATE TABLE IF NOT EXISTS `school_addexam` (
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addexam`
 --
 
 INSERT INTO `school_addexam` (`ID`, `exam_name`, `exam_master`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Annual Exam 2022', 'Final OR Annual', '2022-02-23 12:00:00', 12, 1, 100, 35, '2022-02-17 15:18:12', '2022-02-17 15:18:12', '2022-02-17 15:43:23'),
-(2, 'Half Yearly Exam 2022', 'Half Yearly', '2022-04-06 12:00:00', 12, 1, 100, 35, '2022-02-17 15:18:48', '2022-02-17 15:18:48', '2022-02-17 15:43:46'),
-(3, 'Annual Exam 2022', 'Final OR Annual', '2022-02-23 12:00:00', 12, 1, 100, 35, '2022-02-17 15:48:48', '2022-02-17 15:48:48', NULL),
-(4, 'Half Yearly Exam 2022', 'Half Yearly', '2022-02-28 13:30:00', 1, 1, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
-(5, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-01 13:30:00', 1, 2, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
-(6, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-02 13:30:00', 1, 14, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
-(7, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-03 13:30:00', 1, 12, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL),
-(8, 'Half Yearly Exam 2022', 'Half Yearly', '2022-03-04 12:30:00', 1, 8, 200, 70, '2022-02-17 16:02:32', '2022-02-17 16:02:32', NULL);
+(1, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 12, 1, 100, 35, '2022-02-18 12:35:43', '2022-02-18 12:35:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
 
 INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Initial_Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, 1, 20000, 20000, 0, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
-(2, 2, 20000, 9000, 11000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL),
+(2, 2, 20000, 14000, 6000, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL),
 (3, 3, 20000, 17000, 3000, '2022-01-10 17:01:35', '2022-01-10 11:31:35', NULL);
 
 -- --------------------------------------------------------
@@ -420,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
   KEY `stud_id link attendance` (`Stud_ID`),
   KEY `section_id link attendance` (`class_section`),
   KEY `staff_id link to marked_by attendance` (`marked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studentattendance`
@@ -441,7 +434,10 @@ INSERT INTO `school_studentattendance` (`ID`, `Stud_ID`, `class_section`, `perio
 (12, 3, 1, 3, '2022-02-03', 'Present', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
 (13, 2, 1, 4, '2022-02-03', 'Absent', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
 (14, 1, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
-(15, 3, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL);
+(15, 3, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
+(16, 2, 1, 3, '2022-02-21', 'Absent', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL),
+(17, 1, 1, 3, '2022-02-21', 'Present', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL),
+(18, 3, 1, 3, '2022-02-21', 'Present', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -461,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Stud_ID` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_student_due_collection`
@@ -469,7 +465,9 @@ CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
 
 INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Paying_amt`, `Payment_mode`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
 (1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL),
-(2, 3, 20000, 6000, 'Cheque', '2022-01-11 12:18:00', '2022-01-11 06:48:00', NULL);
+(2, 3, 20000, 6000, 'Cheque', '2022-01-11 12:18:00', '2022-01-11 06:48:00', NULL),
+(3, 2, 20000, 5000, 'Online Payment', '2022-02-22 15:00:16', '2022-02-22 09:30:16', NULL),
+(4, 2, 20000, 50, 'Online Payment', '2022-02-22 15:36:07', '2022-02-22 10:06:07', NULL);
 
 -- --------------------------------------------------------
 
