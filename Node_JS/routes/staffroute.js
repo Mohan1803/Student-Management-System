@@ -1219,16 +1219,21 @@ staffRoute.get("/student-exam", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-  var class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
-  con.query(class_section, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else {
-      res.locals.result = result;
-      return res.render("studentexam");
-    }
-  });
+  try {
+    var class_section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
+    con.query(class_section, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("studentexam");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
 });
 
 staffRoute.post("/student-exam", (req, res) => {
@@ -1236,47 +1241,51 @@ staffRoute.post("/student-exam", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-
-  const exam_name = req.body.exam_name;
-  const section_id = req.body.exam_section;
-  const subject_count = req.body.subject_count; //2 (),(),
-  let query = "";
-  var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}' AND Deleted_at IS NULL`;
-  con.query(dup, (err, dupExam) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else if (dupExam.length != 0) {
-      req.flash("error", "Exam Already Assigned For This Class On This Date");
-      return res.redirect("/staff/student-exam");
-    } else {
-      for (let i = 0; i < subject_count; i++) {
-        query += `('${exam_name}', '${req.body.exam_master}', '${
-          req.body[`exam_${i + 1}_date`]
-        }', '${section_id}', '${req.body[`exam_${i + 1}_sub`]}', '${
-          req.body[`exam_${i + 1}_actualmark`]
-        }', '${req.body[`exam_${i + 1}_passmark`]}'),`;
-      }
-
-      query = query.slice(0, -1);
-      //dynamically creating query
-      var exam_insert = `INSERT INTO school_addexam (exam_name, exam_master, date, section_id, Subject_id, actual_mark, pass_mark) VALUES ${query}`;
-      con.query(exam_insert, (err, inserted) => {
-        if (err) {
-          console.log(err);
-          return res.redirect("/staff/servererror");
-        } else {
-          req.flash("success", "Exam Added Successfully");
-          // delete 0 values from table - soft delete
-          var nullData = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE Subject_id='0'`;
-          con.query(nullData, (err) => {
-            if (err) throw err;
-            return res.redirect("/staff/student-exam");
-          });
+  try {
+    const exam_name = req.body.exam_name;
+    const section_id = req.body.exam_section;
+    const subject_count = req.body.subject_count; //2 (),(),
+    let query = "";
+    var dup = `SELECT * FROM school_addexam WHERE exam_name = '${exam_name}' AND section_id = '${section_id}' AND Deleted_at IS NULL`;
+    con.query(dup, (err, dupExam) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else if (dupExam.length != 0) {
+        req.flash("error", "Exam Already Assigned For This Class On This Date");
+        return res.redirect("/staff/student-exam");
+      } else {
+        for (let i = 0; i < subject_count; i++) {
+          query += `('${exam_name}', '${req.body.exam_master}', '${
+            req.body[`exam_${i + 1}_date`]
+          }', '${section_id}', '${req.body[`exam_${i + 1}_sub`]}', '${
+            req.body[`exam_${i + 1}_actualmark`]
+          }', '${req.body[`exam_${i + 1}_passmark`]}'),`;
         }
-      });
-    }
-  });
+
+        query = query.slice(0, -1);
+        //dynamically creating query
+        var exam_insert = `INSERT INTO school_addexam (exam_name, exam_master, date, section_id, Subject_id, actual_mark, pass_mark) VALUES ${query}`;
+        con.query(exam_insert, (err, inserted) => {
+          if (err) {
+            console.log(err);
+            return res.redirect("/staff/servererror");
+          } else {
+            req.flash("success", "Exam Added Successfully");
+            // delete 0 values from table - soft delete
+            var nullData = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE Subject_id='0'`;
+            con.query(nullData, (err) => {
+              if (err) throw err;
+              return res.redirect("/staff/student-exam");
+            });
+          }
+        });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
 });
 
 //Viewing Exams
@@ -1285,21 +1294,25 @@ staffRoute.get("/view-exam", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-
-  var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%m-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.section_id, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
+  try {
+    var exam = `SELECT sac.Class, sas.section, sadsub.subject_name, sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%m-%Y %H:%i') AS Date, sadex.ID, sadex.exam_master, sadex.section_id, sadex.actual_mark, sadex.pass_mark FROM school_addexam AS sadex 
   INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sadex.Subject_id
   INNER JOIN school_addsection AS sas ON sas.ID = sadex.section_id
   INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id 
   WHERE sadex.Deleted_at IS NULL GROUP BY sadex.exam_name , sadex.section_id`;
-  con.query(exam, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else {
-      res.locals.result = result;
-      return res.render("viewexam");
-    }
-  });
+    con.query(exam, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("viewexam");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
 });
 
 //Deleting Exams
@@ -1308,16 +1321,21 @@ staffRoute.get("/deleteExams/:section_id/:exam_master", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-  var deleteexam = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE section_id = '${req.params.section_id}' AND exam_master = '${req.params.exam_master}'`;
-  con.query(deleteexam, (err, softdeleted) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else {
-      req.flash("success", "Exam Deleted Successfully");
-      return res.redirect("/staff/view-exam");
-    }
-  });
+  try {
+    var deleteexam = `UPDATE school_addexam SET Deleted_at = CURRENT_TIMESTAMP WHERE section_id = '${req.params.section_id}' AND exam_master = '${req.params.exam_master}'`;
+    con.query(deleteexam, (err, softdeleted) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        req.flash("success", "Exam Deleted Successfully");
+        return res.redirect("/staff/view-exam");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
 });
 
 //Edit Exams
@@ -1326,17 +1344,55 @@ staffRoute.post("/editExams/:exam_id/:exam_Master", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-  console.log(req.body.edit_exam_date);
-  var editexam = `UPDATE school_addexam SET date = '${req.body.edit_exam_date}' WHERE ID = '${req.params.exam_id}' AND exam_master = '${req.params.exam_Master}'`;
-  console.log(editexam);
-  con.query(editexam, (err, edit) => {
-    if (err) {
-      console.log(err);
-      return res.redirect("/staff/servererror");
-    } else {
-      req.flash("success", "Exam Edited Successfully");
-      return res.redirect("/staff/view-exam");
-    }
-  });
+  try {
+    var editexam = `UPDATE school_addexam SET date = '${req.body.edit_exam_date}' WHERE ID = '${req.params.exam_id}' AND exam_master = '${req.params.exam_Master}'`;
+    console.log(editexam);
+    con.query(editexam, (err, edit) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        req.flash("success", "Exam Edited Successfully");
+        return res.redirect("/staff/view-exam");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
 });
+
+//Student Marks
+staffRoute.get("/exam-mark", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    session.logged_in = true;
+    if (session.ID) {
+      var findstud = `SELECT siast.ID AS student_id, siast.Stud_ID, sadst.Middle_Name, sastaff.ID FROM school_initialaddstudent AS siast INNER JOIN school_addstudent AS sadst ON siast.ID = sadst.Stud_ID
+    INNER JOIN school_subjectclass_mapping ON school_subjectclass_mapping.Section_id = siast.section
+    INNER JOIN school_addstaff AS sastaff ON sastaff.ID = school_subjectclass_mapping.Staff_ID WHERE sastaff.ID = '${session.ID}'`;
+      con.query(findstud, (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.redirect("/staff/servererror");
+        } else {
+          console.log(result);
+          res.locals.result = result;
+          return res.render("exammark");
+        }
+      });
+    } else {
+      req.flash("error", "TimesUp Please login to continue.");
+      return res.redirect("/staff/stafflogin");
+    }
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
+});
+
 module.exports = staffRoute;

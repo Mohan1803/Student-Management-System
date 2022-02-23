@@ -43,6 +43,7 @@ studentRoute.post("/studentlogin", async (req, res) => {
           let session = req.session;
           session.studentId = result[0].ID;
           session.pass = result[0].Password;
+          session.section = result[0].section;
           session.loggedIn = true;
           return res.redirect("/student/student-profile");
         } else if (!matchPass) {
@@ -389,6 +390,32 @@ studentRoute.get("/studlogout", (req, res) => {
       res.clearCookie("account");
       return res.redirect("/student/studentlogin");
     }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Server Crashed");
+    return res.redirect("/staff/servererror");
+  }
+});
+
+//Viewing Exams By Students
+studentRoute.get("/view_exam", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    let session = req.session;
+    var viewExam = `SELECT sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%m-%Y %H:%i') AS Date, sasub.subject_name FROM school_addexam AS sadex INNER JOIN school_addsubjects AS sasub ON sadex.Subject_id = sasub.ID WHERE sadex.section_id = '${session.section}'`;
+    con.query(viewExam, (err, result) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("studentviewexams");
+      }
+    });
   } catch (err) {
     console.log(err);
     req.flash("error", "Server Crashed");

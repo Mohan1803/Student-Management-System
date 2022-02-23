@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 22, 2022 at 11:02 AM
+-- Generation Time: Feb 23, 2022 at 12:07 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -80,14 +80,19 @@ CREATE TABLE IF NOT EXISTS `school_addexam` (
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addexam`
 --
 
 INSERT INTO `school_addexam` (`ID`, `exam_name`, `exam_master`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 12, 1, 100, 35, '2022-02-18 12:35:43', '2022-02-18 12:35:43', NULL);
+(1, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 12, 1, 100, 35, '2022-02-18 12:35:43', '2022-02-18 12:35:43', NULL),
+(2, 'Annual Exam 2022', 'Annual', '2022-02-28 12:00:00', 1, 8, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
+(3, 'Annual Exam 2022', 'Annual', '2022-03-01 12:00:00', 1, 1, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
+(4, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 1, 2, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
+(5, 'Annual Exam 2022', 'Annual', '2022-03-03 12:00:00', 1, 14, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
+(6, 'Annual Exam 2022', 'Annual', '2022-03-04 12:00:00', 1, 12, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -472,6 +477,27 @@ INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Pay
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `school_studexam_mark`
+--
+
+DROP TABLE IF EXISTS `school_studexam_mark`;
+CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `exam_id` int(10) NOT NULL,
+  `stud_id` int(10) NOT NULL,
+  `marks_scored` int(10) NOT NULL,
+  `result` varchar(50) NOT NULL,
+  `entered_by` int(10) NOT NULL,
+  `Created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `exam_id link mark` (`exam_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `school_subjectclass_mapping`
 --
 
@@ -613,6 +639,12 @@ ALTER TABLE `school_studentattendance`
 --
 ALTER TABLE `school_student_due_collection`
   ADD CONSTRAINT `stud_id link` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
+
+--
+-- Constraints for table `school_studexam_mark`
+--
+ALTER TABLE `school_studexam_mark`
+  ADD CONSTRAINT `exam_id link mark` FOREIGN KEY (`exam_id`) REFERENCES `school_addexam` (`ID`);
 
 --
 -- Constraints for table `school_subjectclass_mapping`

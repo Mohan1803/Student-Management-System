@@ -1,0 +1,50 @@
+<% if(locals.success.length>0) { %>
+    <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+  <% if(locals.error.length>0) { %>
+    <div
+      class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+    <form name="myForm" action="/student/view_exam" method="POST">
+<center>
+        <b>
+          <h1 style="font-family: 'Times New Roman', Times, serif;">Exams</h1>
+        </b><br>
+        
+    <table class="table table-light text-center"">
+        <thead>
+          <tr>
+          <th scope="col">S.No</th>
+          <th scope="col">EXAM NAME</th>
+          <th scope="col">DATE & TIME</th>
+          <th scope="col">SUBJECT NAME</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% if(result) {        
+                for(var i = 0; i < result.length; i++) { %>
+                  <tr>
+                    <th scope="row"><%= (i+1) %></th>
+                    <td><%= result[i].exam_name %></td>
+                    <td><%= result[i].Date %></td>
+                    <td><%= result[i].subject_name %></td>
+                  </tr>
+            <%  }  
+              } else { %>
+                      <tr>
+                        <td colspan="12" class="text-center">No records found.</td>
+                       </tr>
+                <% } %>
+            </tbody>
+          </table>
+    </center>
+        </form>
