@@ -24,23 +24,46 @@
             <h1 style="font-family: 'Times New Roman', Times, serif;">Add Mark</h1>
           </b><br>
 
-          <div class="mb-3">
+<input type="hidden" id="staff_id_mark" name="staff_id_mark" value="<%= locals.result[0].Staff_ID %>">
+
+          <div class="mb-3" id="dummy_mark">
             <div class="form-floating w-50 p-2">
-              <select class="form-select" aria-label="Default select example" id="stud_id_mark" name="stud_id_mark">
-                <option value="">Select Student</option>
-                <% if (locals.result[0]) { %>
-                  <% for ( let i=0; i < locals.result[0].length; i++){ %>
-                      <option value="<%= locals.result[0][i].student_id %>"><%= locals.result[0][i].Stud_ID %> - <%= locals.result[0][i].Middle_Name %></option>
+              <select class="form-select" aria-label="Default select example" id="section_id_mark" name="section_id_mark">
+                <option value="">Select Class & Section</option>
+                <% if (locals.result) { %>
+                  <% for ( let i=0; i < locals.result.length; i++){ %>
+                      <option value="<%= locals.result[i].Section_id %>"><%= locals.result[i].Class %> - <%= locals.result[i].section %></option>
                   
              <% } }  %>
               </select>
-              <label for="stud_id_mark">Student ID & Name</label>
+              <label for="section_id_mark">Choose Class & Section</label>
             </div>
           </div>
 
-<div class="form-floating w-75 p-2" id="schedule_plan"></div>
+          
+          <!-- <div class="mb-3">
+            <div class="form-floating w-50 p-2">
+              <select class="form-select" aria-label="Default select example" id="exam_name_mark" name="exam_name_mark">
+                <option value="">Select Exam</option>
+                <% if (locals.result[1]) { %>
+                  <% for ( let i=0; i < locals.result[1].length; i++){ %>
+                      <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].exam_name %></option>
+                  
+             <% } }  %>
+              </select>
+              <label for="exam_name_mark">Select Exam</label>
+            </div>
+          </div> -->
+        
+
+        <div id="exam_mark"></div>  
+
+
           <button class="btn btn-primary" type="submit">Submit</button> <br><br>
 
         </form>
       </center>
+      
+
+
       

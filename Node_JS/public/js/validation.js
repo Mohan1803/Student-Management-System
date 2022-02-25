@@ -506,3 +506,121 @@ $(document).on("click", ".delete_exam_inModal", function () {
     },
   });
 });
+
+//Getting Exam Name For Selected Class & Section
+$(document).ready(function () {
+  $("#section_id_mark").on("change", function () {
+    var section = $("#section_id_mark").val();
+    console.log(section);
+    $.ajax({
+      url: "/api/get-examName-for-classSection",
+      type: "POST",
+      data: {
+        Section_ID: section,
+      },
+      dataType: "Json",
+      success: function (data) {
+        $("#dummy_mark").after(function () {
+          $("#view_exam_name").remove();
+          return " <div id='view_exam_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='exam_name_mark' name='exam_name_mark'> <option value=''>Select Exam</option> </select> <label for='exam_name_mark'>Select Exam</label> </div> </div> </div>  ";
+        });
+        var exam_name = [];
+        for (var i = 0; i < data.viewexamName.length; i++) {
+          exam_name.push(data.viewexamName[i].exam_name);
+        }
+        $.each(exam_name, (key, value) => {
+          $("#exam_name_mark").append(
+            "<option value='" +
+              data.viewexamName[key].ID +
+              "'>" +
+              data.viewexamName[key].exam_name +
+              "</option>"
+          );
+        });
+      },
+    });
+  });
+});
+
+// Getting No Of Students To Put Mark By Staffs
+$(document).ready(function () {
+  $("#section_id_mark").on("change", function () {
+    var mark_section = $("#section_id_mark").val();
+    var staff_id_mark = $("#staff_id_mark").val();
+    $.ajax({
+      url: "/api/get-noofstudents-associated-with-class",
+      type: "POST",
+      data: {
+        mark_section: mark_section,
+        staff_id_mark: staff_id_mark,
+      },
+      dataType: "Json",
+      success: function (data) {
+        $("#dummy_mark").after(function () {
+          var counter = 1;
+          if (!data.viewStudMark.length) {
+            $("#exam_subject_display").remove();
+            $("#exam_mark").append(
+              `<h4 id='no_stud'> <b> No Students Were Added In This Class </b> </h4>`
+            );
+          } else {
+            var array = [];
+            var no_of_stud = data.viewStudMark.length;
+            for (var i = 1; i <= no_of_stud; i++) {
+              array.push(i);
+              $("#exam_mark").html(
+                `<h4 id='exam_subject'> <b> ALLOT MARKS </b> </h4> <hr/>  <div id='exam_subject_display'><input type= 'hidden' id='subject_count' name='subject_count' value='${data.viewStudMark.length}'/></div>`
+              );
+            }
+            $.each(array, (key, value) => {
+              $("#exam_subject_display").append(
+                `<input type='hidden' name='period_no_${value}' value='${value}'></input>
+                  <div id='exam_main_${value}' class='m-1 row g-3'>
+                  <div class='col'>
+                  <label for='exam_${value}_sub'>Subject ${value}</label>
+                  <select data-id='${counter}' id='subject_option exam_${value}_sub' class='exam_${value}_sub form-control subject_option' name='exam_${value}_sub' required>
+                  <option value=''>Choose a Subject</option>
+                  </select>
+                  </div>
+                  <div class='col'>
+                  <label for='exam_${value}_date'>Date</label>
+                  <input id='exam_${value}_date' type='text' class='${counter} subject_date exam_${value}_date form-control' placeholder='Date' name='exam_${value}_date'>
+                  <input id='exam_${value}_date_hidden' type='hidden' class='${counter}_hidden subject_date exam_${value}_date form-control' name='exam_${value}_date_hidden'>
+                  </div>
+                  <div class='col'>
+                    <label for='exam_${value}_actualmark'>Actual Mark For Subject ${value}</label>
+                    <input id='exam_${value}_actualmark' type='number' class='${counter} subject_actualmark subject_${value}_actualmark form-control' placeholder='Actual Mark' name='exam_${value}_actualmark'>
+                    <input id='exam_${value}_actualmark_hidden' type='hidden' class='${counter}_hidden subject_actualmark_hidden subject_${value}_actualmark form-control' name='exam_${value}_actualmark_hidden'>
+                    </div>
+                    <div class='col'>
+                      <label for='exam_${value}_passmark'>Pass Mark</label>
+                      <input id='exam_${value}_passmark' type='number' class='${counter} subject_passmark subject_${value}_passmark form-control' placeholder='Pass Mark' name='exam_${value}_passmark'>
+                      <input id='exam_${value}_passmark_hidden' type='hidden' class='${counter}_hidden subject_passmark_hidden subject_${value}_passmark form-control' name='exam_${value}_passmark_hidden'>
+                      </div>
+                  </div><br><br>`
+              );
+              counter++;
+            });
+
+            var subject_name = [];
+            for (var i = 0; i < data.subject.length; i++) {
+              subject_name.push(data.subject[i].subject_name);
+            }
+            $.each(subject_name, (key, value) => {
+              $(".subject_option").append(
+                "<option value='" +
+                  data.subject[key].ID +
+                  "'>" +
+                  data.subject[key].subject_name +
+                  "</option>"
+              );
+            });
+          }
+        });
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  });
+});

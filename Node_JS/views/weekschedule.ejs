@@ -60,7 +60,6 @@
                             <% if (locals.result[0]) { %>
                               <% for ( let i=0; i < locals.result[1].length; i++){ %>
                                   <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].schedule_name %> - <%= locals.result[1][i].no_of_periods %> Periods</option>
-                              
                          <% } }  %>
                           </select>
                           <label for="schedule_template">Choose A Schedule</label>

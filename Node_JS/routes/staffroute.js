@@ -1092,7 +1092,7 @@ staffRoute.get("/staff-timetable", (req, res) => {
     if (session.Staff_id) {
       var sql = `SELECT sadsub.subject_name, sas.section, sac.Class, sws.period_no, sws.section_id, sws.staff_id, sws.ID, sws.day FROM school_weekschedule AS sws INNER JOIN school_addsubjects AS sadsub ON sadsub.ID = sws.subject_id
       INNER JOIN school_addsection AS sas ON sas.ID = sws.section_id
-      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sws.staff_id = '${session.ID}'`;
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sws.staff_id = '${session.ID}' ORDER BY sws.day`;
       con.query(sql, function (err, result) {
         if (err) {
           console.log(err);
@@ -1372,15 +1372,15 @@ staffRoute.get("/exam-mark", (req, res) => {
   try {
     session.logged_in = true;
     if (session.ID) {
-      var findstud = `SELECT siast.ID AS student_id, siast.Stud_ID, sadst.Middle_Name, sastaff.ID FROM school_initialaddstudent AS siast INNER JOIN school_addstudent AS sadst ON siast.ID = sadst.Stud_ID
-    INNER JOIN school_subjectclass_mapping ON school_subjectclass_mapping.Section_id = siast.section
-    INNER JOIN school_addstaff AS sastaff ON sastaff.ID = school_subjectclass_mapping.Staff_ID WHERE sastaff.ID = '${session.ID}'`;
+      var findstud = `SELECT DISTINCT sas.section, sac.Class, sscm.Section_id, sscm.Staff_ID FROM school_addsection AS sas 
+      INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id
+      INNER JOIN school_subjectclass_mapping AS sscm ON sscm.Section_id = sas.ID
+      WHERE sscm.Staff_ID = '${session.ID}'`;
       con.query(findstud, (err, result) => {
         if (err) {
           console.log(err);
           return res.redirect("/staff/servererror");
         } else {
-          console.log(result);
           res.locals.result = result;
           return res.render("exammark");
         }
