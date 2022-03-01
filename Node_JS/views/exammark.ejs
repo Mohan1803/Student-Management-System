@@ -41,19 +41,6 @@
           </div>
 
           
-          <!-- <div class="mb-3">
-            <div class="form-floating w-50 p-2">
-              <select class="form-select" aria-label="Default select example" id="exam_name_mark" name="exam_name_mark">
-                <option value="">Select Exam</option>
-                <% if (locals.result[1]) { %>
-                  <% for ( let i=0; i < locals.result[1].length; i++){ %>
-                      <option value="<%= locals.result[1][i].ID %>"><%= locals.result[1][i].exam_name %></option>
-                  
-             <% } }  %>
-              </select>
-              <label for="exam_name_mark">Select Exam</label>
-            </div>
-          </div> -->
         
 
         <div id="exam_mark"></div>  
@@ -66,4 +53,25 @@
       
 
 
-      
+     
+<!-- 
+                  <div id='exam_mark_${value}' class='m-1 row g-3'>
+                  <div class='col'>
+                  <label for='stud_${value}_mark'>Student ${value}</label>
+                  <input id='stud_${value}_mark' type='text' class='${counter} student_id stud_${value}_mark form-control' placeholder='Student' name='stud_${value}_mark' value='' disabled>
+                  <input id='stud_${value}_mark_hidden' type='hidden' class='${counter}_hidden student_id stud_${value}_mark form-control' name='stud_${value}_mark_hidden'>
+                  </div>
+                  <div class='col'>
+                  <label for='sub_${value}_markScored'>Mark Scored</label>
+                  <input id='sub_${value}_markScored' type='number' class='${counter} mark_scored sub_${value}_markScored form-control' placeholder='Mark Scored' name='sub_${value}_markScored'>
+                  <input id='sub_${value}_markScored_hidden' type='hidden' class='${counter}_hidden mark_scored sub_${value}_markScored form-control' name='sub_${value}_markScored_hidden'>
+                  </div>
+                  <div class='col'>
+                    <label for='sub_${value}_result'>Result</label>
+                    <select data-id='${counter}' id='sub_${value}_result' class='${counter} subject_actualmark sub_${value}_result form-control' name='sub_${value}_result' required>
+                      <option value=''>Choose Result</option>
+                      <option value='Pass'>Pass</option>
+                      <option value='Fail'>Fail</option>
+                      </select>
+                    </div>
+                  </div><br><br> -->

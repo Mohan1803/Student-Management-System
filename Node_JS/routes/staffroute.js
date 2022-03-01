@@ -1395,4 +1395,18 @@ staffRoute.get("/exam-mark", (req, res) => {
   }
 });
 
+staffRoute.post("/exam-mark", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  let session = req.session;
+  try {
+    var insert_mark = `INSERT INTO school_studexam_mark (exam_id, stud_id, marks_scored, result, entered_by) VALUES ()`;
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
+});
+
 module.exports = staffRoute;

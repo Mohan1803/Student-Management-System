@@ -150,12 +150,12 @@ apiRoute.post("/edit-exam-details", (req, res) => {
 
 //Getting Exam Name For Selected Class & Section
 apiRoute.post("/get-examName-for-classSection", (req, res) => {
-  var examname = `SELECT DISTINCT exam_name, ID FROM school_addexam WHERE section_id = '${req.body.Section_ID}'`;
+  var examname = `SELECT DISTINCT exam_name, exam_master FROM school_addexam WHERE section_id = '${req.body.Section_ID}';
+  SELECT sscm.Staff_ID, sscm.Section_id, sasub.subject_name, sasub.ID FROM school_subjectclass_mapping AS sscm INNER JOIN school_addsubjects AS sasub ON sasub.ID = sscm.Subject_id WHERE sscm.Staff_ID = '${req.body.staff_id_mark}' AND sscm.Section_id = '${req.body.Section_ID}'`;
   con.query(examname, (err, viewexamName) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      console.log(viewexamName);
       res.json({ msg: "success", viewexamName: viewexamName });
     }
   });
@@ -163,9 +163,9 @@ apiRoute.post("/get-examName-for-classSection", (req, res) => {
 
 //Getting No Of Students To Put Mark By Staffs
 apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
-  var viewstud = `SELECT sasub.subject_name, sias.Stud_ID, sastud.Middle_Name FROM school_addsubjects AS sasub INNER JOIN school_addexam AS saex ON saex.Subject_id = sasub.ID
-  INNER JOIN school_initialaddstudent AS sias ON sias.section = saex.section_id
-  INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID WHERE school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND school_subjectclass_mapping.Staff_ID = '${req.body.staff_id_mark}'`;
+  var viewstud = `SELECT DISTINCT sias.Stud_ID, sastud.Middle_Name, sias.ID FROM school_subjectclass_mapping 
+  INNER JOIN school_initialaddstudent AS sias ON sias.section = school_subjectclass_mapping.Section_id
+  INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}'`;
   con.query(viewstud, (err, viewStudMark) => {
     if (err) {
       res.json({ msg: "error", err });
