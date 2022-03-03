@@ -28,7 +28,7 @@
 
           <div class="mb-3" id="dummy_mark">
             <div class="form-floating w-50 p-2">
-              <select class="form-select" aria-label="Default select example" id="section_id_mark" name="section_id_mark">
+              <select class="form-select" aria-label="Default select example" id="section_id_mark" name="section_id_mark" required>
                 <option value="">Select Class & Section</option>
                 <% if (locals.result) { %>
                   <% for ( let i=0; i < locals.result.length; i++){ %>
@@ -54,24 +54,9 @@
 
 
      
-<!-- 
-                  <div id='exam_mark_${value}' class='m-1 row g-3'>
-                  <div class='col'>
-                  <label for='stud_${value}_mark'>Student ${value}</label>
-                  <input id='stud_${value}_mark' type='text' class='${counter} student_id stud_${value}_mark form-control' placeholder='Student' name='stud_${value}_mark' value='' disabled>
-                  <input id='stud_${value}_mark_hidden' type='hidden' class='${counter}_hidden student_id stud_${value}_mark form-control' name='stud_${value}_mark_hidden'>
-                  </div>
-                  <div class='col'>
-                  <label for='sub_${value}_markScored'>Mark Scored</label>
-                  <input id='sub_${value}_markScored' type='number' class='${counter} mark_scored sub_${value}_markScored form-control' placeholder='Mark Scored' name='sub_${value}_markScored'>
-                  <input id='sub_${value}_markScored_hidden' type='hidden' class='${counter}_hidden mark_scored sub_${value}_markScored form-control' name='sub_${value}_markScored_hidden'>
-                  </div>
-                  <div class='col'>
-                    <label for='sub_${value}_result'>Result</label>
-                    <select data-id='${counter}' id='sub_${value}_result' class='${counter} subject_actualmark sub_${value}_result form-control' name='sub_${value}_result' required>
-                      <option value=''>Choose Result</option>
-                      <option value='Pass'>Pass</option>
-                      <option value='Fail'>Fail</option>
-                      </select>
-                    </div>
-                  </div><br><br> -->
+      <!-- <input type='number' id='sub_${i + 1}_result' class='${i + 1} subject_result sub_${i + 1}_result form-control' name='sub_${i + 1}_result' placeholder='Mark Scored' value="PASS" disabled>
+            <input id='sub_${i + 1}_result_hidden' type='hidden' class='${i + 1}_hidden subject_result_hidden sub_${i + 1}_result_hidden form-control' name='sub_${i + 1}_result_hidden' value="Pass">
+
+
+            <input type='number' id='sub_${i + 1}_result' class='${i + 1} subject_result sub_${i + 1}_result form-control' name='sub_${i + 1}_result' placeholder='Mark Scored' value="FAIL" disabled>
+            <input id='sub_${i + 1}_result_hidden' type='hidden' class='${i + 1}_hidden subject_result_hidden sub_${i + 1}_result_hidden form-control' name='sub_${i + 1}_result_hidden' value="Fail"> -->

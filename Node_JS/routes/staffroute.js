@@ -1402,7 +1402,40 @@ staffRoute.post("/exam-mark", (req, res) => {
   res.locals.success = success;
   let session = req.session;
   try {
-    var insert_mark = `INSERT INTO school_studexam_mark (exam_id, stud_id, marks_scored, result, entered_by) VALUES ()`;
+    const student_count = req.body.student_count;
+    let Query = "";
+    // for (let j = 0; j < student_count; j++) {
+    var dup = `SELECT * FROM school_studexam_mark WHERE subject_id = '${req.body.subject_name_mark}' AND entered_by = '${session.ID}'`;
+    con.query(dup, (err, duplicate) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else if (duplicate.length != 0) {
+        req.flash("error", "Mark Already Allotted For This Subject And Class");
+        return res.redirect("/staff/exam-mark");
+      } else {
+        for (let i = 0; i < student_count; i++) {
+          Query += `('${req.body.exam_name_mark}', '${
+            req.body[`studID_${i + 1}_mark_hidden`]
+          }', '${req.body.subject_name_mark}', '${
+            req.body[`sub_${i + 1}_markScored`]
+          }', '${req.body[`sub_${i + 1}_result`]}','${session.ID}'),`;
+        }
+        Query = Query.slice(0, -1);
+
+        var insert_mark = `INSERT INTO school_studexam_mark (exam_name, stud_id, subject_id, marks_scored, result, entered_by) VALUES ${Query}`;
+        con.query(insert_mark, (err, inserted) => {
+          if (err) {
+            console.log(err);
+            return res.redirect("/staff/servererror");
+          } else {
+            req.flash("success", "Mark Alloted Successfully");
+            return res.redirect("/staff/exam-mark");
+          }
+        });
+      }
+    });
+    // }
   } catch (e) {
     console.log(e);
     return res.redirect("/staff/servererror");

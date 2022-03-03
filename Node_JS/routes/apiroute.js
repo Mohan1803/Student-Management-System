@@ -163,9 +163,10 @@ apiRoute.post("/get-examName-for-classSection", (req, res) => {
 
 //Getting No Of Students To Put Mark By Staffs
 apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
-  var viewstud = `SELECT DISTINCT sias.Stud_ID, sastud.Middle_Name, sias.ID FROM school_subjectclass_mapping 
+  var viewstud = `SELECT DISTINCT sias.Stud_ID, sastud.Middle_Name, sias.ID, saex.actual_mark, saex.pass_mark FROM school_subjectclass_mapping 
   INNER JOIN school_initialaddstudent AS sias ON sias.section = school_subjectclass_mapping.Section_id
-  INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}'`;
+  INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID
+  INNER JOIN school_addexam AS saex ON saex.section_id = sias.section WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND saex.exam_master = '${req.body.exam_name}'`;
   con.query(viewstud, (err, viewStudMark) => {
     if (err) {
       res.json({ msg: "error", err });

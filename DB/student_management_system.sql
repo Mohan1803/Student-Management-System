@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 01, 2022 at 11:50 AM
+-- Generation Time: Mar 03, 2022 at 10:52 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -483,8 +483,9 @@ INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Pay
 DROP TABLE IF EXISTS `school_studexam_mark`;
 CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `exam_id` int(10) NOT NULL,
+  `exam_name` varchar(50) NOT NULL,
   `stud_id` int(10) NOT NULL,
+  `subject_id` int(10) NOT NULL,
   `marks_scored` int(10) NOT NULL,
   `result` varchar(50) NOT NULL,
   `entered_by` int(10) NOT NULL,
@@ -492,8 +493,28 @@ CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `exam_id link mark` (`exam_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `stud_id link mark` (`stud_id`),
+  KEY `subject link mark` (`subject_id`),
+  KEY `staff_id link mark` (`entered_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `school_studexam_mark`
+--
+
+INSERT INTO `school_studexam_mark` (`ID`, `exam_name`, `stud_id`, `subject_id`, `marks_scored`, `result`, `entered_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Annual', 1, 2, 189, 'Pass', 3, '2022-03-03 15:09:29', '2022-03-03 09:39:29', NULL),
+(2, 'Annual', 2, 2, 167, 'Pass', 3, '2022-03-03 15:09:29', '2022-03-03 09:39:29', NULL),
+(3, 'Annual', 3, 2, 67, 'Fail', 3, '2022-03-03 15:09:29', '2022-03-03 09:39:29', NULL),
+(4, 'Annual', 1, 2, 178, 'Pass', 3, '2022-03-03 15:51:53', '2022-03-03 10:21:53', NULL),
+(5, 'Annual', 2, 2, 178, 'Pass', 3, '2022-03-03 15:51:53', '2022-03-03 10:21:53', NULL),
+(6, 'Annual', 3, 2, 165, 'Pass', 3, '2022-03-03 15:51:53', '2022-03-03 10:21:53', NULL),
+(7, 'Annual', 1, 1, 165, 'Pass', 2, '2022-03-03 15:53:10', '2022-03-03 10:23:10', NULL),
+(8, 'Annual', 2, 1, 178, 'Pass', 2, '2022-03-03 15:53:10', '2022-03-03 10:23:10', NULL),
+(9, 'Annual', 3, 1, 189, 'Pass', 2, '2022-03-03 15:53:10', '2022-03-03 10:23:10', NULL),
+(10, 'Annual', 1, 8, 156, 'Pass', 2, '2022-03-03 15:54:35', '2022-03-03 10:24:35', NULL),
+(11, 'Annual', 2, 8, 178, 'Pass', 2, '2022-03-03 15:54:35', '2022-03-03 10:24:35', NULL),
+(12, 'Annual', 3, 8, 169, 'Pass', 2, '2022-03-03 15:54:35', '2022-03-03 10:24:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -644,7 +665,9 @@ ALTER TABLE `school_student_due_collection`
 -- Constraints for table `school_studexam_mark`
 --
 ALTER TABLE `school_studexam_mark`
-  ADD CONSTRAINT `exam_id link mark` FOREIGN KEY (`exam_id`) REFERENCES `school_addexam` (`ID`);
+  ADD CONSTRAINT `staff_id link mark` FOREIGN KEY (`entered_by`) REFERENCES `school_addstaff` (`ID`),
+  ADD CONSTRAINT `stud_id link mark` FOREIGN KEY (`stud_id`) REFERENCES `school_initialaddstudent` (`ID`),
+  ADD CONSTRAINT `subject link mark` FOREIGN KEY (`subject_id`) REFERENCES `school_addsubjects` (`ID`);
 
 --
 -- Constraints for table `school_subjectclass_mapping`

@@ -524,14 +524,14 @@ $(document).ready(function () {
       success: function (data) {
         $("#dummy_mark").after(function () {
           $("#view_exam_name").remove();
-          return " <div id='view_exam_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='exam_name_mark' name='exam_name_mark'> <option value=''>Select Exam</option> </select> <label for='exam_name_mark'>Select Exam</label> </div> </div> </div>  ";
+          return " <div id='view_exam_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='exam_name_mark' name='exam_name_mark' required> <option value=''>Select Exam</option> </select> <label for='exam_name_mark'>Select Exam</label> </div> </div> </div>  ";
         });
         $("#view_exam_name").after(function () {
           $("#view_subject_name").remove();
-          if (data.viewexamName[1].length > 1) {
-            return `<div id='view_subject_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='subject_name_mark' name='subject_name_mark'> <option value=''>Select Subject</option> </select> <label for='subject_name_mark'>Select Subject</label> </div> </div> </div>`;
+          if (data.viewexamName[1].length > 0) {
+            return `<div id='view_subject_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='subject_name_mark' name='subject_name_mark' required> <option value=''>Select Subject</option> </select> <label for='subject_name_mark'>Select Subject</label> </div> </div> </div>`;
           } else {
-            return `<div id='view_subject_name'> <div class='mb-3'> <div class='form-floating w-50 p-2'> <input type='text' class='form-control' name='sub_name_exam' id='sub_name_exam' placeholder='Subject' value="${data.viewexamName[1][0].subject_name}" /> <label for='subject_name_mark'>Subject</label> </div> </div> </div>`;
+            return `<h2> No Subjects </h2>`;
           }
         });
         //getting exam name
@@ -568,43 +568,45 @@ $(document).ready(function () {
 });
 
 // Getting No Of Students To Put Mark By Staffs
-$(document).on("change", "#subject_name_mark", function () {
+$(document).on("change", "#exam_name_mark", function () {
   var mark_section = $("#section_id_mark").val();
   var Staff_ID_mark = $("#staff_id_mark").val();
+  var exam_name = $("#exam_name_mark").val();
   $.ajax({
     url: "/api/get-noofstudents-associated-with-class",
     type: "POST",
     data: {
       mark_section: mark_section,
       Staff_ID_mark: Staff_ID_mark,
+      exam_name: exam_name,
     },
     dataType: "Json",
     success: function (data) {
       // $("#subject_name_mark").after(function () {
       // for loop
-      let rows = "";
+      let rows = `<div><input type= 'hidden' id='student_count' name='student_count' value='${data.viewStudMark.length}'/></div>`;
       for (let i = 0; i < data.viewStudMark.length; i++) {
-        rows += `<div id='exam_mark_${i + 1}' class='m-1 row g-3'>
-              <div class='col'>
+        rows += `<div id='exam_mark_${i + 1}' class='m-1 row'>
+              <div class='col-4'>
               <label for='stud_${i + 1}_mark'>Student ${i + 1}</label>
-              <input id='stud_${
+              <input id='studID_${
                 i + 1
               }_mark' type='text' class='student_id_mark stud_${
           i + 1
-        }_mark form-control' placeholder='Student' name='stud_${
+        }_mark form-control' placeholder='Student' name='studID_${
           i + 1
         }_mark' value='${data.viewStudMark[i].Stud_ID} - ${
           data.viewStudMark[i].Middle_Name
         }' disabled>
-              <input id='stud_${i + 1}_mark_hidden' type='hidden' class='${
+              <input id='studID_${i + 1}_mark_hidden' type='hidden' class='${
           i + 1
         }_hidden student_id_mark_hidden stud_${
           i + 1
-        }_mark form-control' name='stud_${i + 1}_mark_hidden value='${
+        }_mark form-control' name='studID_${i + 1}_mark_hidden' value="${
           data.viewStudMark[i].ID
-        }'>
+        }">
               </div>
-              <div class='col'>
+              <div class="col-4">
               <label for='sub_${i + 1}_markScored'>Mark Scored</label>
               <input id='sub_${i + 1}_markScored' type='number' class='${
           i + 1
@@ -612,14 +614,16 @@ $(document).on("change", "#subject_name_mark", function () {
           i + 1
         }_markScored form-control' placeholder='Mark Scored' name='sub_${
           i + 1
-        }_markScored'>
+        }_markScored' min='0' max="${
+          data.viewStudMark[i].actual_mark
+        }" required>
               <input id='sub_${i + 1}_markScored_hidden' type='hidden' class='${
           i + 1
         }_hidden mark_scored sub_${i + 1}_markScored form-control' name='sub_${
           i + 1
         }_markScored_hidden'>
               </div>
-              <div class='col'>
+              <div class='col-4'>
                 <label for='sub_${i + 1}_result'>Result</label>
                 <select data-id='${i + 1}' id='sub_${i + 1}_result' class='${
           i + 1
@@ -631,7 +635,7 @@ $(document).on("change", "#subject_name_mark", function () {
                   <option value='Fail'>Fail</option>
                   </select>
                 </div>
-              </div><br><br>`;
+              </div> <br>`;
       }
       // });
       $("#exam_mark").append(`${rows}`);
