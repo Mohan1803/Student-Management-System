@@ -645,3 +645,41 @@ $(document).on("change", "#exam_name_mark", function () {
     },
   }); //call ends
 });
+
+//Getting No Of Students Associated With Particular Class & Subject In Table
+$(document).ready(function () {
+  $("#section_id_promotion").on("change", function () {
+    var section = $("#section_id_promotion").val();
+    $.ajax({
+      url: "/api/get-studentList",
+      type: "POST",
+      data: {
+        section: section,
+      },
+      dataType: "Json",
+      success: function (data) {
+        $("#dummy_promotion").after(function () {
+          let student_list = ``;
+          for (let i = 0; i < data.studlist.length; i++) {
+            let stud_list = `<tr>
+        <th scope="row">${i + 1}</th>
+        <td>${data.studlist[i].Stud_ID}</td>
+        <td>${data.studlist[i].Middle_Name}</td>
+        <td>${data.studlist[i].Class} - ${data.studlist[i].section}</td>
+       </tr>`;
+            student_list += stud_list;
+          }
+          $("#stud_promote").html(function () {
+            if (data.studlist.length != 0) {
+              return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th>Student ID</th><th>Name</th><th>Class & Section</th></tr></thead><tbody>${student_list}</tbody></table></div>`;
+            } else {
+              // $("#stud_promote").remove();
+              // $("#no_studIn_promotion").remove();
+              return `<h2 id='no_studIn_promotion'> No Students </h2>`;
+            }
+          });
+        });
+      },
+    });
+  });
+});

@@ -176,4 +176,19 @@ apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
   });
 });
 
+//Getting No Of Students Associated With Particular Class & Subject In Table
+apiRoute.post("/get-studentList", (req, res) => {
+  var studentList = `SELECT sias.Stud_ID, sadstud.Middle_Name, sac.Class, sas.section FROM school_initialaddstudent AS sias 
+  INNER JOIN school_addstudent AS sadstud ON sias.ID = sadstud.Stud_ID
+  INNER JOIN school_addsection AS sas ON sas.ID = sias.section
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sias.section = '${req.body.section}'`;
+  con.query(studentList, (err, studlist) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else {
+      res.json({ msg: "success", studlist: studlist });
+    }
+  });
+});
+
 module.exports = apiRoute;

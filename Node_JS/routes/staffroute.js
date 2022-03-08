@@ -1442,4 +1442,27 @@ staffRoute.post("/exam-mark", (req, res) => {
   }
 });
 
+//Student Promotion
+staffRoute.get("/stud-promotion", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    var section = `SELECT sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
+    con.query(section, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("studpromotion");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
+});
+
 module.exports = staffRoute;

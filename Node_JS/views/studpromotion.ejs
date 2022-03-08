@@ -1,0 +1,54 @@
+<% if(locals.success.length>0) { %>
+    <div class="w-75 p-3 container d-flex align-items-center justify-content-center alert alert-success alert-dismissible fade show"
+        role="alert">
+        <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+  <% if(locals.error.length>0) { %>
+    <div
+      class=" w-75 p-3 container d-flex align-items-center justify-content-center alert alert-danger alert-dismissible fade show"
+      role="alert">
+      <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <% } %>
+
+
+      <center>
+
+        <form name="myForm" action="/staff/stud-promotion" method="POST">
+
+          <b>
+            <h1 style="font-family: 'Times New Roman', Times, serif;">Student Promotion</h1>
+          </b><br>
+
+
+          <div class="mb-3" id="dummy_promotion">
+            <div class="form-floating w-50 p-2">
+              <select class="form-select" aria-label="Default select example" id="section_id_promotion" name="section_id_promotion" required>
+                <option value="">Select Class & Section</option>
+                <% if (locals.result) { %>
+                  <% for ( let i=0; i < locals.result.length; i++){ %>
+                      <option value="<%= locals.result[i].ID %>"><%= locals.result[i].Class %> - <%= locals.result[i].section %></option>
+                  
+             <% } }  %>
+              </select>
+              <label for="section_id_promotion">Choose Class & Section</label>
+            </div>
+          </div>
+
+          
+        
+
+        <div id="stud_promote"></div>  
+
+
+          <button class="btn btn-primary" type="submit">Submit</button> <br><br>
+
+        </form>
+      </center>
+      
+
+
