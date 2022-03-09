@@ -63,3 +63,6 @@ input.valid, textarea.valid{
   #no_sub{
 	color: red;
   }
+  #pending_due_promotion{
+	  color: red;
+  }

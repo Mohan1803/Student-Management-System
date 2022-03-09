@@ -178,7 +178,7 @@ apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
 
 //Getting No Of Students Associated With Particular Class & Subject In Table
 apiRoute.post("/get-studentList", (req, res) => {
-  var studentList = `SELECT sias.Stud_ID, sadstud.Middle_Name, sac.Class, sas.section FROM school_initialaddstudent AS sias 
+  var studentList = `SELECT sias.Stud_ID, sias.ID, sadstud.Middle_Name, sac.Class, sas.section FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadstud ON sias.ID = sadstud.Stud_ID
   INNER JOIN school_addsection AS sas ON sas.ID = sias.section
   INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sias.section = '${req.body.section}'`;
@@ -187,6 +187,24 @@ apiRoute.post("/get-studentList", (req, res) => {
       res.json({ msg: "error", err });
     } else {
       res.json({ msg: "success", studlist: studlist });
+    }
+  });
+});
+
+//Viewing Student Progress & Promote
+apiRoute.post("/view-student-progress", (req, res) => {
+  var studProgress = `SELECT COUNT(sscm.Section_id) AS Count1, sias.Stud_ID FROM school_subjectclass_mapping AS sscm INNER JOIN school_initialaddstudent AS sias ON sias.section = sscm.Section_id WHERE sias.ID = '${req.body.StudentId}';
+
+  SELECT COUNT(stud_id) AS Count2 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
+
+  SELECT * FROM school_studentadmission WHERE Stud_id = '${req.body.StudentId}'`;
+  // console.log(studProgress);
+  con.query(studProgress, (err, studprogress) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else {
+      // console.log(studprogress);
+      res.json({ msg: "success", studprogress: studprogress });
     }
   });
 });

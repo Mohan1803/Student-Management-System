@@ -666,20 +666,76 @@ $(document).ready(function () {
         <td>${data.studlist[i].Stud_ID}</td>
         <td>${data.studlist[i].Middle_Name}</td>
         <td>${data.studlist[i].Class} - ${data.studlist[i].section}</td>
+        <td><button class = "view_studprogress_toPromote_inModal btn btn-primary" data-Id = ${
+          data.studlist[i].ID
+        } type = "button" data-bs-toggle = "modal">Promote</button>
+          </td>
        </tr>`;
             student_list += stud_list;
           }
           $("#stud_promote").html(function () {
             if (data.studlist.length != 0) {
-              return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th>Student ID</th><th>Name</th><th>Class & Section</th></tr></thead><tbody>${student_list}</tbody></table></div>`;
+              return `<div class="row examList_data m-2"><table class='text-center table table-light'><thead><tr><th scope='col'>S.No</th><th>Student ID</th><th>Name</th><th>Class & Section</th><th>Action</th></tr></thead><tbody>${student_list}</tbody></table></div>
+              
+              <div class="modal fade" id="viewprogressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="studentProgress">Progress</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="view_stud_progress">
+
+        </div>
+      </div>
+    </div>
+  </div>`;
             } else {
-              // $("#stud_promote").remove();
-              // $("#no_studIn_promotion").remove();
               return `<h2 id='no_studIn_promotion'> No Students </h2>`;
             }
           });
         });
       },
     });
+  });
+});
+
+//Viewing Student Progress & Promote
+$(document).on("click", ".view_studprogress_toPromote_inModal", function () {
+  var StudentId = $(this).attr("data-Id");
+  $.ajax({
+    url: "/api/view-student-progress",
+    type: "POST",
+    data: {
+      StudentId: StudentId,
+    },
+    dataType: "JSON",
+    success: function (data) {
+      $(".view_stud_progress").html(function () {
+        if (data.studprogress[0][0].Count1 != data.studprogress[1][0].Count2) {
+          return `<div class="modal-footer">
+          <h2> Marks Are Not Provide For Some Subjects Please Check It</h2>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>`;
+        } else {
+          if (data.studprogress[2][0].Pending_due == 0) {
+            return `<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+        <button type="submit" class="btn btn-primary align-center" value="submit">Promote This Student</button>
+      </div>`;
+          } else {
+            return `<div class="modal-footer">
+          <h2 id="pending_due_promotion"> This Student Has Pending Due You Can't Promote Them Without Collecting Due </h2><br><br><br>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>`;
+          }
+        }
+      });
+
+      $("#viewprogressModal").modal("show");
+    },
+    error: function (err) {
+      console.log(err);
+    },
   });
 });
