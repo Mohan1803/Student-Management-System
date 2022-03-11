@@ -64,5 +64,10 @@ input.valid, textarea.valid{
 	color: red;
   }
   #pending_due_promotion{
-	  color: red;
+	font-family: 'Times New Roman', Times, serif;
+	color: rgb(219, 34, 34);
+  }
+  #marks_not_provided{
+	  font-family: 'Times New Roman', Times, serif;
+	  color: rgb(219, 34, 34);
   }

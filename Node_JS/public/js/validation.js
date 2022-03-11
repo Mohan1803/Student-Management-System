@@ -46,34 +46,17 @@ $(document).ready(function () {
       },
       dataType: "Json",
       success: function (data) {
-        $("#studid_fee").after(function () {
+        if (data.result) {
           $("#collect_fee").remove();
-          return (
-            " <div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value='" +
-            data.result[0].ID +
-            "'> <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='class' id='class' placeholder='Class' value='" +
-            data.result[0].Class +
-            "' disabled><label for='class'>Class</label></div></div>  <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='section' id='section' placeholder='Section' value='" +
-            data.result[0].section +
-            "' disabled><label for='section'>Section</label> </div> </div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value='" +
-            data.result[0].Middle_Name +
-            "' disabled><label for='name'>Name</label></div></div><div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='due' id='due' placeholder='Due Amount' value='" +
-            data.result[0].Pending_due +
-            "' disabled><input type='hidden' class='form-control' name='due_hide' id='due_hide' placeholder='Due Amount' value='" +
-            data.result[0].Pending_due +
-            "'><label for='due'>Due Amount</label></div></div></div>  <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno' id='phno' placeholder='Phone Number' value='" +
-            data.result[0].Emergency_Contact_No +
-            "' disabled><label for='phno'>Phone Number</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value='" +
-            data.result[0].email_id +
-            "' disabled><label for='Email'>Email ID</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value='" +
-            data.result[0].Actual_fee +
-            "' disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value='" +
-            data.result[0].Actual_fee +
-            "'> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max='" +
-            data.result[0].Actual_fee +
-            "' class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>"
-          );
-        });
+          $("#studid_fee").after(function () {
+            return `<div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value= "${data.result[0].ID}"> <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='class' id='class' placeholder='Class' value="${data.result[0].Class}" disabled><label for='class'>Class</label></div></div>  <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='section' id='section' placeholder='Section' value="${data.result[0].section}" disabled><label for='section'>Section</label> </div> </div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value="${data.result[0].Middle_Name}" disabled><label for='name'>Name</label></div></div></div>  <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno' id='phno' placeholder='Phone Number' value="${data.result[0].Emergency_Contact_No}" disabled><label for='phno'>Phone Number</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value="${data.result[0].email_id}" disabled><label for='Email'>Email ID</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value="${data.result[0].Actual_fee}" disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value="${data.result[0].Actual_fee}"> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max="${data.result[0].Actual_fee}" class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>`;
+          });
+        } else {
+          $("#collect_fee").remove();
+          $("#studid_fee").after(function () {
+            return `<h2>No Students</h2>`;
+          });
+        }
       },
       error: function (err) {
         console.log(err);
@@ -714,7 +697,7 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
       $(".view_stud_progress").html(function () {
         if (data.studprogress[0][0].Count1 != data.studprogress[1][0].Count2) {
           return `<div class="modal-footer">
-          <h2> Marks Are Not Provide For Some Subjects Please Check It</h2>
+          <h2 id='marks_not_provided'> Marks Are Not Provided For Some Subjects Please Check It</h2>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>`;
         } else {
@@ -738,4 +721,14 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
       console.log(err);
     },
   });
+});
+
+//Viewing Student Result By Students
+$(document).ready(function () {
+  $("#student-result").DataTable();
+});
+
+//Viewing All Students By Staffs
+$(document).ready(function () {
+  $("#view-all-student-table").DataTable();
 });

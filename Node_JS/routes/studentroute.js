@@ -24,11 +24,6 @@ studentRoute.post("/studentlogin", async (req, res) => {
     const User_ID = req.body.userid;
     const PWD = req.body.pwd;
 
-    if (User_ID == 0 && PWD == 0) {
-      err_msg = "Please enter the values";
-      return res.redirect("/student/studentlogin", { err_msg });
-    }
-
     var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
@@ -46,7 +41,7 @@ studentRoute.post("/studentlogin", async (req, res) => {
           session.section = result[0].section;
           session.loggedIn = true;
           return res.redirect("/student/student-profile");
-        } else if (!matchPass) {
+        } else {
           req.flash("error", "Incorrect Password");
           return res.redirect("/student/studentlogin");
         }
@@ -414,6 +409,34 @@ studentRoute.get("/view_exam", (req, res) => {
       } else {
         res.locals.result = result;
         return res.render("studentviewexams");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Server Crashed");
+    return res.redirect("/staff/servererror");
+  }
+});
+
+//Showing Results To Students
+studentRoute.get("/result", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    let session = req.session;
+    var studResult = `SELECT saex.actual_mark, sexma.exam_name, sexma.marks_scored, sexma.result, sasub.subject_name FROM school_studexam_mark AS sexma 
+    INNER JOIN school_addsubjects AS sasub ON sexma.subject_id = sasub.ID 
+    INNER JOIN school_addexam AS saex ON saex.Subject_id = sexma.subject_id WHERE sexma.stud_id = '${session.studentId}' AND saex.section_id = '${session.section}'`;
+    con.query(studResult, (err, studentresult) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Server Crashed");
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.studentresult = studentresult;
+        return res.render("studresult");
       }
     });
   } catch (err) {

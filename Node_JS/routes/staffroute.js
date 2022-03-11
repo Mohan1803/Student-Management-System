@@ -31,15 +31,11 @@ staffRoute.post("/stafflogin", (req, res) => {
   try {
     const User_ID = req.body.userid;
     const PWD = req.body.pwd;
-    if (User_ID.length == 0 && PWD.length == 0) {
-      req.flash("error", "Enter The Details");
-      return res.redirect("/staff/stafflogin");
-    }
+
     var check = `SELECT * FROM school_addstaff WHERE Staff_id='${User_ID}'`;
     con.query(check, (err, result) => {
       if (err) {
         console.log(err);
-
         return res.redirect("/staff/servererror");
       } else if (result.length != 0) {
         const pwd = result[0].Password;
@@ -55,7 +51,7 @@ staffRoute.post("/stafflogin", (req, res) => {
           req.flash("welcome", `Hi ${session.Staff_id}`);
           return res.redirect("/staff/staffinfo");
         } else {
-          req.flash("error", "Incorrect Password.");
+          req.flash("error", "Incorrect Password");
           return res.redirect("/staff/stafflogin");
         }
       } else {
@@ -64,8 +60,6 @@ staffRoute.post("/stafflogin", (req, res) => {
       }
     });
   } catch (err) {
-    console.log(err);
-
     return res.redirect("/staff/servererror");
   }
 });
@@ -704,22 +698,18 @@ staffRoute.post("/admission-fee", (req, res) => {
         );
         return res.redirect("/staff/student-due-collection");
       } else {
-        if (payingamt > actualfee) {
-          req.flash("error", "You Can't Collect More Than Actual Fee");
-          return res.redirect("/staff/admission-fee");
-        } else {
-          var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${actualfee}' - '${payingamt}' )`;
-          con.query(fee, (err, result) => {
-            if (err) {
-              console.log(err);
+        var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${actualfee}' - '${payingamt}' )`;
+        // console.log(fee);
+        con.query(fee, (err, result) => {
+          if (err) {
+            console.log(err);
 
-              return res.redirect("/staff/servererror");
-            } else {
-              req.flash("success", "Fee Collected Successfully");
-              return res.redirect("/staff/admission-fee");
-            }
-          });
-        }
+            return res.redirect("/staff/servererror");
+          } else {
+            req.flash("success", "Fee Collected Successfully");
+            return res.redirect("/staff/admission-fee");
+          }
+        });
       }
     });
   } catch (err) {
@@ -1403,14 +1393,16 @@ staffRoute.post("/exam-mark", (req, res) => {
   let session = req.session;
   try {
     const student_count = req.body.student_count;
-    let Query = "";
-    // for (let j = 0; j < student_count; j++) {
-    var dup = `SELECT * FROM school_studexam_mark WHERE subject_id = '${req.body.subject_name_mark}' AND entered_by = '${session.ID}'`;
+    console.log(student_count);
+    let Query = ""; // multi query
+
+    var dup = `SELECT COUNT(school_studexam_mark.exam_name) AS Dupcount FROM school_studexam_mark INNER JOIN school_subjectclass_mapping WHERE school_studexam_mark.subject_id = '${req.body.subject_name_mark}' AND school_studexam_mark.exam_name = '${req.body.exam_name_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.section_id_mark}'`;
     con.query(dup, (err, duplicate) => {
+      // [[*], [], [], []]
       if (err) {
         console.log(err);
         return res.redirect("/staff/servererror");
-      } else if (duplicate.length != 0) {
+      } else if (duplicate[0].Dupcount != 0) {
         req.flash("error", "Mark Already Allotted For This Subject And Class");
         return res.redirect("/staff/exam-mark");
       } else {
@@ -1435,7 +1427,6 @@ staffRoute.post("/exam-mark", (req, res) => {
         });
       }
     });
-    // }
   } catch (e) {
     console.log(e);
     return res.redirect("/staff/servererror");

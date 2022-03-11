@@ -8,15 +8,16 @@ const con = require("../config/db");
 // For Admission(fee) Module
 
 apiRoute.post("/get-student-data", (req, res) => {
-  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Pending_due FROM school_initialaddstudent AS sias 
+  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
   INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
-  INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID
   INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.student_id}'`;
+  // console.log(fee);
   con.query(fee, (err, result) => {
     if (err) {
       res.json({ msg: "error", err });
     } else if (result.length != 0) {
+      console.log(result);
       res.json({ msg: "success", result: result });
     } else {
       res.json({ msg: "Student Not Found", err });
@@ -197,13 +198,18 @@ apiRoute.post("/view-student-progress", (req, res) => {
 
   SELECT COUNT(stud_id) AS Count2 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
 
-  SELECT * FROM school_studentadmission WHERE Stud_id = '${req.body.StudentId}'`;
+  SELECT * FROM school_studentadmission WHERE Stud_id = '${req.body.StudentId}';
+  
+  SELECT COUNT(subject_id) AS Count3 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
+  
+  SELECT COUNT(result) AS Count4 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND result = "Pass"`;
   // console.log(studProgress);
   con.query(studProgress, (err, studprogress) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      // console.log(studprogress);
+      console.log(studprogress[3][0]);
+      console.log(studprogress[4][0]);
       res.json({ msg: "success", studprogress: studprogress });
     }
   });
