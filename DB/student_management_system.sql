@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 11, 2022 at 11:44 AM
+-- Generation Time: Mar 15, 2022 at 10:54 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `school_addexam` (
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addexam`
@@ -97,7 +97,12 @@ INSERT INTO `school_addexam` (`ID`, `exam_name`, `exam_master`, `date`, `section
 (8, 'Annual Exam 2022', 'Annual', '2022-03-24 12:00:00', 5, 2, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
 (9, 'Annual Exam 2022', 'Annual', '2022-03-25 12:00:00', 5, 3, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
 (10, 'Annual Exam 2022', 'Annual', '2022-03-28 12:00:00', 5, 4, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(11, 'Annual Exam 2022', 'Annual', '2022-03-29 12:00:00', 5, 8, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL);
+(11, 'Annual Exam 2022', 'Annual', '2022-03-29 12:00:00', 5, 8, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
+(12, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-04 12:00:00', 1, 1, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
+(13, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-05 12:00:00', 1, 2, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
+(14, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-06 12:00:00', 1, 14, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
+(15, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-07 12:00:00', 1, 12, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
+(16, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-08 12:00:00', 1, 8, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -497,6 +502,7 @@ CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `exam_name` varchar(50) NOT NULL,
   `stud_id` int(10) NOT NULL,
+  `Section_id` int(10) NOT NULL,
   `subject_id` int(10) NOT NULL,
   `marks_scored` int(10) NOT NULL,
   `result` varchar(50) NOT NULL,
@@ -507,29 +513,35 @@ CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
   PRIMARY KEY (`ID`),
   KEY `stud_id link mark` (`stud_id`),
   KEY `subject link mark` (`subject_id`),
-  KEY `staff_id link mark` (`entered_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+  KEY `staff_id link mark` (`entered_by`),
+  KEY `section link mark` (`Section_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studexam_mark`
 --
 
-INSERT INTO `school_studexam_mark` (`ID`, `exam_name`, `stud_id`, `subject_id`, `marks_scored`, `result`, `entered_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Annual', 1, 2, 188, 'Pass', 3, '2022-03-11 15:32:25', '2022-03-11 10:02:25', NULL),
-(2, 'Annual', 2, 2, 167, 'Pass', 3, '2022-03-11 15:32:25', '2022-03-11 10:02:25', NULL),
-(3, 'Annual', 3, 2, 156, 'Pass', 3, '2022-03-11 15:32:25', '2022-03-11 10:02:25', NULL),
-(4, 'Annual', 1, 14, 189, 'Pass', 4, '2022-03-11 16:42:40', '2022-03-11 11:12:40', NULL),
-(5, 'Annual', 2, 14, 178, 'Pass', 4, '2022-03-11 16:42:40', '2022-03-11 11:12:40', NULL),
-(6, 'Annual', 3, 14, 167, 'Pass', 4, '2022-03-11 16:42:40', '2022-03-11 11:12:40', NULL),
-(7, 'Annual', 1, 1, 178, 'Pass', 2, '2022-03-11 17:03:44', '2022-03-11 11:33:44', NULL),
-(8, 'Annual', 2, 1, 178, 'Pass', 2, '2022-03-11 17:03:44', '2022-03-11 11:33:44', NULL),
-(9, 'Annual', 3, 1, 178, 'Pass', 2, '2022-03-11 17:03:44', '2022-03-11 11:33:44', NULL),
-(10, 'Annual', 1, 8, 127, 'Pass', 2, '2022-03-11 17:04:19', '2022-03-11 11:34:19', NULL),
-(11, 'Annual', 2, 8, 167, 'Pass', 2, '2022-03-11 17:04:19', '2022-03-11 11:34:19', NULL),
-(12, 'Annual', 3, 8, 121, 'Pass', 2, '2022-03-11 17:04:19', '2022-03-11 11:34:19', NULL),
-(13, 'Annual', 1, 12, 167, 'Pass', 5, '2022-03-11 17:05:16', '2022-03-11 11:35:16', NULL),
-(14, 'Annual', 2, 12, 56, 'Fail', 5, '2022-03-11 17:05:16', '2022-03-11 11:35:16', NULL),
-(15, 'Annual', 3, 12, 121, 'Pass', 5, '2022-03-11 17:05:16', '2022-03-11 11:35:16', NULL);
+INSERT INTO `school_studexam_mark` (`ID`, `exam_name`, `stud_id`, `Section_id`, `subject_id`, `marks_scored`, `result`, `entered_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 'Annual', 1, 1, 2, 188, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
+(2, 'Annual', 2, 1, 2, 178, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
+(3, 'Annual', 3, 1, 2, 168, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
+(4, 'Annual', 4, 5, 2, 88, 'Pass', 3, '2022-03-15 14:36:35', '2022-03-15 09:06:35', NULL),
+(5, 'Annual', 1, 1, 1, 177, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
+(6, 'Annual', 2, 1, 1, 178, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
+(7, 'Annual', 3, 1, 1, 188, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
+(8, 'Annual', 1, 1, 8, 188, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
+(9, 'Annual', 2, 1, 8, 178, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
+(10, 'Annual', 3, 1, 8, 167, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
+(11, 'Annual', 1, 1, 14, 189, 'Pass', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
+(12, 'Annual', 2, 1, 14, 67, 'Fail', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
+(13, 'Annual', 3, 1, 14, 156, 'Pass', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
+(14, 'Annual', 1, 1, 12, 199, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
+(15, 'Annual', 2, 1, 12, 167, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
+(16, 'Annual', 3, 1, 12, 189, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
+(17, 'Annual', 4, 5, 1, 88, 'Pass', 2, '2022-03-15 15:08:29', '2022-03-15 09:38:29', NULL),
+(18, 'Annual', 4, 5, 8, 92, 'Pass', 2, '2022-03-15 15:08:38', '2022-03-15 09:38:38', NULL),
+(19, 'Annual', 4, 5, 3, 98, 'Pass', 4, '2022-03-15 15:09:10', '2022-03-15 09:39:10', NULL),
+(20, 'Annual', 4, 5, 4, 88, 'Pass', 5, '2022-03-15 15:09:28', '2022-03-15 09:39:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -680,6 +692,7 @@ ALTER TABLE `school_student_due_collection`
 -- Constraints for table `school_studexam_mark`
 --
 ALTER TABLE `school_studexam_mark`
+  ADD CONSTRAINT `section link mark` FOREIGN KEY (`Section_id`) REFERENCES `school_addsection` (`ID`),
   ADD CONSTRAINT `staff_id link mark` FOREIGN KEY (`entered_by`) REFERENCES `school_addstaff` (`ID`),
   ADD CONSTRAINT `stud_id link mark` FOREIGN KEY (`stud_id`) REFERENCES `school_initialaddstudent` (`ID`),
   ADD CONSTRAINT `subject link mark` FOREIGN KEY (`subject_id`) REFERENCES `school_addsubjects` (`ID`);

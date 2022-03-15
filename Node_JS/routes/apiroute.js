@@ -202,14 +202,16 @@ apiRoute.post("/view-student-progress", (req, res) => {
   
   SELECT COUNT(subject_id) AS Count3 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
   
-  SELECT COUNT(result) AS Count4 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND result = "Pass"`;
+  SELECT COUNT(result) AS Count4 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND result = "Pass";
+  
+  SELECT sac.Class, sas.section, sas.ID FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID WHERE sas.id < '${req.body.section}'`;
   // console.log(studProgress);
   con.query(studProgress, (err, studprogress) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      console.log(studprogress[3][0]);
-      console.log(studprogress[4][0]);
+      // console.log(studprogress[3][0]);
+      // console.log(studprogress[5]);
       res.json({ msg: "success", studprogress: studprogress });
     }
   });

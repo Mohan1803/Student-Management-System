@@ -224,7 +224,6 @@ staffRoute.post("/staffchangepwd", (req, res) => {
       con.query(sql, function (err, result) {
         if (err) {
           console.log(err);
-
           return res.redirect("/staff/servererror");
         } else if (result.length == 1) {
           const pwd = result[0].Password;
@@ -1336,7 +1335,7 @@ staffRoute.post("/editExams/:exam_id/:exam_Master", (req, res) => {
   res.locals.success = success;
   try {
     var editexam = `UPDATE school_addexam SET date = '${req.body.edit_exam_date}' WHERE ID = '${req.params.exam_id}' AND exam_master = '${req.params.exam_Master}'`;
-    console.log(editexam);
+    // console.log(editexam);
     con.query(editexam, (err, edit) => {
       if (err) {
         console.log(err);
@@ -1393,29 +1392,32 @@ staffRoute.post("/exam-mark", (req, res) => {
   let session = req.session;
   try {
     const student_count = req.body.student_count;
-    console.log(student_count);
     let Query = ""; // multi query
-
-    var dup = `SELECT COUNT(school_studexam_mark.exam_name) AS Dupcount FROM school_studexam_mark INNER JOIN school_subjectclass_mapping WHERE school_studexam_mark.subject_id = '${req.body.subject_name_mark}' AND school_studexam_mark.exam_name = '${req.body.exam_name_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.section_id_mark}'`;
+    // for (let j = 0; j < student_count; j++) {
+    var dup = `SELECT * FROM school_studexam_mark WHERE subject_id = '${req.body.subject_name_mark}' AND exam_name = '${req.body.exam_name_mark}' AND Section_id = '${req.body.section_id_mark}'`;
+    // }
+    // console.log(dup);
     con.query(dup, (err, duplicate) => {
       // [[*], [], [], []]
       if (err) {
         console.log(err);
         return res.redirect("/staff/servererror");
-      } else if (duplicate[0].Dupcount != 0) {
+      } else if (duplicate.length != 0) {
+        // console.log(duplicate);
         req.flash("error", "Mark Already Allotted For This Subject And Class");
         return res.redirect("/staff/exam-mark");
       } else {
         for (let i = 0; i < student_count; i++) {
           Query += `('${req.body.exam_name_mark}', '${
             req.body[`studID_${i + 1}_mark_hidden`]
-          }', '${req.body.subject_name_mark}', '${
-            req.body[`sub_${i + 1}_markScored`]
-          }', '${req.body[`sub_${i + 1}_result`]}','${session.ID}'),`;
+          }', '${req.body.section_id_mark}', '${
+            req.body.subject_name_mark
+          }', '${req.body[`sub_${i + 1}_markScored`]}', '${
+            req.body[`sub_${i + 1}_result`]
+          }','${session.ID}'),`;
         }
         Query = Query.slice(0, -1);
-
-        var insert_mark = `INSERT INTO school_studexam_mark (exam_name, stud_id, subject_id, marks_scored, result, entered_by) VALUES ${Query}`;
+        var insert_mark = `INSERT INTO school_studexam_mark (exam_name, stud_id, Section_id, subject_id, marks_scored, result, entered_by) VALUES ${Query}`;
         con.query(insert_mark, (err, inserted) => {
           if (err) {
             console.log(err);

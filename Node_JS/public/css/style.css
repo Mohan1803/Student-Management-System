@@ -71,3 +71,7 @@ input.valid, textarea.valid{
 	  font-family: 'Times New Roman', Times, serif;
 	  color: rgb(219, 34, 34);
   }
+  #promote_success{
+	font-family: 'Times New Roman', Times, serif;
+	color: greenyellow;
+  }

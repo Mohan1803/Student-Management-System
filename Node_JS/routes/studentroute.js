@@ -426,7 +426,7 @@ studentRoute.get("/result", (req, res) => {
   res.locals.success = success;
   try {
     let session = req.session;
-    var studResult = `SELECT saex.actual_mark, sexma.exam_name, sexma.marks_scored, sexma.result, sasub.subject_name FROM school_studexam_mark AS sexma 
+    var studResult = `SELECT DISTINCT saex.actual_mark, sexma.exam_name, sexma.marks_scored, sexma.result, sasub.subject_name FROM school_studexam_mark AS sexma 
     INNER JOIN school_addsubjects AS sasub ON sexma.subject_id = sasub.ID 
     INNER JOIN school_addexam AS saex ON saex.Subject_id = sexma.subject_id WHERE sexma.stud_id = '${session.studentId}' AND saex.section_id = '${session.section}'`;
     con.query(studResult, (err, studentresult) => {

@@ -686,11 +686,13 @@ $(document).ready(function () {
 //Viewing Student Progress & Promote
 $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
   var StudentId = $(this).attr("data-Id");
+  var section = $("#section_id_promotion").val();
   $.ajax({
     url: "/api/view-student-progress",
     type: "POST",
     data: {
       StudentId: StudentId,
+      section: section,
     },
     dataType: "JSON",
     success: function (data) {
@@ -702,10 +704,28 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
         </div>`;
         } else {
           if (data.studprogress[2][0].Pending_due == 0) {
-            return `<div class="modal-footer">
+            if (
+              data.studprogress[3][0].Count3 == data.studprogress[4][0].Count4
+            ) {
+              if (data.studprogress[5].length != 0) {
+                return `<h2 id="promote_success"> Promote To Next Class </h2>
+              <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='selectClassfor_promote_student' name='selectClassfor_promote_student' required> <option value=''>Select Class & Section</option> </select> <label for='selectClassfor_promote_student'>Select Class & Section</label> </div> </div>
+              <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
-        <button type="submit" class="btn btn-primary align-center" value="submit">Promote This Student</button>
+     <button type="submit" class="btn btn-primary align-center" value="submit">Promote This Student</button>
       </div>`;
+              } else {
+                return `<h2 id="promote_success"> Successfully Completed Schooling Provide TC </h2>
+              <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
+      </div>`;
+              }
+            } else {
+              return `<div class="modal-footer">
+          <h2 id="pending_due_promotion"> This Student Has Failed In Final or Annual Exams </h2><br><br><br>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>`;
+            }
           } else {
             return `<div class="modal-footer">
           <h2 id="pending_due_promotion"> This Student Has Pending Due You Can't Promote Them Without Collecting Due </h2><br><br><br>
@@ -714,7 +734,22 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
           }
         }
       });
-
+      //getting class & section to promote
+      var section_class = [];
+      for (var i = 0; i < data.studprogress[5].length; i++) {
+        section_class.push(data.studprogress[5][i].ID);
+      }
+      $.each(section_class, (key, value) => {
+        $("#selectClassfor_promote_student").append(
+          "<option value='" +
+            data.studprogress[5][key].ID +
+            "'>" +
+            data.studprogress[5][key].Class +
+            "-" +
+            data.studprogress[5][key].section +
+            "</option>"
+        );
+      });
       $("#viewprogressModal").modal("show");
     },
     error: function (err) {
@@ -731,4 +766,9 @@ $(document).ready(function () {
 //Viewing All Students By Staffs
 $(document).ready(function () {
   $("#view-all-student-table").DataTable();
+});
+
+//Viewing Exams By Students
+$(document).ready(function () {
+  $("#student_view_exams").DataTable();
 });
