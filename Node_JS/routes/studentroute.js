@@ -24,7 +24,8 @@ studentRoute.post("/studentlogin", async (req, res) => {
     const User_ID = req.body.userid;
     const PWD = req.body.pwd;
 
-    var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}'`;
+    var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}'
+   `;
     con.query(check, (err, result) => {
       if (err) {
         console.log(err);
@@ -37,8 +38,8 @@ studentRoute.post("/studentlogin", async (req, res) => {
         if (matchPass) {
           let session = req.session;
           session.studentId = result[0].ID;
-          session.pass = result[0].Password;
-          session.section = result[0].section;
+          session.pass = result[0].password;
+          session.section = result[0].Section;
           session.loggedIn = true;
           return res.redirect("/student/student-profile");
         } else {
@@ -73,31 +74,19 @@ studentRoute.get("/student-profile", (req, res) => {
         req.flash("error", "Server Crashed");
         return res.redirect("/staff/servererror");
       } else if (result.length == 1) {
-        const Id = result[0].ID;
-        var studProfile = `SELECT 
-        school_initialaddstudent.Stud_ID,
-        school_initialaddstudent.email_id,
-        school_initialaddstudent.section,
-        school_addstudent.First_Name,
-        school_addstudent.Middle_Name,
-        school_addstudent.Last_Name,
-        school_addstudent.Father_name,
-        school_addstudent.Mother_name,
-        school_initialaddstudent.DOB,
-        school_addstudent.Emergency_Contact_No,
-        school_addstudent.Stud_Aadhar_No,
-        school_addsection.section,
-        school_addclass.Class
-         FROM
-          school_initialaddstudent INNER JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
-           INNER JOIN school_addsection ON school_initialaddstudent.section=school_addsection.ID
-           INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id WHERE school_initialaddstudent.ID='${Id}'`;
+        var studProfile = `SELECT sias.Stud_ID, sias.DOB, sias.email_id, sas.section, sac.Class, sadst.First_Name, sadst.Last_Name, sadst.Middle_Name, sadst.Father_name, sadst.Mother_name, sadst.Emergency_Contact_No, sadst.Stud_Aadhar_No FROM school_initialaddstudent AS sias 
+        INNER JOIN school_addstudent AS sadst ON sias.ID = sadst.Stud_ID 
+        INNER JOIN school_studentadmission ON school_studentadmission.Stud_id = sias.ID
+        INNER JOIN school_addsection AS sas ON sas.ID = school_studentadmission.Section
+        INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sias.ID='${session.studentId}'`;
+        // console.log(studProfile);
         con.query(studProfile, (err, profile) => {
           if (err) {
             console.log(err);
             req.flash("error", "Server Crashed");
             return res.redirect("/staff/servererror");
           } else {
+            // console.log(profile);
             res.locals.profile = profile;
             return res.render("studinfo");
           }
@@ -222,10 +211,10 @@ studentRoute.get("/studfee", (req, res) => {
     let session = req.session;
     if (session) {
       var stud = `SELECT school_initialaddstudent.Stud_ID, school_initialaddstudent.email_id, school_studentadmission.pending_due, sadds.Middle_Name, sadds.Emergency_Contact_No, sac.Class, sac.Actual_fee, sas.section FROM school_addstudent AS sadds 
-      INNER JOIN school_initialaddstudent  ON sadds.Stud_ID = school_initialaddstudent.ID 
-      INNER JOIN school_addsection AS sas ON sas.ID = school_initialaddstudent.section 
-      INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID 
-      INNER JOIN school_studentadmission ON school_studentadmission.Stud_id = school_initialaddstudent.ID WHERE school_initialaddstudent.ID= '${session.studentId}'`;
+      INNER JOIN school_initialaddstudent ON sadds.Stud_ID = school_initialaddstudent.ID 
+      INNER JOIN school_studentadmission ON school_studentadmission.Stud_id = school_initialaddstudent.ID 
+      INNER JOIN school_addsection AS sas ON sas.ID = school_studentadmission.Section 
+      INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE school_initialaddstudent.ID= '${session.studentId}'`;
       con.query(stud, (err, result) => {
         if (err) {
           console.log(err);
@@ -401,6 +390,7 @@ studentRoute.get("/view_exam", (req, res) => {
   try {
     let session = req.session;
     var viewExam = `SELECT sadex.exam_name, DATE_FORMAT(sadex.date,'%d-%m-%Y %H:%i') AS Date, sasub.subject_name FROM school_addexam AS sadex INNER JOIN school_addsubjects AS sasub ON sadex.Subject_id = sasub.ID WHERE sadex.section_id = '${session.section}'`;
+
     con.query(viewExam, (err, result) => {
       if (err) {
         console.log(err);

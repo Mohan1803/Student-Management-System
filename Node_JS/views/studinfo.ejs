@@ -5,7 +5,7 @@
 
      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
       
-<h4 style="font-family: 'Times New Roman', Times, serif;">Hi!!... <%= locals.profile[0].Middle_Name %></h4>
+<h4 style="font-family: 'Times New Roman', Times, serif;">Hi!!... <%= profile[0].Middle_Name %></h4>
         
     
     </div>
@@ -59,48 +59,49 @@
     <tr>
       <td class="text-decoration-underline fw-bold">ROLL NUMBER</td>
       <td>
-        <%= locals.profile[0].Stud_ID %> 
+        <%= profile[0].Stud_ID %> 
        </td>
     </tr>
 
     <tr>
       <td class="text-decoration-underline fw-bold">NAME</td>
       <td>
-        <%= locals.profile[0].First_Name %> <%= locals.profile[0].Middle_Name %> <%= locals.profile[0].Last_Name %>
+        <%= profile[0].First_Name %> <%= profile[0].Middle_Name %> <%= profile[0].Last_Name %>
       </td>
   </tr>
+
   <tr>
     <td class="text-decoration-underline fw-bold">CLASS & SECTION</td>
     <td>
-      <%= locals.profile[0].Class %> - <%= locals.profile[0].section %>
+      <%= profile[0].Class %> - <%= profile[0].section %>
     </td>
 </tr>
 
   <tr>
     <td class="text-decoration-underline fw-bold">FATHER NAME</td>
     <td>
-      <%= locals.profile[0].Father_name %>
+      <%= profile[0].Father_name %>
     </td>
 </tr>
 
 <tr>
   <td class="text-decoration-underline fw-bold">MOTHER NAME</td>
   <td>
-    <%= locals.profile[0].Mother_name %>
+    <%= profile[0].Mother_name %>
   </td>
 </tr>
 
 <tr>
   <td class="text-decoration-underline fw-bold">AADHAR NUMBER</td>
   <td>
-    <%= locals.profile[0].Stud_Aadhar_No %> 
+    <%= profile[0].Stud_Aadhar_No %> 
    </td>
 </tr>
 
 <tr>
   <td class="text-decoration-underline fw-bold">DATE OF BIRTH</td>
   <td>
-    <%= locals.profile[0].DOB %> 
+    <%= profile[0].DOB %> 
    </td>
 </tr>
 
@@ -108,14 +109,14 @@
 <tr>
   <td class="text-decoration-underline fw-bold">PHONE NUMBER</td>
   <td>
-    <%= locals.profile[0].Emergency_Contact_No %>
+    <%= profile[0].Emergency_Contact_No %>
   </td>
 </tr>
 
 <tr>
   <td class="text-decoration-underline fw-bold">MAIL ID</td>
   <td>
-    <%= locals.profile[0].email_id %>
+    <%= profile[0].email_id %>
   </td>
 </tr>
       </table>

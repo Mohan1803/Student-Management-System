@@ -89,7 +89,6 @@ staffRoute.get("/staffinfo", (req, res) => {
           return res.redirect("/staff/servererror");
         } else {
           res.locals.result = result;
-          req.flash("success", "Welcome Back..!");
           return res.render("staffinfo");
         }
       });
@@ -121,7 +120,6 @@ staffRoute.get("/viewstudent", (req, res) => {
   var viewstud = `SELECT 
   school_initialaddstudent.Stud_ID,
   school_initialaddstudent.email_id,
-  school_initialaddstudent.section,
   school_addstudent.Middle_Name,
   school_addstudent.Father_name,
   school_addstudent.Mother_name,
@@ -130,9 +128,10 @@ staffRoute.get("/viewstudent", (req, res) => {
   school_addsection.section,
   school_addclass.Class
    FROM
-    school_initialaddstudent INNER JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID 
-     INNER JOIN school_addsection ON school_initialaddstudent.section=school_addsection.ID
-     INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id`;
+    school_initialaddstudent INNER JOIN school_addstudent ON school_initialaddstudent.ID = school_addstudent.Stud_ID      
+     INNER JOIN school_studentadmission ON school_studentadmission.Stud_id = school_initialaddstudent.ID
+     INNER JOIN school_addsection ON school_studentadmission.Section = school_addsection.ID
+     INNER JOIN school_addclass on school_addclass.ID = school_addsection.class_id WHERE school_studentadmission.Deleted_at IS NULL`;
   con.query(viewstud, (err, student) => {
     if (err) {
       console.log(err);
@@ -425,24 +424,7 @@ staffRoute.get("/addnewstudent", (req, res) => {
   res.locals.error = error;
   let success = req.flash("success");
   res.locals.success = success;
-  try {
-    //TO get class and section from school_addclass & school_addsection tables
-    var stud = `Select sas.class_id, sac.Class, sas.section, sas.ID, sas.capacity from school_addsection AS sas INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id`;
-    con.query(stud, (err, result) => {
-      if (err) {
-        console.log(err);
-
-        return res.redirect("/staff/servererror");
-      } else {
-        res.locals.result = result;
-        return res.render("addnewstudent");
-      }
-    });
-  } catch (e) {
-    console.log(e);
-
-    return res.redirect("/staff/servererror");
-  }
+  return res.render("addnewstudent");
 });
 
 staffRoute.post("/addnewstudent", (req, res) => {
@@ -453,7 +435,6 @@ staffRoute.post("/addnewstudent", (req, res) => {
 
   try {
     const studid = req.body.stud_id;
-    const section = req.body.section;
     const email = req.body.email;
     const dob = req.body.dob;
     const pwd = req.body.pwd;
@@ -495,7 +476,7 @@ staffRoute.post("/addnewstudent", (req, res) => {
       req.flash("error", "INVALID MAIL ID");
       return res.redirect("/staff/addnewstudent");
     }
-    if (studid == 0 || dob == 0 || section == 0 || email == 0 || pwd == 0) {
+    if (studid == 0 || dob == 0 || email == 0 || pwd == 0) {
       error = "Please Enter Some values";
       return res.render("addnewstudent", { error });
     } else {
@@ -509,11 +490,10 @@ staffRoute.post("/addnewstudent", (req, res) => {
           req.flash("error", "Student ID Already Taken");
           return res.redirect("/staff/addnewstudent");
         } else {
-          var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,section,DOB,email_id,password) values ('${studid}','${section}','${dob}','${email}','${hashedpassword}')`;
+          var newstud = `INSERT INTO school_initialaddstudent(Stud_ID,DOB,email_id,password) values ('${studid}','${dob}','${email}','${hashedpassword}')`;
           con.query(newstud, function (err) {
             if (err) {
               console.log(err);
-
               return res.redirect("/staff/servererror");
             } else {
               const mail = sendMail({
@@ -668,8 +648,22 @@ staffRoute.get("/admission-fee", (req, res) => {
 
   let success = req.flash("success");
   res.locals.success = success;
+  try {
+    var section = `SELECT sas.section, sas.ID, sac.Class FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID`;
+    con.query(section, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        res.locals.result = result;
+        return res.render("studadmission");
+      }
+    });
+  } catch (e) {
+    console.log(e);
 
-  return res.render("studadmission");
+    return res.redirect("/staff/servererror");
+  }
 });
 
 staffRoute.post("/admission-fee", (req, res) => {
@@ -688,7 +682,6 @@ staffRoute.post("/admission-fee", (req, res) => {
     con.query(dupStuAdmi, (err, duplicate) => {
       if (err) {
         console.log(err);
-
         return res.redirect("/staff/servererror");
       } else if (duplicate.length != 0) {
         req.flash(
@@ -697,7 +690,7 @@ staffRoute.post("/admission-fee", (req, res) => {
         );
         return res.redirect("/staff/student-due-collection");
       } else {
-        var fee = `INSERT INTO school_studentadmission (Stud_id, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${studentid}', '${actualfee}', '${payingamt}', '${actualfee}' - '${payingamt}' )`;
+        var fee = `INSERT INTO school_studentadmission (Stud_id, Section, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${studentid}', '${req.body.admission_section}', '${actualfee}', '${payingamt}', '${actualfee}' - '${payingamt}' )`;
         // console.log(fee);
         con.query(fee, (err, result) => {
           if (err) {
@@ -901,16 +894,31 @@ staffRoute.post("/mapping-staff-subject-class", (req, res) => {
     const staff_id = req.body.staff_id_map;
     const section = req.body.section_map;
     const subject = req.body.subject_map;
-
-    var insert_map = `INSERT INTO school_subjectclass_mapping (Staff_ID, Section_id, Subject_id) VALUES ('${staff_id}', '${section}', '${subject}')`;
-    con.query(insert_map, (err, result) => {
+    var dup = `SELECT * FROM school_subjectclass_mapping WHERE Staff_ID = '${staff_id}' AND Section_id = '${section}' AND Subject_id = '${subject}'`;
+    con.query(dup, (err, duplicate) => {
       if (err) {
         console.log(err);
-
         return res.redirect("/staff/servererror");
-      } else {
-        req.flash("success", "Subject & Class Mapped To Staff Successfully");
+      } else if (duplicate.length != 0) {
+        req.flash(
+          "error",
+          "This Staff Is Already Mapped To This Class Section & Subject"
+        );
         return res.redirect("/staff/mapping-staff-subject-class");
+      } else {
+        var insert_map = `INSERT INTO school_subjectclass_mapping (Staff_ID, Section_id, Subject_id) VALUES ('${staff_id}', '${section}', '${subject}')`;
+        con.query(insert_map, (err, result) => {
+          if (err) {
+            console.log(err);
+            return res.redirect("/staff/servererror");
+          } else {
+            req.flash(
+              "success",
+              "Subject & Class Mapped To Staff Successfully"
+            );
+            return res.redirect("/staff/mapping-staff-subject-class");
+          }
+        });
       }
     });
   } catch (e) {
@@ -1450,6 +1458,45 @@ staffRoute.get("/stud-promotion", (req, res) => {
       } else {
         res.locals.result = result;
         return res.render("studpromotion");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
+});
+
+staffRoute.post("/promote_student/:StudentID/:section", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    var feeData = `SELECT sac.Actual_fee FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID WHERE sas.ID ='${req.body.selectClassfor_promote_student}'`;
+    con.query(feeData, (err, data) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        var update = `INSERT school_studentadmission (Stud_id, Section, Actual_fee, Initial_Paying_amt, Pending_due) VALUES ('${req.params.StudentID}','${req.body.selectClassfor_promote_student}','${data[0].Actual_fee}', 0, '${data[0].Actual_fee}')`;
+        con.query(update, (err, updated) => {
+          if (err) {
+            console.log(err);
+            return res.redirect("/staff/servererror");
+          } else {
+            var softdelete = `UPDATE school_studentadmission SET Deleted_at = CURRENT_TIMESTAMP WHERE Stud_id = '${req.params.StudentID}' AND Section = '${req.params.section}'`;
+            console.log(softdelete);
+            con.query(softdelete, (err, deleted) => {
+              if (err) {
+                console.log(err);
+                return res.redirect("/staff/servererror");
+              } else {
+                req.flash("success", "Student Promoted Successfully");
+                return res.redirect("/staff/stud-promotion");
+              }
+            });
+          }
+        });
       }
     });
   } catch (e) {

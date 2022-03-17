@@ -8,10 +8,11 @@ const con = require("../config/db");
 // For Admission(fee) Module
 
 apiRoute.post("/get-student-data", (req, res) => {
-  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee FROM school_initialaddstudent AS sias 
+  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
-  INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
-  INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.student_id}'`;
+  WHERE sias.Stud_ID='${req.body.student_id}';
+  
+  SELECT sac.Actual_fee FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID WHERE sas.ID = '${req.body.section_admission}'`;
   // console.log(fee);
   con.query(fee, (err, result) => {
     if (err) {
@@ -30,7 +31,8 @@ apiRoute.post("/get-student-data", (req, res) => {
 apiRoute.post("/get-student-data-due", (req, res) => {
   var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Initial_Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
-  INNER JOIN school_addsection AS sas ON sias.section = sas.ID 
+  INNER JOIN school_studentadmission AS sstad ON sstad.Stud_id = sias.ID
+  INNER JOIN school_addsection AS sas ON sstad.Section = sas.ID 
   INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID
   INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.studid_due}'`;
   con.query(due, (err, dueresult) => {
@@ -165,9 +167,10 @@ apiRoute.post("/get-examName-for-classSection", (req, res) => {
 //Getting No Of Students To Put Mark By Staffs
 apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
   var viewstud = `SELECT DISTINCT sias.Stud_ID, sastud.Middle_Name, sias.ID, saex.actual_mark, saex.pass_mark FROM school_subjectclass_mapping 
-  INNER JOIN school_initialaddstudent AS sias ON sias.section = school_subjectclass_mapping.Section_id
+  INNER JOIN school_studentadmission AS sstad ON sstad.section = school_subjectclass_mapping.Section_id
+  INNER JOIN school_initialaddstudent AS sias ON sias.ID = sstad.Stud_id
   INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID
-  INNER JOIN school_addexam AS saex ON saex.section_id = sias.section WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND saex.exam_master = '${req.body.exam_name}'`;
+  INNER JOIN school_addexam AS saex ON saex.section_id = sstad.section WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND saex.exam_master = '${req.body.exam_name}'`;
   con.query(viewstud, (err, viewStudMark) => {
     if (err) {
       res.json({ msg: "error", err });
@@ -179,14 +182,17 @@ apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
 
 //Getting No Of Students Associated With Particular Class & Subject In Table
 apiRoute.post("/get-studentList", (req, res) => {
-  var studentList = `SELECT sias.Stud_ID, sias.ID, sadstud.Middle_Name, sac.Class, sas.section FROM school_initialaddstudent AS sias 
+  var studentList = `SELECT sias.Stud_ID, sias.ID, sadstud.Middle_Name, sac.Class, sas.section FROM school_initialaddstudent AS sias
   INNER JOIN school_addstudent AS sadstud ON sias.ID = sadstud.Stud_ID
-  INNER JOIN school_addsection AS sas ON sas.ID = sias.section
-  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sias.section = '${req.body.section}'`;
+  INNER JOIN school_studentadmission AS sstad ON sstad.Stud_id = sias.ID
+  INNER JOIN school_addsection AS sas ON sas.ID = sstad.Section
+  INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sstad.Section = '${req.body.section}' AND sstad.Deleted_at IS NULL`;
+  console.log(studentList);
   con.query(studentList, (err, studlist) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
+      console.log(studlist);
       res.json({ msg: "success", studlist: studlist });
     }
   });
@@ -194,15 +200,16 @@ apiRoute.post("/get-studentList", (req, res) => {
 
 //Viewing Student Progress & Promote
 apiRoute.post("/view-student-progress", (req, res) => {
-  var studProgress = `SELECT COUNT(sscm.Section_id) AS Count1, sias.Stud_ID FROM school_subjectclass_mapping AS sscm INNER JOIN school_initialaddstudent AS sias ON sias.section = sscm.Section_id WHERE sias.ID = '${req.body.StudentId}';
+  var studProgress = `SELECT COUNT(sscm.Section_id) AS Count1, sias.Stud_ID FROM school_subjectclass_mapping AS sscm INNER JOIN school_studentadmission AS sstad ON sstad.section = sscm.Section_id
+  INNER JOIN school_initialaddstudent AS sias ON sias.ID = sstad.Stud_id WHERE sias.ID = '${req.body.StudentId}' AND sscm.Section_id='${req.body.section}';
 
-  SELECT COUNT(stud_id) AS Count2 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
+  SELECT COUNT(stud_id) AS Count2 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND Section_id = '${req.body.section}';
 
-  SELECT * FROM school_studentadmission WHERE Stud_id = '${req.body.StudentId}';
+  SELECT * FROM school_studentadmission WHERE Stud_id = '${req.body.StudentId}' AND Section ='${req.body.section}';
   
-  SELECT COUNT(subject_id) AS Count3 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual";
+  SELECT COUNT(subject_id) AS Count3 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND Section_id = '${req.body.section}';
   
-  SELECT COUNT(result) AS Count4 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND result = "Pass";
+  SELECT COUNT(result) AS Count4 FROM school_studexam_mark WHERE stud_id = '${req.body.StudentId}' AND exam_name = "Annual" AND result = "Pass" AND Section_id = '${req.body.section}';
   
   SELECT sac.Class, sas.section, sas.ID FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID WHERE sas.id < '${req.body.section}'`;
   // console.log(studProgress);
@@ -210,8 +217,8 @@ apiRoute.post("/view-student-progress", (req, res) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      // console.log(studprogress[3][0]);
-      // console.log(studprogress[5]);
+      console.log(studprogress[0]);
+      console.log(studprogress[1]);
       res.json({ msg: "success", studprogress: studprogress });
     }
   });

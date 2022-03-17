@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 15, 2022 at 10:54 AM
+-- Generation Time: Mar 17, 2022 at 01:20 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -80,29 +80,18 @@ CREATE TABLE IF NOT EXISTS `school_addexam` (
   PRIMARY KEY (`ID`),
   KEY `section_link exam` (`section_id`),
   KEY `subject link exam` (`Subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addexam`
 --
 
 INSERT INTO `school_addexam` (`ID`, `exam_name`, `exam_master`, `date`, `section_id`, `Subject_id`, `actual_mark`, `pass_mark`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 12, 1, 100, 35, '2022-02-18 12:35:43', '2022-02-18 12:35:43', NULL),
-(2, 'Annual Exam 2022', 'Annual', '2022-02-28 12:00:00', 1, 8, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
-(3, 'Annual Exam 2022', 'Annual', '2022-03-01 12:00:00', 1, 1, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
-(4, 'Annual Exam 2022', 'Annual', '2022-03-02 12:00:00', 1, 2, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
-(5, 'Annual Exam 2022', 'Annual', '2022-03-03 12:00:00', 1, 14, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
-(6, 'Annual Exam 2022', 'Annual', '2022-03-04 12:00:00', 1, 12, 200, 70, '2022-02-23 16:11:56', '2022-02-23 16:11:56', NULL),
-(7, 'Annual Exam 2022', 'Annual', '2022-03-23 12:00:00', 5, 1, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(8, 'Annual Exam 2022', 'Annual', '2022-03-24 12:00:00', 5, 2, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(9, 'Annual Exam 2022', 'Annual', '2022-03-25 12:00:00', 5, 3, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(10, 'Annual Exam 2022', 'Annual', '2022-03-28 12:00:00', 5, 4, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(11, 'Annual Exam 2022', 'Annual', '2022-03-29 12:00:00', 5, 8, 100, 35, '2022-03-10 14:06:06', '2022-03-10 14:06:06', NULL),
-(12, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-04 12:00:00', 1, 1, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
-(13, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-05 12:00:00', 1, 2, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
-(14, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-06 12:00:00', 1, 14, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
-(15, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-07 12:00:00', 1, 12, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL),
-(16, 'Half Yearly Exam 2022', 'Half_Yearly', '2022-04-08 12:00:00', 1, 8, 200, 70, '2022-03-15 14:23:41', '2022-03-15 14:23:41', NULL);
+(1, 'Annual Exam 2022', 'Annual', '2022-03-21 12:00:00', 3, 1, 200, 70, '2022-03-17 15:54:30', '2022-03-17 15:54:30', NULL),
+(2, 'Annual Exam 2022', 'Annual', '2022-03-22 12:00:00', 3, 2, 200, 70, '2022-03-17 15:54:30', '2022-03-17 15:54:30', NULL),
+(3, 'Annual Exam 2022', 'Annual', '2022-03-23 12:00:00', 3, 3, 200, 70, '2022-03-17 15:54:30', '2022-03-17 15:54:30', NULL),
+(4, 'Annual Exam 2022', 'Annual', '2022-03-24 12:00:00', 3, 4, 200, 70, '2022-03-17 15:54:30', '2022-03-17 15:54:30', NULL),
+(5, 'Annual Exam 2022', 'Annual', '2022-03-25 12:00:00', 3, 5, 200, 70, '2022-03-17 15:54:30', '2022-03-17 15:54:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -237,17 +226,16 @@ CREATE TABLE IF NOT EXISTS `school_addstudent` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `id` (`ID`),
   KEY `student_id link` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_addstudent`
 --
 
 INSERT INTO `school_addstudent` (`ID`, `Stud_ID`, `First_Name`, `Middle_Name`, `Last_Name`, `Father_name`, `Mother_name`, `Emergency_Contact_No`, `Religion`, `Caste`, `Mother_Tongue`, `Stud_Aadhar_No`, `Sex`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 'First Name', 'Gowtham', '', 'Father Name', 'Mother Name', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2022-01-04 17:21:03', '2022-01-04 11:51:03', NULL),
-(2, 2, 'First Name', 'Baskar', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2022-01-04 17:30:58', '2022-01-04 12:00:58', NULL),
-(3, 3, 'K', 'Gowtham', '', 'Kanagaraj', 'Rajalakshmi', '7864563443', 'Hindu', 'BC', 'tamil', '882749172575', 'male', '2022-01-05 16:46:30', '2022-01-05 11:16:30', NULL),
-(4, 4, 'A', 'Sathish', '', 'Ashok', 'Mother name', '7864563443', 'Hindu', 'BC', 'tamil', '544345678901', 'male', '2022-03-10 14:04:45', '2022-03-10 08:34:45', NULL);
+(1, 1, 'First Name', 'Gowtham', '', 'Father Name', 'Mother Name', '7864563456', 'Hindu', 'BC', 'tamil', '882749307388', 'male', '2022-03-17 14:27:48', '2022-03-17 08:57:48', NULL),
+(2, 2, 'First Name', 'Kishore', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '567890234567', 'male', '2022-03-17 18:33:32', '2022-03-17 13:03:32', NULL),
+(3, 3, 'First Name', 'Baskar', '', 'Father Name', 'Mother Name', '7864563443', 'Hindu', 'BC', 'tamil', '882749172575', 'male', '2022-03-17 18:40:32', '2022-03-17 13:10:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -297,27 +285,23 @@ DROP TABLE IF EXISTS `school_initialaddstudent`;
 CREATE TABLE IF NOT EXISTS `school_initialaddstudent` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_ID` varchar(255) NOT NULL,
-  `section` int(10) NOT NULL,
   `DOB` date NOT NULL,
   `email_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `Stud_ID` (`Stud_ID`,`section`),
-  KEY `section_link` (`section`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_initialaddstudent`
 --
 
-INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `section`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'BMH21001', 1, '2022-01-05', 'mohannraj.s@koinnovation.com', '$2b$12$kiftUrbb01sfo5k5g7iNReNAIDZ9ghRzy88xJT8lsgDiTxjW4.L2W', '2022-01-04 17:19:49', '2022-01-04 11:49:49', NULL),
-(2, 'BMH21002', 1, '2022-01-02', 'kishore@gmail.com', '$2b$12$806goHlv1k4wrcFVRGhKx.RgkXkPbMoPzgStmtBseC8eam6hF7alC', '2022-01-04 17:30:20', '2022-01-04 12:00:20', NULL),
-(3, 'BMH21003', 1, '2005-06-14', 'kishore@gmail.com', '$2b$12$cJA6JDCfqI0QnF/vcFT80.x8ikLwIYlJdlBtUE4YssR9vVdMcQXBO', '2022-01-05 16:42:57', '2022-01-05 11:12:57', NULL),
-(4, 'BMH21100', 5, '2007-06-05', 'baskar@gmail.com', '$2b$12$u6uxrNjARbLR4ZNOMStm0OrgDuKvrbVg0c2SP62rpxeQln9k8hsva', '2022-03-10 14:03:27', '2022-03-10 08:33:27', NULL);
+INSERT INTO `school_initialaddstudent` (`ID`, `Stud_ID`, `DOB`, `email_id`, `password`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'BMH21001', '2007-05-22', 'kishore@gmail.com', '$2b$12$7AT7JdFzk.JfwRRxEGt5hOYc7tmW/jJ4XKY5mQCccXqqJPULtfVHW', '2022-03-17 14:11:56', '2022-03-17 08:41:56', NULL),
+(2, 'BMH21002', '2022-03-16', 'baskar@gmail.com', '$2b$12$29EFvY1Ht.0ux9muURcY1OSgXsvEZRfMFxD0.ub9UA7LY4qmpXhmu', '2022-03-17 18:23:28', '2022-03-17 12:53:28', NULL),
+(3, 'BMH21003', '2022-03-07', 'baskar@gmail.com', '$2b$12$thtpZRz5BxFYXWo14A4hwOV39PBTxhfgmHDRE78gphmTHoak5OIxS', '2022-03-17 18:39:13', '2022-03-17 13:09:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -390,6 +374,7 @@ DROP TABLE IF EXISTS `school_studentadmission`;
 CREATE TABLE IF NOT EXISTS `school_studentadmission` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `Stud_id` int(10) NOT NULL,
+  `Section` int(10) NOT NULL,
   `Actual_fee` int(10) NOT NULL,
   `Initial_Paying_amt` int(10) NOT NULL,
   `Pending_due` int(10) NOT NULL,
@@ -397,18 +382,19 @@ CREATE TABLE IF NOT EXISTS `school_studentadmission` (
   `Updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  KEY `stud_id link admission` (`Stud_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `Stud_id` (`Stud_id`,`Section`),
+  KEY `section_id link admission` (`Section`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studentadmission`
 --
 
-INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Actual_fee`, `Initial_Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 1, 20000, 20000, 0, '2022-01-07 15:40:11', '2022-01-07 10:10:11', NULL),
-(2, 2, 20000, 20000, 0, '2022-01-07 15:52:29', '2022-01-07 10:22:29', NULL),
-(3, 3, 20000, 17000, 3000, '2022-01-10 17:01:35', '2022-01-10 11:31:35', NULL),
-(4, 4, 18000, 18000, 0, '2022-03-11 12:55:11', '2022-03-11 07:25:11', NULL);
+INSERT INTO `school_studentadmission` (`ID`, `Stud_id`, `Section`, `Actual_fee`, `Initial_Paying_amt`, `Pending_due`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
+(1, 1, 3, 19000, 19000, 0, '2022-03-17 15:27:36', '2022-03-17 09:57:36', '2022-03-17 17:27:46'),
+(5, 1, 1, 20000, 0, 20000, '2022-03-17 17:27:46', '2022-03-17 11:57:46', NULL),
+(7, 2, 5, 18000, 4000, 14000, '2022-03-17 18:36:12', '2022-03-17 13:06:12', NULL),
+(8, 3, 3, 19000, 6000, 13000, '2022-03-17 18:48:29', '2022-03-17 13:18:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -432,31 +418,7 @@ CREATE TABLE IF NOT EXISTS `school_studentattendance` (
   KEY `stud_id link attendance` (`Stud_ID`),
   KEY `section_id link attendance` (`class_section`),
   KEY `staff_id link to marked_by attendance` (`marked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `school_studentattendance`
---
-
-INSERT INTO `school_studentattendance` (`ID`, `Stud_ID`, `class_section`, `period_no`, `date`, `status`, `marked_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 2, 1, 4, '2022-02-02', 'Absent', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
-(2, 1, 1, 4, '2022-02-02', 'Present', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
-(3, 3, 1, 4, '2022-02-02', 'Present', 3, '2022-02-02 14:57:15', '2022-02-02 09:27:15', NULL),
-(4, 1, 1, 3, '2022-02-02', 'Absent', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
-(5, 2, 1, 3, '2022-02-02', 'Present', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
-(6, 3, 1, 3, '2022-02-02', 'Present', 3, '2022-02-02 15:36:42', '2022-02-02 10:06:42', NULL),
-(7, 2, 1, 1, '2022-02-02', 'Absent', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
-(8, 1, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
-(9, 3, 1, 1, '2022-02-02', 'Present', 2, '2022-02-02 15:37:15', '2022-02-02 10:07:15', NULL),
-(10, 2, 1, 3, '2022-02-03', 'Absent', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
-(11, 1, 1, 3, '2022-02-03', 'Present', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
-(12, 3, 1, 3, '2022-02-03', 'Present', 3, '2022-02-03 10:35:40', '2022-02-03 05:05:40', NULL),
-(13, 2, 1, 4, '2022-02-03', 'Absent', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
-(14, 1, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
-(15, 3, 1, 4, '2022-02-03', 'Present', 3, '2022-02-03 12:31:11', '2022-02-03 07:01:11', NULL),
-(16, 2, 1, 3, '2022-02-21', 'Absent', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL),
-(17, 1, 1, 3, '2022-02-21', 'Present', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL),
-(18, 3, 1, 3, '2022-02-21', 'Present', 3, '2022-02-21 12:03:26', '2022-02-21 06:33:26', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -476,20 +438,16 @@ CREATE TABLE IF NOT EXISTS `school_student_due_collection` (
   `Deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Stud_ID` (`Stud_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_student_due_collection`
 --
 
 INSERT INTO `school_student_due_collection` (`ID`, `Stud_ID`, `Actual_fee`, `Paying_amt`, `Payment_mode`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 3, 20000, 10000, 'Cash', '2022-01-10 17:01:58', '2022-01-10 11:31:58', NULL),
-(2, 3, 20000, 6000, 'Cheque', '2022-01-11 12:18:00', '2022-01-11 06:48:00', NULL),
-(3, 2, 20000, 5000, 'Online Payment', '2022-02-22 15:00:16', '2022-02-22 09:30:16', NULL),
-(4, 2, 20000, 50, 'Online Payment', '2022-02-22 15:36:07', '2022-02-22 10:06:07', NULL),
-(5, 4, 18000, 3000, 'Cash', '2022-03-11 12:56:05', '2022-03-11 07:26:05', NULL),
-(6, 4, 18000, 10000, 'Cash', '2022-03-11 12:56:27', '2022-03-11 07:26:27', NULL),
-(7, 2, 20000, 6000, 'Cash', '2022-03-11 17:07:29', '2022-03-11 11:37:29', NULL);
+(1, 1, 19000, 4000, 'Cash', '2022-03-17 15:28:14', '2022-03-17 09:58:14', NULL),
+(2, 1, 19000, 10000, 'Cash', '2022-03-17 15:49:46', '2022-03-17 10:19:46', NULL),
+(3, 3, 19000, 1000, 'Online Payment', '2022-03-17 18:49:14', '2022-03-17 13:19:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -515,33 +473,18 @@ CREATE TABLE IF NOT EXISTS `school_studexam_mark` (
   KEY `subject link mark` (`subject_id`),
   KEY `staff_id link mark` (`entered_by`),
   KEY `section link mark` (`Section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_studexam_mark`
 --
 
 INSERT INTO `school_studexam_mark` (`ID`, `exam_name`, `stud_id`, `Section_id`, `subject_id`, `marks_scored`, `result`, `entered_by`, `Created_at`, `Updated_at`, `Deleted_at`) VALUES
-(1, 'Annual', 1, 1, 2, 188, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
-(2, 'Annual', 2, 1, 2, 178, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
-(3, 'Annual', 3, 1, 2, 168, 'Pass', 3, '2022-03-15 14:35:32', '2022-03-15 09:05:32', NULL),
-(4, 'Annual', 4, 5, 2, 88, 'Pass', 3, '2022-03-15 14:36:35', '2022-03-15 09:06:35', NULL),
-(5, 'Annual', 1, 1, 1, 177, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
-(6, 'Annual', 2, 1, 1, 178, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
-(7, 'Annual', 3, 1, 1, 188, 'Pass', 2, '2022-03-15 14:37:18', '2022-03-15 09:07:18', NULL),
-(8, 'Annual', 1, 1, 8, 188, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
-(9, 'Annual', 2, 1, 8, 178, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
-(10, 'Annual', 3, 1, 8, 167, 'Pass', 2, '2022-03-15 14:38:30', '2022-03-15 09:08:30', NULL),
-(11, 'Annual', 1, 1, 14, 189, 'Pass', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
-(12, 'Annual', 2, 1, 14, 67, 'Fail', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
-(13, 'Annual', 3, 1, 14, 156, 'Pass', 4, '2022-03-15 14:42:51', '2022-03-15 09:12:51', NULL),
-(14, 'Annual', 1, 1, 12, 199, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
-(15, 'Annual', 2, 1, 12, 167, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
-(16, 'Annual', 3, 1, 12, 189, 'Pass', 5, '2022-03-15 14:43:23', '2022-03-15 09:13:23', NULL),
-(17, 'Annual', 4, 5, 1, 88, 'Pass', 2, '2022-03-15 15:08:29', '2022-03-15 09:38:29', NULL),
-(18, 'Annual', 4, 5, 8, 92, 'Pass', 2, '2022-03-15 15:08:38', '2022-03-15 09:38:38', NULL),
-(19, 'Annual', 4, 5, 3, 98, 'Pass', 4, '2022-03-15 15:09:10', '2022-03-15 09:39:10', NULL),
-(20, 'Annual', 4, 5, 4, 88, 'Pass', 5, '2022-03-15 15:09:28', '2022-03-15 09:39:28', NULL);
+(1, 'Annual', 1, 3, 3, 192, 'Pass', 3, '2022-03-17 15:58:46', '2022-03-17 10:28:46', NULL),
+(2, 'Annual', 1, 3, 1, 178, 'Pass', 2, '2022-03-17 15:59:39', '2022-03-17 10:29:39', NULL),
+(3, 'Annual', 1, 3, 2, 188, 'Pass', 2, '2022-03-17 15:59:48', '2022-03-17 10:29:48', NULL),
+(4, 'Annual', 1, 3, 4, 189, 'Pass', 4, '2022-03-17 16:00:13', '2022-03-17 10:30:13', NULL),
+(5, 'Annual', 1, 3, 5, 188, 'Pass', 5, '2022-03-17 16:00:30', '2022-03-17 10:30:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -562,7 +505,7 @@ CREATE TABLE IF NOT EXISTS `school_subjectclass_mapping` (
   KEY `Staff_ID link mapping` (`Staff_ID`),
   KEY `subject link` (`Subject_id`),
   KEY `section_id link mapping` (`Section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `school_subjectclass_mapping`
@@ -579,7 +522,13 @@ INSERT INTO `school_subjectclass_mapping` (`ID`, `Staff_ID`, `Section_id`, `Subj
 (8, 4, 5, 3, '2022-01-27 14:53:54', '2022-01-27 09:23:54', NULL),
 (9, 5, 5, 4, '2022-01-27 14:54:02', '2022-01-27 09:24:02', NULL),
 (10, 2, 5, 8, '2022-01-27 14:54:13', '2022-01-27 09:24:13', NULL),
-(11, 3, 12, 1, '2022-01-28 16:35:32', '2022-01-28 11:05:32', NULL);
+(11, 3, 12, 1, '2022-01-28 16:35:32', '2022-01-28 11:05:32', NULL),
+(12, 4, 12, 2, '2022-03-17 15:41:34', '2022-03-17 10:11:34', NULL),
+(13, 2, 3, 1, '2022-03-17 15:52:46', '2022-03-17 10:22:46', NULL),
+(14, 2, 3, 2, '2022-03-17 15:52:55', '2022-03-17 10:22:55', NULL),
+(15, 3, 3, 3, '2022-03-17 15:53:05', '2022-03-17 10:23:05', NULL),
+(16, 4, 3, 4, '2022-03-17 15:53:12', '2022-03-17 10:23:12', NULL),
+(17, 5, 3, 5, '2022-03-17 15:53:19', '2022-03-17 10:23:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -663,15 +612,10 @@ ALTER TABLE `school_addstudent`
   ADD CONSTRAINT `student_id link` FOREIGN KEY (`Stud_ID`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --
--- Constraints for table `school_initialaddstudent`
---
-ALTER TABLE `school_initialaddstudent`
-  ADD CONSTRAINT `section_link` FOREIGN KEY (`section`) REFERENCES `school_addsection` (`ID`);
-
---
 -- Constraints for table `school_studentadmission`
 --
 ALTER TABLE `school_studentadmission`
+  ADD CONSTRAINT `section_id link admission` FOREIGN KEY (`Section`) REFERENCES `school_addsection` (`ID`),
   ADD CONSTRAINT `stud_id link admission` FOREIGN KEY (`Stud_id`) REFERENCES `school_initialaddstudent` (`ID`);
 
 --

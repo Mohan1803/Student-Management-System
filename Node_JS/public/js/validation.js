@@ -36,24 +36,26 @@ function closeNav() {
 // For Admission(fee) Module
 
 $(document).ready(function () {
-  $("#studid_fee").on("change", function () {
-    var student_id = $(this).val();
+  $("#studid_fee, #admission_section").on("change", function () {
+    var student_id = $("#studid_fee").val();
+    var section_admission = $("#admission_section").val();
     $.ajax({
       url: "/api/get-student-data",
       type: "POST",
       data: {
         student_id: student_id,
+        section_admission: section_admission,
       },
       dataType: "Json",
       success: function (data) {
-        if (data.result) {
+        if (data.result[0]) {
           $("#collect_fee").remove();
-          $("#studid_fee").after(function () {
-            return `<div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value= "${data.result[0].ID}"> <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='class' id='class' placeholder='Class' value="${data.result[0].Class}" disabled><label for='class'>Class</label></div></div>  <div class='mb-3'><div class='form-floating  w-75 p-2'><input type='text' class='form-control' name='section' id='section' placeholder='Section' value="${data.result[0].section}" disabled><label for='section'>Section</label> </div> </div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value="${data.result[0].Middle_Name}" disabled><label for='name'>Name</label></div></div></div>  <div class='col-lg-6'><div class='mb-3'><div class='form-floating w-75 p-2'><input type='text' class='form-control' name='phno' id='phno' placeholder='Phone Number' value="${data.result[0].Emergency_Contact_No}" disabled><label for='phno'>Phone Number</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value="${data.result[0].email_id}" disabled><label for='Email'>Email ID</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value="${data.result[0].Actual_fee}" disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value="${data.result[0].Actual_fee}"> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max="${data.result[0].Actual_fee}" class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>`;
+          $("#admission_section").after(function () {
+            return ` <div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value= "${data.result[0][0].ID}"> <div class='mb-3'></div> <div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value="${data.result[0][0].Middle_Name}" disabled><label for='name'>Name</label></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value="${data.result[0][0].email_id}" disabled><label for='Email'>Email ID</label></div></div></div>  <div class='col-lg-6'> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}" disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}"> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max="${data.result[1][0].Actual_fee}" class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>`;
           });
         } else {
           $("#collect_fee").remove();
-          $("#studid_fee").after(function () {
+          $("#admission_section").after(function () {
             return `<h2>No Students</h2>`;
           });
         }
@@ -708,12 +710,9 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
               data.studprogress[3][0].Count3 == data.studprogress[4][0].Count4
             ) {
               if (data.studprogress[5].length != 0) {
-                return `<h2 id="promote_success"> Promote To Next Class </h2>
-              <div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='selectClassfor_promote_student' name='selectClassfor_promote_student' required> <option value=''>Select Class & Section</option> </select> <label for='selectClassfor_promote_student'>Select Class & Section</label> </div> </div>
-              <div class="modal-footer">
+                return `<form action='/staff/promote_student/${StudentId}/${section}' method='post'><h2 id="promote_success"> Promote To Next Class </h2><div class='mb-3'> <div class='form-floating w-50 p-2'> <select class='form-select' aria-label='Default select example' id='selectClassfor_promote_student' name='selectClassfor_promote_student' required> <option value=''>Select Class & Section</option> </select> <label for='selectClassfor_promote_student'>Select Class & Section</label> </div> </div>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
-     <button type="submit" class="btn btn-primary align-center" value="submit">Promote This Student</button>
-      </div>`;
+        <input type="submit" class="btn btn-primary align-center" value="Promote This Student"> </form>`;
               } else {
                 return `<h2 id="promote_success"> Successfully Completed Schooling Provide TC </h2>
               <div class="modal-footer">
@@ -741,13 +740,7 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
       }
       $.each(section_class, (key, value) => {
         $("#selectClassfor_promote_student").append(
-          "<option value='" +
-            data.studprogress[5][key].ID +
-            "'>" +
-            data.studprogress[5][key].Class +
-            "-" +
-            data.studprogress[5][key].section +
-            "</option>"
+          `<option value='${data.studprogress[5][key].ID}'>${data.studprogress[5][key].Class} - ${data.studprogress[5][key].section}</option>`
         );
       });
       $("#viewprogressModal").modal("show");
