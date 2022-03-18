@@ -51,7 +51,8 @@ $(document).ready(function () {
         if (data.result[0]) {
           $("#collect_fee").remove();
           $("#admission_section").after(function () {
-            return ` <div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value= "${data.result[0][0].ID}"> <div class='mb-3'></div> <div class='form-floating w-75 p-2'><input type='text' class='form-control' name='name' id='name' placeholder='Name' value="${data.result[0][0].Middle_Name}" disabled><label for='name'>Name</label></div> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='email' class='form-control' name='Email' id='Email' placeholder='Email ID' value="${data.result[0][0].email_id}" disabled><label for='Email'>Email ID</label></div></div></div>  <div class='col-lg-6'> <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}" disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}"> <label for='actualfee'>Actual Fee</label>  </div> </div>   <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max="${data.result[1][0].Actual_fee}" class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>`;
+            return ` <br><div id='collect_fee'>  <div class='row g-2'> <div class='col-lg-6'><input type='hidden' class='form-control' name='studentid_fee' id='studentid_fee' value= "${data.result[0][0].ID}"> 
+            <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' class='form-control' name='actualfee' id='actualfee' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}" disabled><input type='hidden' class='form-control' name='actualfee_hide' id='actualfee_hide' placeholder='Actual Fee' value="${data.result[1][0].Actual_fee}"> <label for='actualfee'>Actual Fee</label>  </div> </div> </div>  <div class='col-lg-6'>    <div class='mb-3'><div class='form-floating w-75 p-2'><input type='number' min='0' max="${data.result[1][0].Actual_fee}" class='form-control' name='paying_amt' id='paying_amt' placeholder='Paying Amount'> <label for='paying_amt'>Paying Amount</label></div> </div> </div></div></div>`;
           });
         } else {
           $("#collect_fee").remove();
@@ -107,7 +108,7 @@ $(document).ready(function () {
             data.dueresult[0].Pending_due +
             "' disabled><input type='hidden' class='form-control' name='due_hide' id='due_hide' placeholder='Pending Due Amount' value='" +
             data.dueresult[0].Pending_due +
-            "'><label for='due'>Pending Due Amount</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><select class='form-select' aria-label='Default select example' id='payment_mode_due' name='payment_mode_due'><option selected>Select</option><option value='Cash'>Cash</option><option value='Cheque'>Cheque</option><option value='Demand Draft(DD)''>Demand Draft(DD)</option> </select><label for='payment_mode_due'>Payment Mode</label></div></div> </div></div></div>  "
+            "'><label for='due'>Pending Due Amount</label></div></div> <div class='mb-3'><div class='form-floating w-75 p-2'><select class='form-select' aria-label='Default select example' id='payment_mode_due' name='payment_mode_due' required><option value='Cash'>Cash</option><option value='Cheque'>Cheque</option><option value='Demand Draft(DD)''>Demand Draft(DD)</option> </select><label for='payment_mode_due'>Payment Mode</label></div></div> </div></div></div>  "
           );
         });
       },
@@ -714,10 +715,10 @@ $(document).on("click", ".view_studprogress_toPromote_inModal", function () {
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
         <input type="submit" class="btn btn-primary align-center" value="Promote This Student"> </form>`;
               } else {
-                return `<h2 id="promote_success"> Successfully Completed Schooling Provide TC </h2>
-              <div class="modal-footer">
+                return `<form action='/staff/schooling_completed/${StudentId}/${section}' method='post'><h2 id="promote_success"> Successfully Completed Schooling Provide TC </h2>
+                <input type="submit" class="btn btn-primary align-center" value="Submit">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard</button>
-      </div>`;
+      </form>`;
               }
             } else {
               return `<div class="modal-footer">

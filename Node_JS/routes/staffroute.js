@@ -511,8 +511,11 @@ staffRoute.post("/addnewstudent", (req, res) => {
                   return res.render("servererror", { error });
                 });
               console.log("Student Record Inserted");
-              req.flash("success", "Student Added Successfully");
-              return res.redirect("/staff/addnewstudent");
+              req.flash(
+                "success",
+                "Student Added Successfully Please Collect Admission Fee To Enroll Them"
+              );
+              return res.redirect("/staff/admission-fee");
             }
           });
         }
@@ -698,7 +701,10 @@ staffRoute.post("/admission-fee", (req, res) => {
 
             return res.redirect("/staff/servererror");
           } else {
-            req.flash("success", "Fee Collected Successfully");
+            req.flash(
+              "success",
+              "Admission Fee Collected Successfully To Collect Due The Students Must Create Profile"
+            );
             return res.redirect("/staff/admission-fee");
           }
         });
@@ -747,7 +753,7 @@ staffRoute.post("/student-due-collection", (req, res) => {
             console.log(err);
             return res.redirect("/staff/servererror");
           } else {
-            var update_admission = `UPDATE school_studentadmission SET Initial_Paying_amt = Initial_Paying_amt + ${payingamt} , Pending_due = Pending_due - ${payingamt} WHERE Stud_id = '${studentid}'`;
+            var update_admission = `UPDATE school_studentadmission SET Initial_Paying_amt = Initial_Paying_amt + ${payingamt} , Pending_due = Pending_due - ${payingamt} WHERE Stud_id = '${studentid}' AND Deleted_at IS NULL`;
             con.query(update_admission, (err, updated) => {
               if (err) {
                 console.log(err);
@@ -1402,7 +1408,7 @@ staffRoute.post("/exam-mark", (req, res) => {
     const student_count = req.body.student_count;
     let Query = ""; // multi query
     // for (let j = 0; j < student_count; j++) {
-    var dup = `SELECT * FROM school_studexam_mark WHERE subject_id = '${req.body.subject_name_mark}' AND exam_name = '${req.body.exam_name_mark}' AND Section_id = '${req.body.section_id_mark}'`;
+    var dup = `SELECT * FROM school_studexam_mark WHERE subject_id = '${req.body.subject_name_mark}' AND exam_name = '${req.body.exam_name_mark}' AND Section_id = '${req.body.section_id_mark}' AND Deleted_at IS NULL`;
     // }
     // console.log(dup);
     con.query(dup, (err, duplicate) => {
@@ -1466,6 +1472,7 @@ staffRoute.get("/stud-promotion", (req, res) => {
   }
 });
 
+//Promoting Student To Next Class
 staffRoute.post("/promote_student/:StudentID/:section", (req, res) => {
   let error = req.flash("error");
   res.locals.error = error;
@@ -1484,8 +1491,9 @@ staffRoute.post("/promote_student/:StudentID/:section", (req, res) => {
             console.log(err);
             return res.redirect("/staff/servererror");
           } else {
-            var softdelete = `UPDATE school_studentadmission SET Deleted_at = CURRENT_TIMESTAMP WHERE Stud_id = '${req.params.StudentID}' AND Section = '${req.params.section}'`;
-            console.log(softdelete);
+            var softdelete = `UPDATE school_studentadmission SET Deleted_at = CURRENT_TIMESTAMP WHERE Stud_id = '${req.params.StudentID}' AND Section = '${req.params.section}';
+            UPDATE school_studexam_mark SET Deleted_at = CURRENT_TIMESTAMP WHERE stud_id = '${req.params.StudentID}' AND Section_id = '${req.params.section}'`;
+            // console.log(softdelete);
             con.query(softdelete, (err, deleted) => {
               if (err) {
                 console.log(err);
@@ -1497,6 +1505,33 @@ staffRoute.post("/promote_student/:StudentID/:section", (req, res) => {
             });
           }
         });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    return res.redirect("/staff/servererror");
+  }
+});
+
+//Student Details Soft Deleted If They Completed 12th
+staffRoute.post("/schooling_completed/:StudentID/:section", (req, res) => {
+  let error = req.flash("error");
+  res.locals.error = error;
+  let success = req.flash("success");
+  res.locals.success = success;
+  try {
+    var softdelete = `UPDATE school_initialaddstudent SET deleted_at = CURRENT_TIMESTAMP WHERE ID = '${req.params.StudentID}';
+    UPDATE school_studentadmission SET Deleted_at = CURRENT_TIMESTAMP WHERE Stud_id = '${req.params.StudentID}' AND Section = '${req.params.section}'`;
+    con.query(softdelete, (err, deleted) => {
+      if (err) {
+        console.log(err);
+        return res.redirect("/staff/servererror");
+      } else {
+        req.flash(
+          "success",
+          "Student Promoted Successfully Provide TC To Them"
+        );
+        return res.redirect("/staff/stud-promotion");
       }
     });
   } catch (e) {

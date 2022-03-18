@@ -24,8 +24,7 @@ studentRoute.post("/studentlogin", async (req, res) => {
     const User_ID = req.body.userid;
     const PWD = req.body.pwd;
 
-    var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}'
-   `;
+    var check = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${User_ID}' AND deleted_at IS NULL`;
     con.query(check, (err, result) => {
       if (err) {
         console.log(err);
@@ -187,8 +186,11 @@ studentRoute.post("/create-student-profile", (req, res) => {
               return res.redirect("/staff/servererror");
             } else {
               console.log("Student Record Inserted");
-              req.flash("success", "Profile Created Successfully");
-              return res.redirect("/student/student-profile");
+              req.flash(
+                "success",
+                "Profile Created Successfully Please Login To View Your Profile"
+              );
+              return res.redirect("/student/studentlogin");
             }
           });
         }
@@ -418,13 +420,15 @@ studentRoute.get("/result", (req, res) => {
     let session = req.session;
     var studResult = `SELECT DISTINCT saex.actual_mark, sexma.exam_name, sexma.marks_scored, sexma.result, sasub.subject_name FROM school_studexam_mark AS sexma 
     INNER JOIN school_addsubjects AS sasub ON sexma.subject_id = sasub.ID 
-    INNER JOIN school_addexam AS saex ON saex.Subject_id = sexma.subject_id WHERE sexma.stud_id = '${session.studentId}' AND saex.section_id = '${session.section}'`;
+    INNER JOIN school_addexam AS saex ON saex.Subject_id = sexma.subject_id WHERE sexma.stud_id = '${session.studentId}' AND sexma.Deleted_at IS NULL`;
+    // console.log(studResult);
     con.query(studResult, (err, studentresult) => {
       if (err) {
         console.log(err);
         req.flash("error", "Server Crashed");
         return res.redirect("/staff/servererror");
       } else {
+        // console.log(studentresult);
         res.locals.studentresult = studentresult;
         return res.render("studresult");
       }

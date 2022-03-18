@@ -8,9 +8,7 @@ const con = require("../config/db");
 // For Admission(fee) Module
 
 apiRoute.post("/get-student-data", (req, res) => {
-  var fee = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No FROM school_initialaddstudent AS sias 
-  INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
-  WHERE sias.Stud_ID='${req.body.student_id}';
+  var fee = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${req.body.student_id}';
   
   SELECT sac.Actual_fee FROM school_addclass AS sac INNER JOIN school_addsection AS sas ON sas.class_id = sac.ID WHERE sas.ID = '${req.body.section_admission}'`;
   // console.log(fee);
@@ -18,7 +16,7 @@ apiRoute.post("/get-student-data", (req, res) => {
     if (err) {
       res.json({ msg: "error", err });
     } else if (result.length != 0) {
-      console.log(result);
+      // console.log(result);
       res.json({ msg: "success", result: result });
     } else {
       res.json({ msg: "Student Not Found", err });
@@ -29,19 +27,28 @@ apiRoute.post("/get-student-data", (req, res) => {
 //For Due Module
 
 apiRoute.post("/get-student-data-due", (req, res) => {
-  var due = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Initial_Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
+  var due = `SELECT * FROM school_initialaddstudent WHERE Stud_ID='${req.body.studid_due}'`;
+  con.query(due, (err, result) => {
+    if (err) {
+      res.json({ msg: "error", err });
+    } else {
+      var due1 = `SELECT sias.ID, sias.Stud_ID, sias.email_id, sadds.Middle_Name, sadds.Emergency_Contact_No, sas.section, sac.Class, sac.Actual_fee, ssad.Initial_Paying_amt, ssad.Pending_due FROM school_initialaddstudent AS sias 
   INNER JOIN school_addstudent AS sadds ON sias.ID = sadds.Stud_ID 
   INNER JOIN school_studentadmission AS sstad ON sstad.Stud_id = sias.ID
   INNER JOIN school_addsection AS sas ON sstad.Section = sas.ID 
   INNER JOIN school_studentadmission AS ssad ON ssad.Stud_ID = sias.ID
-  INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sias.Stud_ID='${req.body.studid_due}'`;
-  con.query(due, (err, dueresult) => {
-    if (err) {
-      res.json({ msg: "error", err });
-    } else if (dueresult.length != 0) {
-      res.json({ msg: "success", dueresult: dueresult });
-    } else {
-      res.json({ msg: "Student Not Found", err });
+  INNER JOIN school_addclass AS sac ON sas.class_id = sac.ID WHERE sstad.Stud_id='${result[0].ID}' AND sstad.Deleted_at IS NULL`;
+      // console.log(due);
+      con.query(due1, (err, dueresult) => {
+        if (err) {
+          res.json({ msg: "error", err });
+        } else if (dueresult.length != 0) {
+          // console.log(dueresult);
+          res.json({ msg: "success", dueresult: dueresult });
+        } else {
+          res.json({ msg: "Student Not Found", err });
+        }
+      });
     }
   });
 });
@@ -170,7 +177,7 @@ apiRoute.post("/get-noofstudents-associated-with-class", (req, res) => {
   INNER JOIN school_studentadmission AS sstad ON sstad.section = school_subjectclass_mapping.Section_id
   INNER JOIN school_initialaddstudent AS sias ON sias.ID = sstad.Stud_id
   INNER JOIN school_addstudent AS sastud ON sastud.Stud_ID = sias.ID
-  INNER JOIN school_addexam AS saex ON saex.section_id = sstad.section WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND saex.exam_master = '${req.body.exam_name}'`;
+  INNER JOIN school_addexam AS saex ON saex.section_id = sstad.section WHERE school_subjectclass_mapping.Staff_ID = '${req.body.Staff_ID_mark}' AND school_subjectclass_mapping.Section_id = '${req.body.mark_section}' AND saex.exam_master = '${req.body.exam_name}' AND sstad.Deleted_at IS NULL`;
   con.query(viewstud, (err, viewStudMark) => {
     if (err) {
       res.json({ msg: "error", err });
@@ -187,12 +194,12 @@ apiRoute.post("/get-studentList", (req, res) => {
   INNER JOIN school_studentadmission AS sstad ON sstad.Stud_id = sias.ID
   INNER JOIN school_addsection AS sas ON sas.ID = sstad.Section
   INNER JOIN school_addclass AS sac ON sac.ID = sas.class_id WHERE sstad.Section = '${req.body.section}' AND sstad.Deleted_at IS NULL`;
-  console.log(studentList);
+  // console.log(studentList);
   con.query(studentList, (err, studlist) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      console.log(studlist);
+      // console.log(studlist);
       res.json({ msg: "success", studlist: studlist });
     }
   });
@@ -217,8 +224,8 @@ apiRoute.post("/view-student-progress", (req, res) => {
     if (err) {
       res.json({ msg: "error", err });
     } else {
-      console.log(studprogress[0]);
-      console.log(studprogress[1]);
+      // console.log(studprogress[0]);
+      // console.log(studprogress[1]);
       res.json({ msg: "success", studprogress: studprogress });
     }
   });
